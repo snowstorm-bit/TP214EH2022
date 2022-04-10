@@ -11,6 +11,6 @@ namespace MonCine.Data
         public string Username { get; set; }
         public DateTime DateAdhesion { get; set; }
         
-        // A compléter
+        // TODO : Compléter la classe
     }
 }
