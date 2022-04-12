@@ -9,6 +9,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MonCine.Data;
+using MonCine.Data.Classes;
 
 namespace MonCine.Vues
 {
@@ -17,8 +19,13 @@ namespace MonCine.Vues
     /// </summary>
     public partial class FFilms : Page
     {
-        public FFilms()
+        private DAL _dal;
+        private Cinematheque _cinematheque;
+
+        public FFilms(DAL pDal, Cinematheque pCinematheque)
         {
+            _dal = pDal;
+            _cinematheque = pCinematheque;
             InitializeComponent();
         }
 
@@ -30,6 +37,11 @@ namespace MonCine.Vues
         private void radioEstAffiche_Checked(object sender, RoutedEventArgs e)
         {
             txtTest.Text = "Film a l'affiche";
+        }
+
+        private void ButtonAjouterFilmClick(object sender, RoutedEventArgs e)
+        {
+            txtTest.Text = "Btn film est clické";
         }
     }
 }

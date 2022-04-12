@@ -16,12 +16,30 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <TextBlock x:Name="TitrePageFilm" HorizontalAlignment="Left" Margin="96,13,0,0" Text="Gestion des films" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="36" Grid.Column="1"/>
-        <Button Content="Ajouter un film" HorizontalAlignment="Center" Margin="0,130,0,0" Background="#FF87EE97" Width="96" FontSize="14" FontFamily="Arial" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
+        <Button Content="Ajouter un film" HorizontalAlignment="Center" Margin="0,130,0,0" Background="#FF87EE97" Width="96" FontSize="14" FontFamily="Arial" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Click="ButtonAjouterFilmClick"/>
         <RadioButton x:Name="radioEstAffiche" Content="Film a l'affiche" HorizontalAlignment="Left" Margin="12,94,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Checked="radioEstAffiche_Checked"/>
         <RadioButton x:Name="radioEstPasAffiche" Content="Film non a l'affiche" HorizontalAlignment="Center" Margin="0,70,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Checked="radioEstPasAffiche_Checked"/>
         <TextBlock x:Name="titreFiltre" HorizontalAlignment="Center" Margin="0,26,0,0" Text="Filtre" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="22" TextDecorations="{x:Null}"/>
-        <TextBlock x:Name="txtTest" Grid.Column="1" HorizontalAlignment="Left" Margin="222,207,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="txtTest" Grid.Column="1" HorizontalAlignment="Left" Margin="27,26,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
 
+        <Grid Grid.Column="1" Margin="0,59,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+            <ListView Grid.Column="1" Grid.Row="1">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+
+        </Grid>
 
     </Grid>
 </Page>
