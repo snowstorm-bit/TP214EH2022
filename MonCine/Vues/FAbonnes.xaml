@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="FAbonnes" Height="450" Width="800">
     <Grid>
-        
+        <Image Grid.Row="0" Grid.Column="0" Source="/Ressources/Images/Logo.png" Margin="0,0,750,390"/>
+        <Label Grid.Row="0" Content="Liste des abonnées" Foreground="#FFF9F7F7" HorizontalAlignment="Center" FontFamily="MV Boli" FontSize="36" FontWeight="Bold" Margin="0,0,0,390"/>
+        <DataGrid Name="DataGridAbonnes" ItemsSource="{Binding}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
     </Grid>
 </Page>
