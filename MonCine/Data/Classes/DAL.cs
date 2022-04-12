@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : DAL.cs
-// Date de création : 2022-04-10
-// Date de modification : 2022-04-10
+// Date de création : 2022-04-12
+// Date de modification : 2022-04-12
 
 #endregion
 
@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection.Metadata;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -31,10 +30,14 @@ namespace MonCine.Data.Classes
 
         #endregion
 
+        #region PROPRIÉTÉS ET INDEXEURS
+
         public MongoDbContext DbContext
         {
             get { return _dbContext; }
         }
+
+        #endregion
 
         #region CONSTRUCTEURS
 

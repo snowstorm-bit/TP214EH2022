@@ -1,9 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : ErreurLog.cs
-// Auteur : Mélina Hotte (1933760)
-// Date de création : 2021-02-15
-// Date de modification : 2021-02-24
+// Date de création : 2022-04-12
+// Date de modification : 2022-04-12
 
 #endregion
 

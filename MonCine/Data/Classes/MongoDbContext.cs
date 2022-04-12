@@ -1,22 +1,41 @@
-﻿using System;
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : MongoDbContext.cs
+// Date de création : 2022-04-12
+// Date de modification : 2022-04-12
+
+#endregion
+
+#region USING
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection.Metadata;
-using System.Text;
-using MongoDB.Bson;
 using MongoDB.Driver;
+
+#endregion
 
 namespace MonCine.Data.Classes
 {
     public class MongoDbContext
     {
+        #region ATTRIBUTS
+
         private IMongoDatabase _bd;
+
+        #endregion
+
+        #region CONSTRUCTEURS
 
         public MongoDbContext(IMongoDatabase pBd)
         {
             _bd = pBd;
         }
+
+        #endregion
+
+        #region MÉTHODES
 
         /// <summary>
         /// Permet d'obtenir une collection pour le type du document spécifié.
@@ -104,8 +123,8 @@ namespace MonCine.Data.Classes
 
                 foreach ((Expression<Func<TDocument, TField>> field, TField value) tuple in pUpdateDefinitions)
                 {
-                    updateDefinition = updateDefinition == null 
-                        ? builder.Set(tuple.field, tuple.value) 
+                    updateDefinition = updateDefinition == null
+                        ? builder.Set(tuple.field, tuple.value)
                         : updateDefinition.Set(tuple.field, tuple.value);
                 }
 
@@ -116,5 +135,7 @@ namespace MonCine.Data.Classes
                 throw new ExceptionBD($"Méthode : MAJUn - Exception : {e.Message}");
             }
         }
+
+        #endregion
     }
 }

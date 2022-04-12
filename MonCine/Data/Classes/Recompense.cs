@@ -1,7 +1,7 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Recompense.cs
-// Date de création : 2022-04-10
+// Date de création : 2022-04-12
 // Date de modification : 2022-04-12
 
 #endregion
@@ -13,7 +13,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 #endregion
 
-namespace MonCine.Data
+namespace MonCine.Data.Classes
 {
     public abstract class Recompense
     {
@@ -43,7 +43,7 @@ namespace MonCine.Data
 
         public override string ToString()
         {
-            return $"{GetType().Name} - {Film}";
+            return$"{GetType().Name} - {Film}";
         }
 
         #endregion

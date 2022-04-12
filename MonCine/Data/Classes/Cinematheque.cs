@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Cinematheque.cs
-// Date de création : 2022-04-10
-// Date de modification : 2022-04-10
+// Date de création : 2022-04-12
+// Date de modification : 2022-04-12
 
 #endregion
 
@@ -10,7 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson;
 
 #endregion
 
