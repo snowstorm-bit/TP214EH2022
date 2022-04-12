@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MonCine.Data;
+using MonCine.Data.Classes;
 
 namespace MonCine.Vues
 {
@@ -22,7 +23,7 @@ namespace MonCine.Vues
         public FAbonnes(DAL dal)
         {
             InitializeComponent();
-            abonnes = dal.ReadAbonnes();
+            //abonnes = dal.ReadAbonnes();
         }
     }
 }

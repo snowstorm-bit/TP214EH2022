@@ -6,6 +6,14 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Ressources\Images\Logo.png" />
     <None Remove="Ressources\Images\sallecinema.jpg" />
@@ -18,6 +26,10 @@
   <ItemGroup>
     <Resource Include="Ressources\Images\Logo.png" />
     <Resource Include="Ressources\Images\sallecinema.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\JSON\" />
   </ItemGroup>
 
 </Project>
