@@ -21,5 +21,15 @@ namespace MonCine.Vues
         {
             InitializeComponent();
         }
+
+        private void radioEstPasAffiche_Checked(object sender, RoutedEventArgs e)
+        {
+            txtTest.Text = "Film pas a l'affiche";
+        }
+
+        private void radioEstAffiche_Checked(object sender, RoutedEventArgs e)
+        {
+            txtTest.Text = "Film a l'affiche";
+        }
     }
 }
