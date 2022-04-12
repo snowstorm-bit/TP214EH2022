@@ -12,6 +12,8 @@
         <DataGrid Name="DataGridAbonnes" ItemsSource="{Binding}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" />
+                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" />
+
             </DataGrid.Columns>
         </DataGrid>
 
