@@ -43,7 +43,7 @@ namespace MonCine.Data
 
         public override string ToString()
         {
-            return$"{GetType().Name} - {Film}";
+            return $"{GetType().Name} - {Film}";
         }
 
         #endregion
