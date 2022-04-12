@@ -52,6 +52,13 @@ namespace MonCine.Data.Classes
             }
         }
 
+        /// <summary>
+        /// Permet d'insérer dans la base de données de la cinémathèque les documents spécifiés en paramètre selon le type du document spécifié.
+        /// </summary>
+        /// <typeparam name="Document">Type du document</typeparam>
+        /// <param name="documents">Documents à insérer dans la base de données de la cinémathèque</param>
+        /// <returns>Les documents insérés dans la base de données de la cinémathèque.</returns>
+        /// <exception cref="ExceptionBD">Lancée lorsqu'une erreur liée à la base de données de la cinémathèque se produit.</exception>
         public List<Document> InsererPlusieursDocuments<Document>(List<Document> documents)
         {
             try
@@ -70,11 +77,11 @@ namespace MonCine.Data.Classes
         /// filtre et la liste des champs et de ses valeurs étant spéficiés en paramètre. 
         /// </summary>
         /// <typeparam name="Document">Type du document</typeparam>
-        /// <typeparam name="TField"></typeparam>
-        /// <param name="pFilter"></param>
-        /// <param name="pUpdateDefinitions"></param>
-        /// <returns></returns>
-        /// <exception cref="ExceptionBD"></exception>
+        /// <typeparam name="TField">Type du champs</typeparam>
+        /// <param name="pFilter">Expression permettant de déterminer quel sera le document à mettre à jour</param>
+        /// <param name="pUpdateDefinitions">Liste des champs et de ses valeurs à mettre à jour</param>
+        /// <returns>Le résultat suite la mise à jour du document.</returns>
+        /// <exception cref="ExceptionBD">Lancée lorsqu'une erreur liée à la base de données de la cinémathèque se produit.</exception>
         public UpdateResult MAJUn<Document, TField>(Expression<Func<Document, bool>> pFilter,
             List<(Expression<Func<Document, TField>> field, TField value)> pUpdateDefinitions)
         {
@@ -97,19 +104,5 @@ namespace MonCine.Data.Classes
                 throw new ExceptionBD($"Méthode : InsererPlusieursDocuments - Exception : {e.Message}");
             }
         }
-
-        //public Document MAJUn<Document, TField>(Expression<Func<Document, bool>> filter,
-        //    Expression<Func<Document, TField>> field, TField value)
-        //{
-        //    try
-        //    {
-        //        ObtenirCollection<Document>().UpdateOne(filter, Builders<Document>.Update.Set(field, value));
-        //        return documents;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new ExceptionBD($"Méthode : InsererPlusieursDocuments - Exception : {e.Message}");
-        //    }
-        //}
     }
 }
