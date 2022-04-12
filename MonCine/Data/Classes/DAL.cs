@@ -213,20 +213,16 @@ namespace MonCine.Data.Classes
 
         private List<Projection> GenererProjection(int nbPlacesMax)
         {
-            List<Projection> projections = new List<Projection>();
-            int nbProjections = _rand.Next(1, 1);
-            for (int i = 0; i < nbProjections; i++)
-            {
-                DateTime dateDebut = DateTime.Now;
-                int heureSuppDebut = _rand.Next(1, 23);
-                dateDebut = new DateTime(dateDebut.Year, dateDebut.Month, dateDebut.Day,
-                    dateDebut.Hour + heureSuppDebut, dateDebut.Minute, dateDebut.Second, dateDebut.Millisecond);
-                DateTime dateFin = new DateTime(dateDebut.Year, dateDebut.Month, dateDebut.Day,
-                    dateDebut.Hour + _rand.Next(heureSuppDebut + 1, 23), dateDebut.Minute, dateDebut.Second,
-                    dateDebut.Millisecond);
+            DateTime dateDebut = DateTime.Now;
+            int heureSuppDebut = _rand.Next(1, 23);
 
-                projections.Add(new Projection(dateDebut.Date, dateFin.Date, _rand.Next(1, nbPlacesMax)));
-            }
+            dateDebut = dateDebut.AddHours(heureSuppDebut);
+            DateTime dateFin = dateDebut.AddHours(_rand.Next(1, 23));
+
+            List<Projection> projections = new List<Projection>
+            {
+                new Projection(dateDebut.Date, dateFin.Date, _rand.Next(1, nbPlacesMax))
+            };
 
             return projections;
         }
@@ -235,8 +231,8 @@ namespace MonCine.Data.Classes
             List<Realisateur> pRealisateurs)
         {
             DateTime dateSortie = DateTime.Now;
-            dateSortie = new DateTime(dateSortie.Year - _rand.Next(30), dateSortie.Month, dateSortie.Day,
-                dateSortie.Hour, dateSortie.Minute, dateSortie.Second, dateSortie.Millisecond);
+            dateSortie = dateSortie.AddYears(dateSortie.Year - _rand.Next(30));
+
             int nbPlacesMax = _rand.Next(30, 60);
 
             List<ObjectId> acteursId = new List<ObjectId>();
@@ -256,6 +252,7 @@ namespace MonCine.Data.Classes
                 dateSortie.Date,
                 true,
                 GenererProjection(nbPlacesMax),
+                new List<Note>(),
                 0,
                 pCategories[_rand.Next(pCategories.Count - 1)].Id,
                 acteursId,
@@ -313,18 +310,27 @@ namespace MonCine.Data.Classes
                     int indexFilm = _rand.Next(0, pFilms.Count - 1);
                     int indexProjection = _rand.Next(pFilms[indexFilm].Projections.Count - 1);
                     int nbPlaces = _rand.Next(10);
-                    reservations.Add(new Reservation(
-                        pFilms[indexFilm].Projections[indexProjection].DateDebut,
-                        pFilms[indexFilm].Id,
-                        nbPlaces
-                    ));
 
-                    _dbContext.MAJUn<Film, object>(x => x.Id == pFilms[i].Id,
-                        new List<(Expression<Func<Film, object>> field, object value)>
-                        {
-                            (x => x.Projections[indexProjection].NbPlacesRestantes,
-                                pFilms[indexFilm].Projections[indexProjection].NbPlacesRestantes - nbPlaces),
-                        });
+                    if (pFilms[indexFilm].Projections[indexProjection].NbPlacesRestantes - nbPlaces > -1)
+                    {
+                        reservations.Add(new Reservation(
+                            pFilms[indexFilm].Projections[indexProjection].DateDebut,
+                            pFilms[indexFilm].Id,
+                            nbPlaces
+                        ));
+
+                        _dbContext.MAJUn<Film, object>
+                        (
+                            x => x.Id == pFilms[i].Id,
+                            new List<(Expression<Func<Film, object>> field, object value)>
+                            {
+                                (
+                                    x => x.Projections[indexProjection].NbPlacesRestantes,
+                                    pFilms[indexFilm].Projections[indexProjection].NbPlacesRestantes - nbPlaces
+                                ),
+                            }
+                        );
+                    }
                 }
             }
 
@@ -335,7 +341,7 @@ namespace MonCine.Data.Classes
         {
             foreach (Film film in pFilm)
             {
-                int nbNotes = _rand.Next(pAbonnes.Count);
+                int nbNotes = _rand.Next(0, pAbonnes.Count);
 
                 if (nbNotes > 0)
                 {
@@ -414,7 +420,7 @@ namespace MonCine.Data.Classes
                 {
                     abonnes.Add(GenererAbonne(i + 1, pCategories, pActeurs, pRealisateurs, pFilms));
                 }
-                
+
                 _dbContext.InsererPlusieursDocuments(abonnes);
 
                 // Génère des notes pour les films une fois les abonnés créés.

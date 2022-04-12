@@ -28,7 +28,7 @@ namespace MonCine.Data
         [BsonIgnore] public List<Realisateur> Realisateurs { get; set; }
 
         public Film(ObjectId pId, string pNom, DateTime pDateSortieInternationnale, bool pEtat,
-            List<Projection> pProjections, double pNoteMoy, ObjectId pCategorieId, List<ObjectId> pActeursId,
+            List<Projection> pProjections, List<Note> pNotes, double pNoteMoy, ObjectId pCategorieId, List<ObjectId> pActeursId,
             List<ObjectId> pRealisateursId)
         {
             Id = pId;
@@ -36,6 +36,7 @@ namespace MonCine.Data
             DateSortieInternationnale = pDateSortieInternationnale;
             Etat = pEtat;
             Projections = pProjections;
+            Notes = pNotes;
             NoteMoy = pNoteMoy;
             CategorieId = pCategorieId;
             ActeursId = pActeursId;
