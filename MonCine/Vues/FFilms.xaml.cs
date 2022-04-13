@@ -31,17 +31,22 @@ namespace MonCine.Vues
 
         private void radioEstPasAffiche_Checked(object sender, RoutedEventArgs e)
         {
-            txtTest.Text = "Film pas a l'affiche";
+
         }
 
         private void radioEstAffiche_Checked(object sender, RoutedEventArgs e)
         {
-            txtTest.Text = "Film a l'affiche";
+
         }
 
         private void ButtonAjouterFilmClick(object sender, RoutedEventArgs e)
         {
-            txtTest.Text = "Btn film est clické";
+            List<Film> films = _dal.DbContext.ObtenirCollectionListe<Film>();
+
+            foreach (Film f in films)
+            {
+                lstFilms.Items.Add(f);
+            }
         }
     }
 }
