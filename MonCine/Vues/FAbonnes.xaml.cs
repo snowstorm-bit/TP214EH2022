@@ -10,6 +10,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MonCine.Data;
+using MonCine.Data.Classes;
+using System.Data;
+using System.Windows.Navigation;
 
 namespace MonCine.Vues
 {
@@ -19,10 +22,17 @@ namespace MonCine.Vues
     public partial class FAbonnes : Page
     {
         private List<Abonne> abonnes;
-        public FAbonnes(DAL dal)
+        private DAL dal;
+        private Cinematheque cinematheque;
+        public FAbonnes(DAL pDal, Cinematheque pCinematheque)
         {
             InitializeComponent();
-            abonnes = dal.ReadAbonnes();
+            dal = pDal;
+            cinematheque = pCinematheque;
+            cinematheque = dal.ObtenirCinematheque();
+            abonnes = cinematheque.Abonnes;
+            DataGridAbonnes.DataContext = abonnes;
         }
     }
 }
+
