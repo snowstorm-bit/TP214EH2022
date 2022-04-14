@@ -64,7 +64,6 @@
                             <TextBlock Grid.Row="1" Grid.Column="2" Text="Note moyenne: " FontWeight="Bold" TextAlignment="Right"/>
                             <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding NoteMoy}" Margin="5,0,15,0"/>
 
-                            <Button Grid.Row="0" Grid.Column="6" Content="Projection" HorizontalAlignment="Center"  Background="#FF7CB8FF" Width="70" FontSize="14" FontFamily="Arial" Height="22" VerticalAlignment="Top" />
                             <Button Grid.Row="1" Grid.Column="6" Content="Modifier" HorizontalAlignment="Center"  Background="#FF7CB8FF" Width="70" FontSize="14" FontFamily="Arial" Height="22" VerticalAlignment="Top" />
 
 
