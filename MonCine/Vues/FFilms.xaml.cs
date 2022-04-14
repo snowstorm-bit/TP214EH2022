@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,36 +22,64 @@ namespace MonCine.Vues
     {
         private DAL _dal;
         private Cinematheque _cinematheque;
+        private List<Film> _filmList;
 
         public FFilms(DAL pDal, Cinematheque pCinematheque)
         {
             _dal = pDal;
             _cinematheque = pCinematheque;
+            _filmList = new();
             InitializeComponent();
         }
 
         private void radioEstPasAffiche_Checked(object sender, RoutedEventArgs e)
         {
+            lstFilms.Items.Clear();
+            _filmList.Clear();
+            _cinematheque.Films
+                .Where(film => film.Etat == false).ToList()
+                .ForEach(film => _filmList.Add(film));
 
+            foreach (Film f in _filmList)
+            {
+                lstFilms.Items.Add(f);
+            }
         }
 
         private void radioEstAffiche_Checked(object sender, RoutedEventArgs e)
         {
-            //POUR FILM À L'AFFICHE DEPUIS CINEMATHEQUE
-            //List<Film> filmsAffiche = new List<Film>();
-            //_cinematheque.Films
-            //    .Where(film => film.Etat).ToList()
-            //    .ForEach(film => filmsAffiche.Add(film));
+            lstFilms.Items.Clear();
+            _filmList.Clear();
+            _cinematheque.Films
+                .Where(film => film.Etat == true).ToList()
+                .ForEach(film => _filmList.Add(film));
+
+            foreach (Film f in _filmList)
+            {
+                lstFilms.Items.Add(f);
+            }
         }
 
         private void ButtonAjouterFilmClick(object sender, RoutedEventArgs e)
         {
-            //List<Film> films = _dal.DbContext.ObtenirCollectionListe<Film>();
+            AjouterFilm ajouter = new AjouterFilm(_dal, _cinematheque);
+            ajouter.Show();
+        }
 
-            //foreach (Film f in films)
-            //{
-            //    lstFilms.Items.Add(f);
-            //}
+        private void btnRetourAcceuil_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Retour acceuil non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        /// <summary>
+        /// A Supprimer car c'est juste un test
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnTestModifierFilm_Click(object sender, RoutedEventArgs e)
+        {
+            ModifierFilm modifierFilm = new ModifierFilm(_dal, _cinematheque);
+            modifierFilm.Show();
         }
     }
 }

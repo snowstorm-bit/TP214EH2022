@@ -32,4 +32,17 @@
     <Folder Include="Data\JSON\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Vues\ModifierFilm.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Vues\ModifierFilm.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>
