@@ -36,17 +36,21 @@ namespace MonCine.Vues
 
         private void radioEstAffiche_Checked(object sender, RoutedEventArgs e)
         {
-
+            //POUR FILM À L'AFFICHE DEPUIS CINEMATHEQUE
+            //List<Film> filmsAffiche = new List<Film>();
+            //_cinematheque.Films
+            //    .Where(film => film.Etat).ToList()
+            //    .ForEach(film => filmsAffiche.Add(film));
         }
 
         private void ButtonAjouterFilmClick(object sender, RoutedEventArgs e)
         {
-            List<Film> films = _dal.DbContext.ObtenirCollectionListe<Film>();
+            //List<Film> films = _dal.DbContext.ObtenirCollectionListe<Film>();
 
-            foreach (Film f in films)
-            {
-                lstFilms.Items.Add(f);
-            }
+            //foreach (Film f in films)
+            //{
+            //    lstFilms.Items.Add(f);
+            //}
         }
     }
 }

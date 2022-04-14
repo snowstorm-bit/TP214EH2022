@@ -227,11 +227,11 @@ namespace MonCine.Data.Classes
             return projections;
         }
 
-        private Film GenererFilm(string nom, List<Categorie> pCategories, List<Acteur> pActeurs,
+        private Film GenererFilm(string pNom, List<Categorie> pCategories, List<Acteur> pActeurs,
             List<Realisateur> pRealisateurs)
         {
             DateTime dateSortie = DateTime.Now;
-            dateSortie = dateSortie.AddYears(dateSortie.Year - _rand.Next(30));
+            dateSortie = dateSortie.AddYears(-1 * _rand.Next(30));
 
             int nbPlacesMax = _rand.Next(30, 60);
 
@@ -248,7 +248,7 @@ namespace MonCine.Data.Classes
             return new Film
             (
                 new ObjectId(),
-                "Need for Speed",
+                pNom,
                 dateSortie.Date,
                 true,
                 GenererProjection(nbPlacesMax),
