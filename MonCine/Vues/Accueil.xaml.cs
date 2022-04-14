@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MonCine.Data;
 using MonCine.Data.Classes;
+using MongoDB.Bson;
 
 namespace MonCine.Vues
 {
@@ -32,6 +36,24 @@ namespace MonCine.Vues
             try
             {
                 _cinematheque = _dal.ObtenirCinematheque();
+
+                // POUR FILM À L'AFFICHE DEPUIS CINEMATHEQUE
+                //List<Film> filmsAffiche = new List<Film>();
+                //_cinematheque.Films
+                //    .Where(film => film.Etat).ToList()
+                //    .ForEach(film => filmsAffiche.Add(film));
+
+                // POUR FILM À L'AFFICHE DEPUIS BD
+                //List<Film> filmsAffiche = _dal.DbContext.ObtenirDocumentsFiltres<Film>(x => x.Etat);
+
+                // POUR OBTENIR TOUS LES OBJETS DEPUIS LA LISTE DES IDENTIFIANTS DES OBJETS D'UN TDOCUMENT
+                //foreach (Abonne abonne in _cinematheque.Abonnes)
+                //{
+                //    Preference preference = abonne.Preference;
+                //    preference.Categories = _dal.DbContext.ObtenirDocumentsFiltres<Categorie>(x => preference.CategoriesId.Contains(x.Id));
+                //    preference.Acteurs = _dal.DbContext.ObtenirDocumentsFiltres<Acteur>(x => preference.ActeursId.Contains(x.Id));
+                //    preference.Realisateurs = _dal.DbContext.ObtenirDocumentsFiltres<Realisateur>(x => preference.RealisateursId.Contains(x.Id));
+                //}
 
                 if (_cinematheque.UtilisateurCourant is Administrateur admin)
                 {

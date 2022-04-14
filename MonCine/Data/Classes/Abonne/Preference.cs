@@ -1,7 +1,7 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Preference.cs
-// Date de création : 2022-04-10
+// Date de création : 2022-04-12
 // Date de modification : 2022-04-12
 
 #endregion
@@ -15,7 +15,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 #endregion
 
-namespace MonCine.Data
+namespace MonCine.Data.Classes
 {
     // TODO : Changer vecteur en liste
     public class Preference

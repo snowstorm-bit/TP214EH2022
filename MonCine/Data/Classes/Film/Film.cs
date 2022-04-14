@@ -1,13 +1,26 @@
-﻿using System;
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : Film.cs
+// Date de création : 2022-04-12
+// Date de modification : 2022-04-12
+
+#endregion
+
+#region USING
+
+using System;
 using System.Collections.Generic;
-using System.Text;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace MonCine.Data
+#endregion
+
+namespace MonCine.Data.Classes
 {
     public class Film
     {
+        #region PROPRIÉTÉS ET INDEXEURS
+
         public ObjectId Id { get; set; }
         public string Nom { get; set; }
         public DateTime DateSortieInternationnale { get; set; }
@@ -27,8 +40,13 @@ namespace MonCine.Data
         [BsonIgnore] public List<Acteur> Acteurs { get; set; }
         [BsonIgnore] public List<Realisateur> Realisateurs { get; set; }
 
+        #endregion
+
+        #region CONSTRUCTEURS
+
         public Film(ObjectId pId, string pNom, DateTime pDateSortieInternationnale, bool pEtat,
-            List<Projection> pProjections, List<Note> pNotes, double pNoteMoy, ObjectId pCategorieId, List<ObjectId> pActeursId,
+            List<Projection> pProjections, List<Note> pNotes, double pNoteMoy, ObjectId pCategorieId,
+            List<ObjectId> pActeursId,
             List<ObjectId> pRealisateursId)
         {
             Id = pId;
@@ -43,10 +61,16 @@ namespace MonCine.Data
             RealisateursId = pRealisateursId;
         }
 
+        #endregion
+
+        #region MÉTHODES
+
         public bool Projeter(DateTime pDateDebut, DateTime pDateFin, int pNbPlacesMax)
         {
             // TODO : Compléter la méthode Projeter de Film
             return false;
         }
+
+        #endregion
     }
 }
