@@ -29,7 +29,7 @@
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
 
-            <ListView x:Name="lstFilms" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Cursor="Hand">
+            <ListView MouseDoubleClick="ListView_MouseDoubleClick" x:Name="lstFilms" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Cursor="Hand">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -40,11 +40,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
@@ -58,11 +56,11 @@
                             <TextBlock Grid.Row="0" Grid.Column="4" Text="À l'affiche: " FontWeight="Bold" TextAlignment="Right"/>
                             <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding Etat}" Margin="5,0,15,0"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Id:" FontWeight="Bold" TextAlignment="Right"/>
-                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Id}" Margin="5,0,15,0"/>
+                            <!--<TextBlock Grid.Row="1" Grid.Column="0" Text="Id:" FontWeight="Bold" TextAlignment="Right"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Id}" Margin="5,0,15,0"/>-->
 
-                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Note moyenne: " FontWeight="Bold" TextAlignment="Right"/>
-                            <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding NoteMoy}" Margin="5,0,15,0"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Note moyenne: " FontWeight="Bold" TextAlignment="Right"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding NoteMoy}" Margin="5,0,15,0"/>
 
                         </Grid>
                     </DataTemplate>
