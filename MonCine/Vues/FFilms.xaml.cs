@@ -82,15 +82,15 @@ namespace MonCine.Vues
             MessageBox.Show("Retour acceuil non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        /// <summary>
-        /// A Supprimer car c'est juste un test
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnTestModifierFilm_Click(object sender, RoutedEventArgs e)
+        void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ModifierFilm modifierFilm = new ModifierFilm(_dal, _cinematheque);
-            modifierFilm.Show();
+            var item = ((FrameworkElement)e.OriginalSource).DataContext;
+            if (item != null)
+            {
+                ModifierFilm modifierFilm = new ModifierFilm(_dal, _cinematheque, (Film)item);
+                modifierFilm.Show();
+            }
         }
+
     }
 }
