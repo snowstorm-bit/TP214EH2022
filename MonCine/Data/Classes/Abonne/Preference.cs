@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using MonCine.Data.Classes;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -88,6 +89,15 @@ namespace MonCine.Data
             ActeursId = pActeursId;
             RealisateursId = pRealisateursId;
         }
+
+        #endregion
+
+
+        #region Overrides of Object
+
+        //public override string ToString()
+        //{
+        //}
 
         #endregion
     }

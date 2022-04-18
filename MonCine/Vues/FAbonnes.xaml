@@ -3,19 +3,30 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MonCine.Vues"
-        mc:Ignorable="d"
+        xmlns:local="clr-namespace:MonCine.Vues" xmlns:data="clr-namespace:MonCine.Data"
+      mc:Ignorable="d"
         Title="FAbonnes" Height="450" Width="800">
     <Grid>
         <Image Grid.Row="0" Grid.Column="0" Source="/Ressources/Images/Logo.png" Margin="0,0,750,390"/>
         <Label Grid.Row="0" Content="Liste des abonnées" Foreground="#FFF9F7F7" HorizontalAlignment="Center" FontFamily="MV Boli" FontSize="36" FontWeight="Bold" Margin="0,0,0,390"/>
-        <DataGrid Name="DataGridAbonnes" ItemsSource="{Binding}" AutoGenerateColumns="False">
+        <DataGrid Name="DataGridAbonnes" ItemsSource="{Binding}" Margin="0,77,686,0" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" />
-                <DataGridTextColumn Header="Nom" Binding="{Binding Nom}" />
-
+                <DataGridTextColumn Header="Nom" Width="100" Binding="{Binding Nom}"/>
             </DataGrid.Columns>
         </DataGrid>
-
+        <ListView x:Name="ListViewRealisateurs" Margin="109,77,466,0" FontSize="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="ListViewActeurs" Margin="334,77,241,0" FontSize="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Page>
