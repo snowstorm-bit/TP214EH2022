@@ -15,17 +15,15 @@ namespace MonCine.Vues
 {
     public partial class AjouterFilm : Window
     {
-        private DAL _dal;
         private Cinematheque _cinematheque;
 
-        public AjouterFilm(DAL pDal, Cinematheque pCinematheque)
+        public AjouterFilm(Cinematheque pCinematheque)
         {
-            _dal = pDal;
             _cinematheque = pCinematheque;
             InitializeComponent();
         }
 
-        private void BtnAnnuler_Click(object sender, RoutedEventArgs e) => this.Close();
+        private void BtnAnnuler_Click(object sender, RoutedEventArgs e) => Close();
 
         private void BtnAjouterFilm_Click(object sender, RoutedEventArgs e)
         {

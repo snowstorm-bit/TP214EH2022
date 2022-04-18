@@ -20,78 +20,65 @@ namespace MonCine.Vues
     /// </summary>
     public partial class FFilms : Page
     {
-        private DAL _dal;
         private Cinematheque _cinematheque;
-        private List<Film> _filmList;
+        private List<Film> _films;
 
-        public FFilms(DAL pDal, Cinematheque pCinematheque)
+        public FFilms(Cinematheque pCinematheque)
         {
-            _dal = pDal;
             _cinematheque = pCinematheque;
-            _filmList = new();
+            _films = new();
             InitializeComponent();
         }
 
-        private void RadioEstPasAffiche_Checked(object sender, RoutedEventArgs e)
-        {
-            lstFilms.Items.Clear();
-            _filmList.Clear();
-            _cinematheque.Films
-                .Where(film => film.Etat == false).ToList()
-                .ForEach(film => _filmList.Add(film));
-
-            foreach (Film f in _filmList)
-            {
-                lstFilms.Items.Add(f);
-            }
-        }
-
         private void RadioTousLesFilm_Checked(object sender, RoutedEventArgs e)
-        {
-            lstFilms.Items.Clear();
-            _filmList.Clear();
-            _cinematheque.Films.ForEach(film => _filmList.Add(film));
+            => AfficherTousLesFilms();
 
-            foreach (Film f in _filmList)
-            {
-                lstFilms.Items.Add(f);
-            }
-        }
         private void RadioEstAffiche_Checked(object sender, RoutedEventArgs e)
-        {
-            lstFilms.Items.Clear();
-            _filmList.Clear();
-            _cinematheque.Films
-                .Where(film => film.Etat == true).ToList()
-                .ForEach(film => _filmList.Add(film));
-
-            foreach (Film f in _filmList)
-            {
-                lstFilms.Items.Add(f);
-            }
-        }
+            => AfficherLesFilmsALaffiche();
 
         private void ButtonAjouterFilmClick(object sender, RoutedEventArgs e)
         {
-            AjouterFilm ajouter = new AjouterFilm(_dal, _cinematheque);
+            AjouterFilm ajouter = new AjouterFilm(_cinematheque);
             ajouter.Show();
         }
 
         private void BtnRetourAcceuil_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Retour acceuil non implémenté", "Information!", 
+            MessageBox.Show("Retour acceuil non implémenté", "Information!",
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var item = ((FrameworkElement)e.OriginalSource).DataContext;
-            if (item != null)
+            var itemFilm = ((FrameworkElement)e.OriginalSource).DataContext;
+            if (itemFilm != null)
             {
-                ModifierFilm modifierFilm = new ModifierFilm(_dal, _cinematheque, (Film)item);
+                ModifierFilm modifierFilm = new ModifierFilm(_cinematheque, (Film)itemFilm);
                 modifierFilm.Show();
             }
         }
 
+        private void AfficherLesFilmsALaffiche()
+        {
+            lstFilms.Items.Clear();
+            _films.Clear();
+            _cinematheque.Films.Where(film => film.Etat == true).ToList()
+                .ForEach(film =>
+                {
+                    _films.Add(film);
+                    lstFilms.Items.Add(film);
+                });
+        }
+
+        private void AfficherTousLesFilms()
+        {
+            lstFilms.Items.Clear();
+            _films.Clear();
+            _cinematheque.Films.ForEach(film =>
+            {
+                _films.Add(film);
+                lstFilms.Items.Add(film);
+            });
+        }
     }
 }

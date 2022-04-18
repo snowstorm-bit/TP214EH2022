@@ -15,55 +15,65 @@ namespace MonCine.Vues
 {
     public partial class ModifierFilm : Window
     {
-        private DAL _dal;
         private Cinematheque _cinematheque;
         private Film _film;
 
-        public ModifierFilm(DAL pDal, Cinematheque pCinematheque, Film pFilm)
+        public ModifierFilm(Cinematheque pCinematheque, Film pFilm)
         {
-            _dal = pDal;
             _cinematheque = pCinematheque;
             _film = pFilm;
             InitializeComponent();
             AfficherInformationDuFilm();
         }
 
-        private void BtnAnnuler_Click(object sender, RoutedEventArgs e) => this.Close();
+        private void BtnAnnuler_Click(object sender, RoutedEventArgs e) => Close();
 
         private void AfficherInformationDuFilm()
         {
-            this.txtNomFilm.Text = _film.Nom.ToString();
+            txtNomFilm.Text = _film.Nom;
+            AfficherCategories();
+            AfficherActeurs();
+            AfficherRealisateurs();
+        }
 
-            _cinematheque.Categories.ForEach(c =>
+        private void AfficherCategories()
+        {
+            _cinematheque.Categories.ForEach(cat =>
             {
-                this.dropDownCategories.Items.Add(c.Nom);
-                if (c.Id == _film.CategorieId)
+                dropDownCategories.Items.Add(cat.Nom);
+                if (cat.Id == _film.CategorieId)
                 {
-                    int index = this.dropDownCategories.Items.IndexOf(c.Nom);
-                    this.dropDownCategories.SelectedIndex = index;
+                    int index = dropDownCategories.Items.IndexOf(cat.Nom);
+                    dropDownCategories.SelectedIndex = index;
                 }
             });
-            this.calendrierDate.SelectedDate = _film.DateSortieInternationnale;
-            this.calendrierDate.DisplayDate = _film.DateSortieInternationnale;
+            calendrierDate.SelectedDate = _film.DateSortieInternationnale;
+            calendrierDate.DisplayDate = _film.DateSortieInternationnale;
+        }
 
-            _cinematheque.Acteurs.ForEach(a => this.lstActeursComplet.Items.Add(a.Nom));
+        private void AfficherActeurs()
+        {
+            _cinematheque.Acteurs.ForEach(act => lstActeursComplet.Items.Add(act.Nom));
             if (_film.Acteurs != null)
             {
                 foreach (Acteur acteur in _film.Acteurs)
                 {
-                    this.lstActeursChoisi.Items.Add(acteur.Nom);
+                    lstActeursChoisi.Items.Add(acteur.Nom);
                 }
             }
+        }
 
-            _cinematheque.Realisateurs.ForEach(r => this.lstRealisateurComplet.Items.Add(r.Nom));
+        private void AfficherRealisateurs()
+        {
+            _cinematheque.Realisateurs.ForEach(rea => lstRealisateurComplet.Items.Add(rea.Nom));
             if (_film.Realisateurs != null)
             {
                 foreach (Realisateur realisateur in _film.Realisateurs)
                 {
-                    this.lstRealisateurChoisi.Items.Add(realisateur.Nom);
+                    lstRealisateurChoisi.Items.Add(realisateur.Nom);
                 }
             }
-        }   
+        }
 
         private void BtnRetirerActeur_Click(object sender, RoutedEventArgs e)
         {
