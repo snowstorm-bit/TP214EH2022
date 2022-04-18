@@ -17,19 +17,56 @@ namespace MonCine.Vues
     {
         private DAL _dal;
         private Cinematheque _cinematheque;
+        private Film _film;
 
-        public ModifierFilm(DAL pDal, Cinematheque pCinematheque)
+        public ModifierFilm(DAL pDal, Cinematheque pCinematheque, Film pFilm)
         {
             _dal = pDal;
             _cinematheque = pCinematheque;
+            _film = pFilm;
             InitializeComponent();
+            AfficherInformationDuFilm();
         }
 
-        private void btnAjouterFilm_Copy_Click(object sender, RoutedEventArgs e)
+        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        private void AfficherInformationDuFilm()
+        {
+            this.txtNomFilm.Text = _film.Nom.ToString();
+
+            _cinematheque.Categories.ForEach(c =>
+            {
+                this.dropDownCategories.Items.Add(c.Nom);
+                if (c.Id == _film.CategorieId)
+                {
+                    int index = this.dropDownCategories.Items.IndexOf(c.Nom);
+                    this.dropDownCategories.SelectedIndex = index;
+                }
+            });
+            this.calendrierDate.SelectedDate = _film.DateSortieInternationnale;
+            this.calendrierDate.DisplayDate = _film.DateSortieInternationnale;
+
+            _cinematheque.Acteurs.ForEach(a => this.lstActeursComplet.Items.Add(a.Nom));
+            if (_film.Acteurs != null)
+            {
+                foreach (Acteur acteur in _film.Acteurs)
+                {
+                    this.lstActeursChoisi.Items.Add(acteur.Nom);
+                }
+            }
+
+            _cinematheque.Realisateurs.ForEach(r => this.lstRealisateurComplet.Items.Add(r.Nom));
+            if (_film.Realisateurs != null)
+            {
+                foreach (Realisateur realisateur in _film.Realisateurs)
+                {
+                    this.lstRealisateurChoisi.Items.Add(realisateur.Nom);
+                }
+            }
+        }   
 
         private void btnRetirerActeur_Click(object sender, RoutedEventArgs e)
         {

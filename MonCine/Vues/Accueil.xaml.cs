@@ -94,9 +94,9 @@ namespace MonCine.Vues
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //FAbonnes frmAbonnes = new FAbonnes(_dal, _cinematheque);
+            FAbonnes frmAbonnes = new FAbonnes(_dal, _cinematheque);
 
-            //this.NavigationService.Navigate(frmAbonnes);
+            this.NavigationService.Navigate(frmAbonnes);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
