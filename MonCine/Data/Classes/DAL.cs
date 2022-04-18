@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : DAL.cs
-// Date de création : 2022-04-10
-// Date de modification : 2022-04-10
+// Date de création : 2022-04-12
+// Date de modification : 2022-04-12
 
 #endregion
 
@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection.Metadata;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -31,10 +30,14 @@ namespace MonCine.Data.Classes
 
         #endregion
 
+        #region PROPRIÉTÉS ET INDEXEURS
+
         public MongoDbContext DbContext
         {
             get { return _dbContext; }
         }
+
+        #endregion
 
         #region CONSTRUCTEURS
 
@@ -227,11 +230,11 @@ namespace MonCine.Data.Classes
             return projections;
         }
 
-        private Film GenererFilm(string nom, List<Categorie> pCategories, List<Acteur> pActeurs,
+        private Film GenererFilm(string pNom, List<Categorie> pCategories, List<Acteur> pActeurs,
             List<Realisateur> pRealisateurs)
         {
             DateTime dateSortie = DateTime.Now;
-            dateSortie = dateSortie.AddYears(dateSortie.Year - _rand.Next(30));
+            dateSortie = dateSortie.AddYears(-1 * _rand.Next(30));
 
             int nbPlacesMax = _rand.Next(30, 60);
 
@@ -248,7 +251,7 @@ namespace MonCine.Data.Classes
             return new Film
             (
                 new ObjectId(),
-                "Need for Speed",
+                pNom,
                 dateSortie.Date,
                 true,
                 GenererProjection(nbPlacesMax),

@@ -1,18 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MonCine.Data;
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : Utilisateur.cs
+// Date de création : 2022-04-12
+// Date de modification : 2022-04-12
+
+#endregion
+
+#region USING
+
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+
+#endregion
 
 namespace MonCine.Data.Classes
 {
     public abstract class Utilisateur
     {
+        #region PROPRIÉTÉS ET INDEXEURS
+
         public ObjectId Id { get; set; }
         public string Nom { get; set; }
         public string Courriel { get; set; }
         public string Mdp { get; set; }
+
+        #endregion
+
+        #region CONSTRUCTEURS
 
         protected Utilisateur(ObjectId pId, string pNom, string pCourriel, string pMdp)
         {
@@ -21,5 +34,7 @@ namespace MonCine.Data.Classes
             Courriel = pCourriel;
             Mdp = pMdp;
         }
+
+        #endregion
     }
 }

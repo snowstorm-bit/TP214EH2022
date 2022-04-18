@@ -1,9 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : TicketGratuit.cs
-// Auteur : Mélina Hotte (1933760)
-// Date de création : 2022-04-10
-// Date de modification : 2022-04-10
+// Date de création : 2022-04-12
+// Date de modification : 2022-04-12
 
 #endregion
 

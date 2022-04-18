@@ -14,7 +14,7 @@ namespace MonCineTests
         {
             // Arrange
             DAL dal = new DAL();
-
+             
             // Act
             Cinematheque cinematheque = dal.ObtenirCinematheque();
 
