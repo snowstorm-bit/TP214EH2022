@@ -32,7 +32,7 @@ namespace MonCine.Vues
             InitializeComponent();
         }
 
-        private void radioEstPasAffiche_Checked(object sender, RoutedEventArgs e)
+        private void RadioEstPasAffiche_Checked(object sender, RoutedEventArgs e)
         {
             lstFilms.Items.Clear();
             _filmList.Clear();
@@ -46,7 +46,7 @@ namespace MonCine.Vues
             }
         }
 
-        private void radioTousLesFilm_Checked(object sender, RoutedEventArgs e)
+        private void RadioTousLesFilm_Checked(object sender, RoutedEventArgs e)
         {
             lstFilms.Items.Clear();
             _filmList.Clear();
@@ -57,7 +57,7 @@ namespace MonCine.Vues
                 lstFilms.Items.Add(f);
             }
         }
-        private void radioEstAffiche_Checked(object sender, RoutedEventArgs e)
+        private void RadioEstAffiche_Checked(object sender, RoutedEventArgs e)
         {
             lstFilms.Items.Clear();
             _filmList.Clear();
@@ -77,9 +77,10 @@ namespace MonCine.Vues
             ajouter.Show();
         }
 
-        private void btnRetourAcceuil_Click(object sender, RoutedEventArgs e)
+        private void BtnRetourAcceuil_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Retour acceuil non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Retour acceuil non implémenté", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)

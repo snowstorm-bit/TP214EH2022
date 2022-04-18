@@ -28,10 +28,7 @@ namespace MonCine.Vues
             AfficherInformationDuFilm();
         }
 
-        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+        private void BtnAnnuler_Click(object sender, RoutedEventArgs e) => this.Close();
 
         private void AfficherInformationDuFilm()
         {
@@ -68,36 +65,40 @@ namespace MonCine.Vues
             }
         }   
 
-        private void btnRetirerActeur_Click(object sender, RoutedEventArgs e)
+        private void BtnRetirerActeur_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Retiré un acteur non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Retiré un acteur non implémenté", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void btnAjouterActeur_Click(object sender, RoutedEventArgs e)
+        private void BtnAjouterActeur_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Ajouté un acteur non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Ajouté un acteur non implémenté", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void btnRetirerRealisateur_Click(object sender, RoutedEventArgs e)
+        private void BtnRetirerRealisateur_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Retiré un réalisateur non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Retiré un réalisateur non implémenté", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void btnAjouterRealisateur_Click(object sender, RoutedEventArgs e)
+        private void BtnAjouterRealisateur_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Ajouter un realisateur non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Ajouter un realisateur non implémenté", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void BtnSupprimerFilm_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Supprimer film non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
-
+            MessageBox.Show("Supprimer film non implémenté", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void btnModifierFilm_Click(object sender, RoutedEventArgs e)
+        private void BtnModifierFilm_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Modifier un nouveau film, non implémenté!", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
-
+            MessageBox.Show("Modifier un nouveau film, non implémenté!", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
