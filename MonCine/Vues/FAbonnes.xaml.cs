@@ -22,50 +22,53 @@ namespace MonCine.Vues
     /// </summary>
     public partial class FAbonnes : Page
     {
-        private List<Abonne> abonnes;
-        private DAL dal;
-        private Cinematheque cinematheque;
-        private List<Realisateur> realisateursBD;
-        private List<Acteur> acteursBD;
+        private List<Abonne> _abonnes;
+        private Cinematheque _cinematheque;
         public FAbonnes(DAL pDal, Cinematheque pCinematheque)
         {
             InitializeComponent();
-            dal = pDal;
-            cinematheque = pCinematheque;
-            cinematheque = dal.ObtenirCinematheque();
-            realisateursBD = cinematheque.Realisateurs;
-            acteursBD = cinematheque.Acteurs;
-            abonnes = cinematheque.Abonnes;
-            DataGridAbonnes.DataContext = abonnes;
-            foreach (Abonne abonne in abonnes)
+            _cinematheque = pCinematheque;
+            _abonnes = pCinematheque.Abonnes;
+            foreach (Abonne abonne in _abonnes)
             {
-                string itemListRealisateur = "";
-                Preference preferenceAbonne = abonne.Preference;
-                foreach (ObjectId realisateurId in preferenceAbonne.RealisateursId)
-                {
-                    foreach (Realisateur realisateur in realisateursBD)
-                    {
-                        if (realisateur.Id == realisateurId)
-                        {
-                            itemListRealisateur += " " + realisateur.Nom;
-                            break;
-                        }
-                    }
-                }
-                ListViewRealisateurs.Items.Add(itemListRealisateur);
-                string itemListActeur = "";
-                foreach (ObjectId acteurId in preferenceAbonne.ActeursId)
-                {
-                    foreach (Acteur acteur in acteursBD)
-                    {
-                        if (acteur.Id == acteurId)
-                        {
-                            itemListActeur += " " + acteur.Nom;
-                            break;
-                        }
-                    }
-                }
-                ListViewActeurs.Items.Add(itemListActeur);
+                lstAbonnes.Items.Add(abonne);
+                //string itemListRealisateur = "";
+                //Preference preferenceAbonne = abonne.Preference;
+                //foreach (ObjectId realisateurId in preferenceAbonne.RealisateursId)
+                //{
+                //    foreach (Realisateur realisateur in realisateursBD)
+                //    {
+                //        if (realisateur.Id == realisateurId)
+                //        {
+                //            itemListRealisateur += " " + realisateur.Nom;
+                //            break;
+                //        }
+                //    }
+                //}
+                //ListViewRealisateurs.Items.Add(itemListRealisateur);
+                //string itemListActeur = "";
+                //foreach (ObjectId acteurId in preferenceAbonne.ActeursId)
+                //{
+                //    foreach (Acteur acteur in acteursBD)
+                //    {
+                //        if (acteur.Id == acteurId)
+                //        {
+                //            itemListActeur += " " + acteur.Nom;
+                //            break;
+                //        }
+                //    }
+                //}
+                //ListViewActeurs.Items.Add(itemListActeur);
+            }
+        }
+
+        private void lstAbonnes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var item = ((FrameworkElement)e.OriginalSource).DataContext;
+            if (item != null)
+            {
+                OffrirRecompense offrirRecompense = new OffrirRecompense(_cinematheque, (Abonne)item);
+                offrirRecompense.Show();
             }
         }
     }

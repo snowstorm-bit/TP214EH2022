@@ -1,66 +1,66 @@
-﻿#region MÉTADONNÉES
+﻿//#region MÉTADONNÉES
 
-// Nom du fichier : DALFilm.cs
-// Date de création : 2022-04-14
-// Date de modification : 2022-04-14
+//// Nom du fichier : DALFilm.cs
+//// Date de création : 2022-04-14
+//// Date de modification : 2022-04-14
 
-#endregion
+//#endregion
 
-#region USING
+//#region USING
 
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using MongoDB.Driver;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq.Expressions;
+//using MongoDB.Driver;
 
-#endregion
+//#endregion
 
-namespace MonCine.Data.Classes
-{
-    public class DALFilm : DAL<Film>
-    {
-        #region ATTRIBUTS
-
-
-        #endregion
-
-        #region PROPRIÉTÉS ET INDEXEURS
+//namespace MonCine.Data.Classes
+//{
+//    public class DALFilm : DAL<Film>
+//    {
+//        #region ATTRIBUTS
 
 
-        #endregion
+//        #endregion
 
-        #region CONSTRUCTEURS
+//        #region PROPRIÉTÉS ET INDEXEURS
 
-        public DALFilm(IMongoClient pClient = null) : base(pClient)
-        {
-        }
 
-        #endregion
+//        #endregion
 
-        public List<Film> ObtenirFilmsFiltres(Expression<Func<Film, bool>> pFiltre)
-        {
-            return DbContext.ObtenirDocumentsFiltres(pFiltre);
-        }
+//        #region CONSTRUCTEURS
 
-        public List<Film> ObtenirFilms()
-        {
-            return DbContext.ObtenirCollectionListe();
-        }
+//        public DALFilm(IMongoClient pClient = null) : base(pClient)
+//        {
+//        }
 
-        public Film InsererFilm(Film pFilm)
-        {
-            return DbContext.InsererUnDocument(pFilm);
-        }
+//        #endregion
 
-        public List<Film> InsererPlusieursFilm(List<Film> pFilms)
-        {
-            return DbContext.InsererPlusieursDocuments(pFilms);
-        }
+//        public List<Film> ObtenirFilmsFiltres(Expression<Func<Film, bool>> pFiltre)
+//        {
+//            return DbContext.ObtenirDocumentsFiltres(pFiltre);
+//        }
 
-        public UpdateResult MAJUnFilm<TField>(Expression<Func<Film, bool>> pFiltre,
-            List<(Expression<Func<Film, TField>> field, TField value)> pMAJDefinitions)
-        {
-            return DbContext.MAJUn(pFiltre, pMAJDefinitions);
-        }
-    }
-}
+//        public List<Film> ObtenirFilms()
+//        {
+//            return DbContext.ObtenirCollectionListe();
+//        }
+
+//        public Film InsererFilm(Film pFilm)
+//        {
+//            return DbContext.InsererUnDocument(pFilm);
+//        }
+
+//        public List<Film> InsererPlusieursFilm(List<Film> pFilms)
+//        {
+//            return DbContext.InsererPlusieursDocuments(pFilms);
+//        }
+
+//        public UpdateResult MAJUnFilm<TField>(Expression<Func<Film, bool>> pFiltre,
+//            List<(Expression<Func<Film, TField>> field, TField value)> pMAJDefinitions)
+//        {
+//            return DbContext.MAJUn(pFiltre, pMAJDefinitions);
+//        }
+//    }
+//}

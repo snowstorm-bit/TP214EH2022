@@ -47,13 +47,18 @@ namespace MonCine.Vues
                 //List<Film> filmsAffiche = _dal.DbContext.ObtenirDocumentsFiltres<Film>(x => x.Etat);
 
                 // POUR OBTENIR TOUS LES OBJETS DEPUIS LA LISTE DES IDENTIFIANTS DES OBJETS D'UN TDOCUMENT
-                //foreach (Abonne abonne in _cinematheque.Abonnes)
+                
+                //List<TDocument> Action<TDocument>(TDocument document)
                 //{
-                //    Preference preference = abonne.Preference;
-                //    preference.Categories = _dal.DbContext.ObtenirDocumentsFiltres<Categorie>(x => preference.CategoriesId.Contains(x.Id));
-                //    preference.Acteurs = _dal.DbContext.ObtenirDocumentsFiltres<Acteur>(x => preference.ActeursId.Contains(x.Id));
-                //    preference.Realisateurs = _dal.DbContext.ObtenirDocumentsFiltres<Realisateur>(x => preference.RealisateursId.Contains(x.Id));
+
                 //}
+                foreach (Abonne abonne in _cinematheque.Abonnes)
+                {
+                    Preference preference = abonne.Preference;
+                    preference.Acteurs = _dal.DbContext.ObtenirDocumentsFiltres<Acteur, ObjectId>(x => x.Id, preference.ActeursId);
+                    preference.Categories = _dal.DbContext.ObtenirDocumentsFiltres<Categorie, ObjectId>(x => x.Id, preference.CategoriesId);
+                    preference.Realisateurs = _dal.DbContext.ObtenirDocumentsFiltres<Realisateur, ObjectId>(x => x.Id, preference.RealisateursId);
+                }
 
                 if (_cinematheque.UtilisateurCourant is Administrateur admin)
                 {

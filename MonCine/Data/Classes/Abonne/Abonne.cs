@@ -49,5 +49,13 @@ namespace MonCine.Data.Classes
         }
 
         #endregion
+        #region Overrides of Object
+
+        public override string ToString()
+        {
+            return Preference.ToString();
+        }
+
+        #endregion
     }
 }

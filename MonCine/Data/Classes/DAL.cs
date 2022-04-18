@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : DAL.cs
-// Date de création : 2022-04-14
-// Date de modification : 2022-04-14
+// Date de création : 2022-04-12
+// Date de modification : 2022-04-12
 
 #endregion
 
@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Windows.Documents;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -20,14 +19,23 @@ using MongoDB.Driver;
 
 namespace MonCine.Data.Classes
 {
-    public abstract class DAL<TDocument>
+    public class DAL
     {
         #region ATTRIBUTS
 
         private IMongoClient _mongoDbClient;
         private IMongoDatabase _db;
         private Random _rand = new Random();
-        private MongoDbContext<TDocument> _dbContext;
+        private MongoDbContext _dbContext;
+
+        #endregion
+
+        #region PROPRIÉTÉS ET INDEXEURS
+
+        public MongoDbContext DbContext
+        {
+            get { return _dbContext; }
+        }
 
         #endregion
 
@@ -37,15 +45,10 @@ namespace MonCine.Data.Classes
         {
             _mongoDbClient = pClient ?? OuvrirConnexion();
             _db = ObtenirBD();
-            _dbContext = new MongoDbContext<TDocument>(_db);
+            _dbContext = new MongoDbContext(_db);
         }
 
         #endregion
-
-        protected MongoDbContext<TDocument> DbContext
-        {
-            get { return _dbContext; }
-        }
 
         #region MÉTHODES
 
@@ -89,7 +92,7 @@ namespace MonCine.Data.Classes
 
                 switch (administrateurs.Count)
                 {
-                    case> 1:
+                    case > 1:
                         throw new IndexOutOfRangeException(
                             "La base de données contient plus d'un administrateur pour la cinémathèque");
                     case 1:
@@ -234,16 +237,15 @@ namespace MonCine.Data.Classes
             dateSortie = dateSortie.AddYears(-1 * _rand.Next(30));
 
             int nbPlacesMax = _rand.Next(30, 60);
-            int nbMinActeurs = 1;
+
             List<ObjectId> acteursId = new List<ObjectId>();
             pActeurs
-                .GetRange(0, _rand.Next(nbMinActeurs, _rand.Next(nbMinActeurs, pActeurs.Count)))
+                .GetRange(0, _rand.Next(0, _rand.Next(0, pActeurs.Count)))
                 .ForEach(x => acteursId.Add(x.Id));
 
-            int nbMinRealisateurs = 1;
             List<ObjectId> realisateursId = new List<ObjectId>();
             pRealisateurs
-                .GetRange(0, _rand.Next(nbMinRealisateurs, _rand.Next(nbMinRealisateurs, pRealisateurs.Count)))
+                .GetRange(0, _rand.Next(0, _rand.Next(0, pRealisateurs.Count)))
                 .ForEach(x => realisateursId.Add(x.Id));
 
             return new Film
@@ -438,8 +440,18 @@ namespace MonCine.Data.Classes
                 throw new ExceptionBD($"Méthode : ObtenirAbonnes - Exception : {e.Message}");
             }
         }
+        private List<TicketGratuit> GenererTicketSGratuits(List<Film> pFilms)
+        {
+            List<TicketGratuit> ticketSGratuits = new List<TicketGratuit>();
+            for (int i = 0; i < _rand.Next(pFilms.Count); i++)
+            {
+                ticketSGratuits.Add(new TicketGratuit(new ObjectId(), pFilms[i].Id));
+            }
 
-        private List<Recompense> ObtenirRecompenses(List<Film> pFilms)
+            return ticketSGratuits;
+        }
+
+        private List<Recompense> GenererRecompenses(List<Film> pFilms)
         {
             List<Recompense> recompenses = new List<Recompense>();
             for (int i = 0; i < _rand.Next(pFilms.Count); i++)
@@ -448,6 +460,31 @@ namespace MonCine.Data.Classes
             }
 
             return recompenses;
+        }
+
+        private List<Recompense> ObtenirRecompenses(List<Film> pFilms)
+        {
+            try
+            {
+                List<Recompense> recompenses = new List<Recompense>();
+
+                List<TicketGratuit> ticketsGratuits = _dbContext.ObtenirCollectionListe<TicketGratuit>();
+
+                recompenses.AddRange(ticketsGratuits.Any()
+                    ? ticketsGratuits
+                    : _dbContext.InsererPlusieursDocuments(GenererTicketSGratuits(pFilms))
+                );
+
+                return recompenses;
+            }
+            catch (ExceptionBD e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw new ExceptionBD($"Méthode : ObtenirAbonnes - Exception : {e.Message}");
+            }
         }
 
         /// <summary>
@@ -466,6 +503,7 @@ namespace MonCine.Data.Classes
                 List<Acteur> acteurs = ObtenirActeurs();
                 List<Realisateur> realisateurs = ObtenirRealisateurs();
                 List<Film> films = ObtenirFilms(categories, acteurs, realisateurs);
+                List<Recompense> recompenses = ObtenirRecompenses(films);
 
                 return new Cinematheque(
                     ObtenirAdministrateur(),
@@ -474,7 +512,7 @@ namespace MonCine.Data.Classes
                     categories,
                     acteurs,
                     realisateurs,
-                    ObtenirRecompenses(films)
+                    recompenses
                 );
             }
             catch (ExceptionBD e)

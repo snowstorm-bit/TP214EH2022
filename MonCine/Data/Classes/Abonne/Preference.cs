@@ -95,9 +95,26 @@ namespace MonCine.Data.Classes
 
         #region Overrides of Object
 
-        //public override string ToString()
-        //{
-        //}
+        public override string ToString()
+        {
+            string sautDeLigne = "\n";
+            string strFormate = sautDeLigne + "Acteurs: ";
+            foreach(Acteur acteur in Acteurs)
+            {
+                strFormate += acteur.Nom + " | ";
+            }
+            strFormate += sautDeLigne + "Réalisateurs: ";
+            foreach (Realisateur realisateur in Realisateurs)
+            {
+                strFormate += realisateur.Nom + " | "; 
+            }
+            strFormate += sautDeLigne + "Catégories: ";
+            foreach (Categorie categorie in Categories)
+            {
+                strFormate += categorie.Nom + " | ";
+            }
+            return strFormate + sautDeLigne;
+        }
 
         #endregion
     }
