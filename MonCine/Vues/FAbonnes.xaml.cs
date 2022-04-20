@@ -12,8 +12,10 @@ using System.Windows.Shapes;
 using MonCine.Data;
 using MonCine.Data.Classes;
 using System.Data;
+using System.Linq;
 using System.Windows.Navigation;
-using MongoDB.Bson;
+using MonCine.Data.Classes.DAL;
+using MongoDB.Driver;
 
 namespace MonCine.Vues
 {
@@ -22,16 +24,25 @@ namespace MonCine.Vues
     /// </summary>
     public partial class FAbonnes : Page
     {
+        private IMongoClient _client;
+        private IMongoDatabase _db;
         private List<Abonne> _abonnes;
-        private Cinematheque _cinematheque;
-        public FAbonnes(DAL pDal, Cinematheque pCinematheque)
+        private DALAbonne _dalAbonne;
+        public FAbonnes(IMongoClient pClient, IMongoDatabase pDb)
         {
             InitializeComponent();
-            _cinematheque = pCinematheque;
-            _abonnes = pCinematheque.Abonnes;
-            foreach (Abonne abonne in _abonnes)
-            {
-                lstAbonnes.Items.Add(abonne);
+            _client = pClient;
+            _db = pDb;
+            _dalAbonne = new DALAbonne(_client, _db);
+            _abonnes = _dalAbonne.ObtenirAbonnes();
+
+            lstAbonnes.Items.Clear();
+
+            _abonnes.ForEach(film => lstAbonnes.Items.Add(film));
+
+            //foreach (Abonne abonne in _abonnes)
+            //{
+            //    lstAbonnes.Items.Add(abonne);
                 //string itemListRealisateur = "";
                 //Preference preferenceAbonne = abonne.Preference;
                 //foreach (ObjectId realisateurId in preferenceAbonne.RealisateursId)
@@ -59,7 +70,7 @@ namespace MonCine.Vues
                 //    }
                 //}
                 //ListViewActeurs.Items.Add(itemListActeur);
-            }
+            //}
         }
 
         private void lstAbonnes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -67,7 +78,7 @@ namespace MonCine.Vues
             var item = ((FrameworkElement)e.OriginalSource).DataContext;
             if (item != null)
             {
-                OffrirRecompense offrirRecompense = new OffrirRecompense(_cinematheque, (Abonne)item);
+                OffrirRecompense offrirRecompense = new OffrirRecompense(_client, _db, (Abonne)item);
                 offrirRecompense.Show();
             }
         }

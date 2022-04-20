@@ -10,60 +10,75 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MonCine.Data.Classes.DAL;
+using MongoDB.Driver;
 
 namespace MonCine.Vues
 {
     public partial class ModifierFilm : Window
     {
-        private DAL _dal;
-        private Cinematheque _cinematheque;
+
+        private DALCategorie _dalCategorie;
+        private DALActeur _dalActeur;
+        private DALRealisateur _dalRealisateur;
+        private DALFilm _dalFilm;
+        private List<Categorie> _categories;
+        private List<Acteur> _acteurs;
+        private List<Realisateur> _realisateurs;
         private Film _film;
 
-        public ModifierFilm(DAL pDal, Cinematheque pCinematheque, Film pFilm)
+        public ModifierFilm(Film pFilm, IMongoClient pClient, IMongoDatabase pDb)
         {
-            _dal = pDal;
-            _cinematheque = pCinematheque;
+            _dalCategorie = new DALCategorie(pClient, pDb);
+            _dalActeur = new DALActeur(pClient, pDb);
+            _dalRealisateur = new DALRealisateur(pClient, pDb);
+            _dalFilm = new DALFilm(_dalCategorie, _dalActeur, _dalRealisateur, pClient, pDb);
+            _categories = _dalCategorie.ObtenirCategories();
+            _acteurs = _dalActeur.ObtenirActeurs();
+            _realisateurs = _dalRealisateur.ObtenirRealisateurs();
             _film = pFilm;
+
             InitializeComponent();
             AfficherInformationDuFilm();
         }
 
         private void btnAnnuler_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void AfficherInformationDuFilm()
         {
-            this.txtNomFilm.Text = _film.Nom.ToString();
+            txtNomFilm.Text = _film.Nom.ToString();
 
-            _cinematheque.Categories.ForEach(c =>
+            _categories.ForEach(c =>
             {
-                this.dropDownCategories.Items.Add(c.Nom);
+                dropDownCategories.Items.Add(c.Nom);
                 if (c.Id == _film.CategorieId)
                 {
-                    int index = this.dropDownCategories.Items.IndexOf(c.Nom);
-                    this.dropDownCategories.SelectedIndex = index;
+                    dropDownCategories.SelectedIndex = dropDownCategories.Items.IndexOf(c.Nom);
                 }
             });
-            this.calendrierDate.SelectedDate = _film.DateSortieInternationnale;
-            this.calendrierDate.DisplayDate = _film.DateSortieInternationnale;
 
-            _cinematheque.Acteurs.ForEach(a => this.lstActeursComplet.Items.Add(a.Nom));
+            calendrierDate.SelectedDate = _film.DateSortie;
+            calendrierDate.DisplayDate = _film.DateSortie;
+
+            _acteurs.ForEach(a => lstActeursComplet.Items.Add(a.Nom));
+
             if (_film.Acteurs != null)
             {
                 foreach (Acteur acteur in _film.Acteurs)
                 {
-                    this.lstActeursChoisi.Items.Add(acteur.Nom);
+                    lstActeursChoisi.Items.Add(acteur.Nom);
                 }
             }
 
-            _cinematheque.Realisateurs.ForEach(r => this.lstRealisateurComplet.Items.Add(r.Nom));
+            _realisateurs.ForEach(r => lstRealisateurComplet.Items.Add(r.Nom));
             if (_film.Realisateurs != null)
             {
                 foreach (Realisateur realisateur in _film.Realisateurs)
                 {
-                    this.lstRealisateurChoisi.Items.Add(realisateur.Nom);
+                    lstRealisateurChoisi.Items.Add(realisateur.Nom);
                 }
             }
         }   

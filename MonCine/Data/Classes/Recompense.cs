@@ -25,14 +25,18 @@ namespace MonCine.Data.Classes
 
         [BsonIgnore] public Film Film { get; set; }
 
+        public ObjectId AbonneId { get; set; }
+
+        [BsonIgnore] public Abonne Abonne { get; set; }
         #endregion
 
         #region CONSTRUCTEURS
 
-        protected Recompense(ObjectId pId, ObjectId pFilmId)
+        protected Recompense(ObjectId pId, ObjectId pFilmId, ObjectId pAbonneId)
         {
-            FilmId = pFilmId;
             Id = pId;
+            FilmId = pFilmId;
+            AbonneId = pAbonneId;
         }
 
         #endregion

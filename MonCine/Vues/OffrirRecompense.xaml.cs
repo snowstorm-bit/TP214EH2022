@@ -1,15 +1,21 @@
-﻿using MonCine.Data.Classes;
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : OffrirRecompense.xaml.cs
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-20
+
+#endregion
+
+#region USING
+
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using MonCine.Data.Classes;
+using MonCine.Data.Classes.DAL;
+using MongoDB.Driver;
+
+#endregion
 
 namespace MonCine.Vues
 {
@@ -18,28 +24,81 @@ namespace MonCine.Vues
     /// </summary>
     public partial class OffrirRecompense : Window
     {
-        private Cinematheque _cinematheque;
+        #region ATTRIBUTS
+
         private Abonne _abonne;
+        private List<Recompense> _recompenses;
+        private IMongoClient _client;
+        private IMongoDatabase _db;
+        private DALFilm _dalFilm;
+        private DALRecompense _dalRecompense;
 
-        public OffrirRecompense(Cinematheque pCinematheque, Abonne pAbonneSelectionner)
+        #endregion
+
+        #region CONSTRUCTEURS
+
+        public OffrirRecompense(IMongoClient pClient, IMongoDatabase pDb, Abonne pAbonneSelectionner)
         {
-            _cinematheque = pCinematheque;
+            _client = pClient;
+            _db = pDb;
             _abonne = pAbonneSelectionner;
+
             InitializeComponent();
-            AfficherInformationsRecompense();
+            InitialiserObjets();
+            InitialiserComposantes();
         }
 
-        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
+        #endregion
+
+        #region MÉTHODES
+
+        private void InitialiserObjets()
         {
-            this.Close();
-        }
-        private void AfficherInformationsRecompense()
-        {
-            txtNomAbonne.Text = _abonne.Nom;
-            foreach (Recompense recompense in _cinematheque.Recompenses)
+            try
             {
-                optRecompense.Items.Add(recompense);
+                _dalFilm = new DALFilm(_client, _db);
+                _dalRecompense = new DALRecompense(_dalFilm, _client, _db);
+                _recompenses = _dalRecompense.ObtenirRecompenses();
+            }
+            catch (Exception e)
+            {
+                AfficherMsgErreur(e.Message);
             }
         }
+
+        private void InitialiserComposantes()
+        {
+            txtNomAbonne.Text = _abonne.Nom;
+            _recompenses.ForEach(x => optRecompense.Items.Add(x));
+        }
+
+        /// <summary>
+        /// Permet d'afficher le message reçu en paramètre dans un dialogue pour afficher ce dernier.
+        /// </summary>
+        /// <param name="pMsg">Message d'erreur à afficher</param>
+        private void AfficherMsgErreur(string pMsg)
+        {
+            MessageBox.Show(
+                "Une erreur s'est produite !!\n\n" + pMsg, "Erreur",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error
+            );
+        }
+        private void BtnOffrirRecompense(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                "La fonctionnalité n'a pas encore été implémentée. De ce fait, le bouton ne fonctionne pas",
+                "Bouton non fonctionnel",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning
+            );
+        }
+
+        private void BtnAnnuler_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        #endregion
     }
 }

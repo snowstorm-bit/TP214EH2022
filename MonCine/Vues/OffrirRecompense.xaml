@@ -12,8 +12,8 @@
         <Label Content="Offrir une récompense à :&#xD;&#xA;" HorizontalAlignment="Left" Margin="249,129,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.569,0.587"/>
         <ComboBox  x:Name="optRecompense" HorizontalAlignment="Left" Margin="405,180,0,0" VerticalAlignment="Top" Width="176"/>
         <Label Content="Selectionner une récompense :&#xD;&#xA;" HorizontalAlignment="Left" Margin="227,175,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.569,0.587"/>
-        <Button x:Name="btnOffrirRecompense" Content="Offrir Récompense" HorizontalAlignment="Left" Margin="400,237,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial"/>
-        <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Left" Margin="257,237,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="btnAnnuler_Click"/>
+        <Button x:Name="btnOffrirRecompense" Content="Offrir Récompense" HorizontalAlignment="Left" Margin="400,237,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnOffrirRecompense_Click"/>
+        <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Left" Margin="257,237,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnAnnuler_Click"/>
 
     </Grid>
 </Window>

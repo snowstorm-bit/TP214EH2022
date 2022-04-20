@@ -15,7 +15,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MonCine.Data;
 using MonCine.Data.Classes;
+using MonCine.Data.Classes.DAL;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace MonCine.Vues
 {
@@ -24,46 +26,50 @@ namespace MonCine.Vues
     /// </summary>
     public partial class Accueil : Page
     {
-        private DAL _dal;
-        private Cinematheque _cinematheque;
+        private IMongoClient _client;
+        private IMongoDatabase _db;
 
-        public Accueil(DAL pDal, Cinematheque pCinematheque)
+        public Accueil(IMongoClient pClient, IMongoDatabase pDb)
         {
             InitializeComponent();
-            _dal = pDal;
-            _cinematheque = pCinematheque;
 
+            _client = pClient;
+            _db = pDb;
             try
             {
-                _cinematheque = _dal.ObtenirCinematheque();
+                //_cinematheque = _dal.ObtenirCinematheque();
 
-                // POUR FILM À L'AFFICHE DEPUIS CINEMATHEQUE
-                //List<Film> filmsAffiche = new List<Film>();
-                //_cinematheque.Films
-                //    .Where(film => film.Etat).ToList()
-                //    .ForEach(film => filmsAffiche.Add(film));
+                //// POUR FILM À L'AFFICHE DEPUIS CINEMATHEQUE
+                ////List<Film> filmsAffiche = new List<Film>();
+                ////_cinematheque.Films
+                ////    .Where(film => film.EtatAffiche).ToList()
+                ////    .ForEach(film => filmsAffiche.Add(film));
 
-                // POUR FILM À L'AFFICHE DEPUIS BD
-                //List<Film> filmsAffiche = _dal.DbContext.ObtenirDocumentsFiltres<Film>(x => x.Etat);
+                //// POUR FILM À L'AFFICHE DEPUIS BD
+                ////List<Film> filmsAffiche = _dal.DbContext.ObtenirDocumentsFiltres<Film>(x => x.EtatAffiche);
 
-                // POUR OBTENIR TOUS LES OBJETS DEPUIS LA LISTE DES IDENTIFIANTS DES OBJETS D'UN TDOCUMENT
-                
-                //List<TDocument> Action<TDocument>(TDocument document)
+                //// POUR OBTENIR TOUS LES OBJETS DEPUIS LA LISTE DES IDENTIFIANTS DES OBJETS D'UN TDOCUMENT
+                //foreach (Abonne abonne in _cinematheque.Abonnes)
                 //{
+                //    Preference preference = abonne.Preference;
 
+                //    preference.Categories =
+                //        _dal.DbContext.ObtenirDocumentsFiltres<Categorie>(x => x.Id, preference.CategoriesId);
+
+                //    preference.Acteurs =
+                //        _dal.DbContext.ObtenirDocumentsFiltres<Acteur>(x => x.Id, preference.ActeursId);
+                //    preference.Realisateurs =
+                //        _dal.DbContext.ObtenirDocumentsFiltres<Realisateur>(x => x.Id, preference.RealisateursId);
                 //}
-                foreach (Abonne abonne in _cinematheque.Abonnes)
-                {
-                    Preference preference = abonne.Preference;
-                    preference.Acteurs = _dal.DbContext.ObtenirDocumentsFiltres<Acteur, ObjectId>(x => x.Id, preference.ActeursId);
-                    preference.Categories = _dal.DbContext.ObtenirDocumentsFiltres<Categorie, ObjectId>(x => x.Id, preference.CategoriesId);
-                    preference.Realisateurs = _dal.DbContext.ObtenirDocumentsFiltres<Realisateur, ObjectId>(x => x.Id, preference.RealisateursId);
-                }
+                //foreach (Abonne abonne in _cinematheque.Abonnes)
+                //{
+                //    Preference preference = abonne.Preference;
+                //    preference.Acteurs = _dal.DbContext.ObtenirDocumentsFiltres<Acteur, ObjectId>(x => x.Id, preference.ActeursId);
+                //    preference.Categories = _dal.DbContext.ObtenirDocumentsFiltres<Categorie, ObjectId>(x => x.Id, preference.CategoriesId);
+                //    preference.Realisateurs = _dal.DbContext.ObtenirDocumentsFiltres<Realisateur, ObjectId>(x => x.Id, preference.RealisateursId);
+                //}
 
-                if (_cinematheque.UtilisateurCourant is Administrateur admin)
-                {
-                    //List<Categorie> cat = _dal.DbContext.ObtenirCollectionListe<Categorie>();
-                    //List<Categorie> nouvCat = new List<Categorie>();
+                //DALAbonne dalAbonne = new DALAbonne();
 
                     //foreach (var item in collection)
                     //{
@@ -79,7 +85,7 @@ namespace MonCine.Vues
                     //            (x => x.NoteMoy, 10)
                     //        });
                     // TODO : Affichage pour un utilisateur admin
-                }
+                //}
             }
             catch (Exception e)
             {
@@ -99,9 +105,9 @@ namespace MonCine.Vues
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FAbonnes frmAbonnes = new FAbonnes(_dal, _cinematheque);
+            FAbonnes frmAbonnes = new FAbonnes(_client, _db);
 
-            this.NavigationService.Navigate(frmAbonnes);
+            NavigationService.Navigate(frmAbonnes);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -113,9 +119,9 @@ namespace MonCine.Vues
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            FFilms frmFilms = new FFilms(_dal, _cinematheque);
+            //FFilms frmFilms = new FFilms(_dal, _cinematheque);
 
-            this.NavigationService.Navigate(frmFilms);
+            //this.NavigationService.Navigate(frmFilms);
         }
     }
 }
