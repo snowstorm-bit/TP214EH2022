@@ -7,7 +7,7 @@
       Title="FAbonnes" Height="450" Width="800">
     <Grid Background="White">
         <Label Grid.Row="0" Content="Liste des abonnées" Foreground="Black" HorizontalAlignment="Center" FontFamily="MV Boli" FontSize="36" FontWeight="Bold" Margin="0,12,0,378"/>
-        <ListView Name="lstAbonnes" Margin="0,96,0,10" MouseDoubleClick="lstAbonnes_MouseDoubleClick">
+        <ListView Name="LstAbonnes" Margin="0,96,0,10" MouseDoubleClick="LstAbonnes_MouseDoubleClick">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -21,7 +21,10 @@
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Nom}" FontWeight="Bold" TextAlignment="Left"></TextBlock>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="" FontWeight="Bold" TextAlignment="Left"></TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding}" TextAlignment="Left"></TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Nb. seances : " TextAlignment="Left">
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding NbSeances}" TextAlignment="Left"></TextBlock>
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Preference}" TextAlignment="Left"></TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="" FontWeight="Bold" TextAlignment="Left"></TextBlock>
 
                     </Grid>

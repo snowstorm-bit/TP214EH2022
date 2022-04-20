@@ -103,25 +103,16 @@ namespace MonCine.Vues
                 MessageBoxImage.Error);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BtnConsulterAbonne_Click(object sender, RoutedEventArgs e)
         {
             FAbonnes frmAbonnes = new FAbonnes(_client, _db);
 
             NavigationService.Navigate(frmAbonnes);
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void BtnConsulterFilms_Click(object sender, RoutedEventArgs e)
         {
-            //FProjections frmProjections = new FProjections(_dal, _cinematheque);
-
-            //this.NavigationService.Navigate(frmProjections);
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            //FFilms frmFilms = new FFilms(_dal, _cinematheque);
-
-            //this.NavigationService.Navigate(frmFilms);
+            NavigationService.Navigate(new FFilms(_client, _db));
         }
     }
 }

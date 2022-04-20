@@ -36,9 +36,9 @@ namespace MonCine.Vues
             _dalAbonne = new DALAbonne(_client, _db);
             _abonnes = _dalAbonne.ObtenirAbonnes();
 
-            lstAbonnes.Items.Clear();
+            LstAbonnes.Items.Clear();
 
-            _abonnes.ForEach(film => lstAbonnes.Items.Add(film));
+            _abonnes.OrderByDescending(x=> x.NbSeances).ToList().ForEach(film => LstAbonnes.Items.Add(film));
 
             //foreach (Abonne abonne in _abonnes)
             //{
@@ -73,7 +73,7 @@ namespace MonCine.Vues
             //}
         }
 
-        private void lstAbonnes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void LstAbonnes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var item = ((FrameworkElement)e.OriginalSource).DataContext;
             if (item != null)

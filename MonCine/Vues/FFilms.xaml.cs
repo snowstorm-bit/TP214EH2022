@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using MonCine.Data.Classes;
 using MonCine.Data.Classes.DAL;
 using MongoDB.Driver;
@@ -32,6 +31,7 @@ namespace MonCine.Vues
         private IMongoDatabase _db;
         private DALFilm _dalFilm;
         private List<Film> _films;
+        private Film _filmSelectionne;
 
         #endregion
 
@@ -44,56 +44,86 @@ namespace MonCine.Vues
             _db = pDb;
             _dalFilm = new DALFilm(_client, _db);
             _films = _dalFilm.ObtenirFilms();
+            RbTousLesFilms.IsChecked = true;
         }
 
         #endregion
 
         #region MÉTHODES
 
-        private void RadioTousLesFilm_Checked(object sender, RoutedEventArgs e)
-            => AfficherTousLesFilms();
-
-        private void RadioEstAffiche_Checked(object sender, RoutedEventArgs e)
-            => AfficherLesFilmsALaffiche();
-
-        private void ButtonAjouterFilmClick(object sender, RoutedEventArgs e)
+        private void RbTousLesFilm_Checked(object sender, RoutedEventArgs e)
         {
-            AjouterFilm ajouter = new AjouterFilm(_client, _db);
-            ajouter.Show();
+            LstFilms.Items.Clear();
+            _films.ForEach(film => LstFilms.Items.Add(film));
+            AfficherBtnPourFilmEstAffiche(false);
         }
 
-        private void BtnRetourAcceuil_Click(object sender, RoutedEventArgs e)
+        private void RbEstAffiche_Checked(object sender, RoutedEventArgs e)
+        {
+            LstFilms.Items.Clear();
+            _films
+                .Where(film => film.EstAffiche)
+                .ToList()
+                .ForEach(film => LstFilms.Items.Add(film));
+            AfficherBtnPourFilmEstAffiche(true);
+        }
+
+        private void BtnAjouterFilm_Click(object sender, RoutedEventArgs e)
+        {
+            GererFilm ajouterFilm = new GererFilm(_client, _db);
+            ajouterFilm.Show();
+        }
+
+        private void BtnModifierFilm_Click(object pSender, RoutedEventArgs pE)
+        {
+            GererFilm modifierFilm = new GererFilm(_client, _db, _filmSelectionne);
+            modifierFilm.Show();
+        }
+
+        private void BtnVoirProjections_Click(object pSender, RoutedEventArgs pE)
+        {
+            NavigationService.Navigate(new FProjections(_client, _db, _filmSelectionne));
+        }
+
+        private void BtnRetourAccueil_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Retour acceuil non implémenté", "Information!",
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void LstFilms_OnSelectionChanged(object pSender, SelectionChangedEventArgs pE)
         {
-            var itemFilm = ((FrameworkElement)e.OriginalSource).DataContext;
-            if (itemFilm != null)
-            {
-                ModifierFilm modifierFilm = new ModifierFilm((Film)itemFilm, _client, _db);
-                modifierFilm.Show();
-            }
+            AfficherBtnsPourFilmSelectionne();
         }
 
-        private void AfficherLesFilmsALaffiche()
+        private void AfficherBtnPourFilmEstAffiche(bool afficher)
         {
-            lstFilms.Items.Clear();
-            _films
-                .Where(film => film.EstAffiche)
-                .ToList()
-                .ForEach(film => lstFilms.Items.Add(film));
+            BtnAjouterFilm.Visibility = ObtenirVisibilite(afficher);
+            AfficherBtnsPourFilmSelectionne();
         }
 
-        private void AfficherTousLesFilms()
+        private void AfficherBtnsPourFilmSelectionne()
         {
-            lstFilms.Items.Clear();
-            _films
-                .Where(film => film.EstAffiche)
-                .ToList()
-                .ForEach(film => lstFilms.Items.Add(film));
+            bool itemIsSelected = LstFilms.SelectedIndex > -1;
+
+            _filmSelectionne = itemIsSelected
+                ? (Film)LstFilms.SelectedItem
+                : null;
+
+            bool btnsSontVisibles = itemIsSelected;
+
+            if (_filmSelectionne != null)
+                btnsSontVisibles &= _filmSelectionne.EstAffiche;
+
+            Visibility visibilite = ObtenirVisibilite(btnsSontVisibles);
+
+            BtnModifierFilm.Visibility = visibilite;
+            BtnVoirProjection.Visibility = visibilite;
+        }
+
+        private Visibility ObtenirVisibilite(bool pEstVisible)
+        {
+            return pEstVisible ? Visibility.Visible : Visibility.Hidden;
         }
 
         #endregion
