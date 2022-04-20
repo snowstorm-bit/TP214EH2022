@@ -24,16 +24,18 @@ namespace MonCine.Vues
         private IMongoClient _client;
         private IMongoDatabase _db;
         private DALFilm _dalFilm;
+        private Film _film;
 
         #endregion
 
         #region CONSTRUCTEURS
 
-        public GererFilm(IMongoClient pClient, IMongoDatabase pDb, Film film = null)
+        public GererFilm(IMongoClient pClient, IMongoDatabase pDb, Film pFilm = null)
         {
             InitializeComponent();
             _client = pClient;
             _db = pDb;
+            _film = pFilm;
             _dalFilm = new DALFilm(_client, _db);
         }
 

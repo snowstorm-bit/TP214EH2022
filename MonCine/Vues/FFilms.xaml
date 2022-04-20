@@ -14,19 +14,31 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="TitrePageFilm" HorizontalAlignment="Left" Margin="96,13,0,0" Text="Gestion des films"
+        <TextBlock x:Name="TitrePage" HorizontalAlignment="Left" Margin="0,13,0,0" Text="Gestion des films"
                    TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="36" Grid.Column="1" />
-        <Button Content="Ajouter un film" HorizontalAlignment="Center" Margin="0,138,0,0" Background="#FF7CB8FF"
-                FontSize="14" FontFamily="Arial" Width="126" Height="26" VerticalAlignment="Top"
-                RenderTransformOrigin="0.5,0.5" Click="ButtonAjouterFilmClick" />
-        <RadioButton x:Name="RadioEstAffiche" Content="Film a l'affiche" HorizontalAlignment="Left" Margin="12,94,0,0"
-                     VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Checked="RadioEstAffiche_Checked" />
-        <RadioButton x:Name="RadioTousLesFilm" Content="Tous les films" HorizontalAlignment="Left" Margin="12,70,0,0"
-                     VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Checked="RadioTousLesFilm_Checked" />
         <TextBlock x:Name="TitreFiltre" HorizontalAlignment="Center" Margin="0,26,0,0" Text="Filtre"
                    TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="22"
                    TextDecorations="{x:Null}" />
-
+        <RadioButton x:Name="RbTousLesFilms" Content="Tous les films" HorizontalAlignment="Center"
+                     VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Checked="RbTousLesFilm_Checked"
+                     Margin="0,74,0,0" />
+        <RadioButton x:Name="RbEstAffiche" Content="Films à l'affiche" HorizontalAlignment="Center"
+                     Margin="0,94,0,0"
+                     VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Checked="RbEstAffiche_Checked" />
+        <Button x:Name="BtnRetourAccueil" Content="Retour à l'accueil" HorizontalAlignment="Center" Margin="0,140,0,0"
+                Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" VerticalAlignment="Top"
+                RenderTransformOrigin="0.5,0.5" Click="BtnRetourAccueil_Click" />
+        <Button x:Name="BtnAjouterFilm" Content="Ajouter un film" HorizontalAlignment="Center" Margin="0,180,0,0"
+                Background="#FF7CB8FF"
+                FontSize="14" FontFamily="Arial" Width="126" Height="26" VerticalAlignment="Top"
+                RenderTransformOrigin="0.5,0.5" Click="BtnAjouterFilm_Click" />
+        <Button x:Name="BtnModifierFilm" Content="Modifier le film" HorizontalAlignment="Center" Margin="0,220,0,0" Background="#FF7CB8FF"
+                FontSize="14" FontFamily="Arial" Width="126" Height="26" VerticalAlignment="Top"
+                RenderTransformOrigin="0.5,0.5" Click="BtnModifierFilm_Click" />
+        <Button x:Name="BtnVoirProjection" Content="Voir les projections" HorizontalAlignment="Center"
+                Margin="0,260,0,0" Background="#FF7CB8FF"
+                FontSize="14" FontFamily="Arial" Width="126" Height="26" VerticalAlignment="Top"
+                RenderTransformOrigin="0.5,0.5" Click="BtnVoirProjections_Click" />
         <Grid Grid.Column="1" Margin="0,59,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
@@ -35,35 +47,39 @@
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
 
-            <ListView MouseDoubleClick="ListView_MouseDoubleClick" x:Name="LstFilms" Grid.Column="1" Grid.Row="1"
-                      d:ItemsSource="{d:SampleData ItemCount=5}" Cursor="Hand">
+            <ListView SelectionChanged="LstFilms_OnSelectionChanged" x:Name="LstFilms" Grid.Column="1" Grid.Row="1"
+                      d:ItemsSource="{d:SampleData ItemCount=5}" Cursor="Hand" Margin="0, 0, 10, 10">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Black" BorderThickness="1" Width="Auto">
-                            <Grid >
+                        <Border x:Name="border" BorderBrush="Black" BorderThickness="1">
+                            <Grid HorizontalAlignment="Stretch" MinWidth="{Binding ActualWidth, ElementName=LstFilms}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Nom: " FontWeight="Bold"
                                            TextAlignment="Left" />
-                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Nom}" TextAlignment="Left" Margin="0,0,10,10"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Nom}" TextAlignment="Left"
+                                           Margin="0,0,10,10" />
 
                                 <TextBlock Grid.Row="0" Grid.Column="3" Text="Date:" FontWeight="Bold"
                                            TextAlignment="Left" />
                                 <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding DateSortieInternationnale}" />
-                                <TextBlock Grid.Row="1" Grid.Column="0" Text="À l'affiche: " FontWeight="Bold" TextAlignment="Left" Margin="0,0,10,10" />
-                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Etat}"/>
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="À l'affiche: " FontWeight="Bold"
+                                           TextAlignment="Left" Margin="0,0,10,10" />
 
-                                <TextBlock Grid.Row="1" Grid.Column="3" Text="Note moyenne: " FontWeight="Bold" TextAlignment="Left" Margin="0,0,10,10"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding EstAffiche}"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="3" Text="Note moyenne: " FontWeight="Bold"
+                                           TextAlignment="Left" Margin="0,0,10,10" />
                                 <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding NoteMoy}" />
 
                             </Grid>
@@ -73,9 +89,5 @@
             </ListView>
 
         </Grid>
-        <Button x:Name="BtnRetourAccueil" Content="Retour à l'accueil" HorizontalAlignment="Center" Margin="0,174,0,0"
-                Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" VerticalAlignment="Top"
-                RenderTransformOrigin="0.5,0.5" Click="BtnRetourAccueil_Click" />
-
     </Grid>
 </Page>
