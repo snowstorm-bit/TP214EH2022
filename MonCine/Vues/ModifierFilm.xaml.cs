@@ -41,7 +41,7 @@ namespace MonCine.Vues
             AfficherInformationDuFilm();
         }
 
-        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
+        private void BtnAnnuler_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
@@ -77,7 +77,7 @@ namespace MonCine.Vues
 
                     _acteurs.ForEach(a => lstActeursComplet.Items.Add(a.Nom));
                 }
-            }
+            });
         }
 
         private void AfficherActeurs()

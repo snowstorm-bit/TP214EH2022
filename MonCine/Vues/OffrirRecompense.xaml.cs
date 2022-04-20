@@ -84,7 +84,15 @@ namespace MonCine.Vues
                 MessageBoxImage.Error
             );
         }
-        private void BtnOffrirRecompense(object sender, RoutedEventArgs e)
+
+        private void BtnAnnuler_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        #endregion
+
+        private void BtnOffrirRecompense_Click(object pSender, RoutedEventArgs pE)
         {
             MessageBox.Show(
                 "La fonctionnalité n'a pas encore été implémentée. De ce fait, le bouton ne fonctionne pas",
@@ -93,12 +101,5 @@ namespace MonCine.Vues
                 MessageBoxImage.Warning
             );
         }
-
-        private void BtnAnnuler_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        #endregion
     }
 }
