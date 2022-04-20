@@ -28,8 +28,8 @@
         </Border>
 
         <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,0" Height="250">
-            <Button Content="Consulter les abonnées" Grid.Column="0" Grid.Row="0" Background="#FF220C0C" Foreground="#FFFDFCFC" FontWeight="Bold" Margin="150,25,150,25" Click="Button_Click" Height="30"/>
-            <Button Content="Consulter les films" Grid.Column="0" Grid.Row="0" Background="#FF220C0C" Foreground="#FFFDFCFC" FontWeight="Bold" Margin="150,25,150,25" Click="Button_Click_2" Height="30"/>
+            <Button Content="Consulter les abonnées" Grid.Column="0" Grid.Row="0" Background="#FF220C0C" Foreground="#FFFDFCFC" FontWeight="Bold" Margin="150,25,150,25" Click="BtnConsulterAbonne_Click" Height="30"/>
+            <Button Content="Consulter les films" Grid.Column="0" Grid.Row="0" Background="#FF220C0C" Foreground="#FFFDFCFC" FontWeight="Bold" Margin="150,25,150,25" Click="BtnConsulterFilms_Click" Height="30"/>
         </StackPanel>
     </Grid>
 </Page>
