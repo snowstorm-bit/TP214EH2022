@@ -127,16 +127,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pFilm">Film à mettre la liste des projections à jour</typeparam>
         private void MAJProjectionFilm(Film pFilm)
         {
-            _dalFilm.MAJUnFilm(
-                x => x.Projections == pFilm.Projections,
-                new List<(Expression<Func<Film, object>> field, object value)>
-                {
-                    (
-                        x => x.Projections,
-                        pFilm.Projections
-                    ),
-                }
-            );
+            _dalFilm.MAJProjectionsFilm(pFilm);
         }
 
         #endregion
