@@ -1,15 +1,14 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Abonne.cs
-// Date de création : 2022-04-10
-// Date de modification : 2022-04-12
+// Date de création : 2022-04-14
+// Date de modification : 2022-04-20
 
 #endregion
 
 #region USING
 
 using System;
-using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -17,34 +16,45 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace MonCine.Data.Classes
 {
+    /// <summary>
+    /// Classe représentant un abonné de la cinémathèque.
+    /// </summary>
     public class Abonne : Utilisateur
     {
         #region PROPRIÉTÉS ET INDEXEURS
 
+        /// <summary>
+        /// Obtient ou défini la date à laquelle l'abonné a été enregistré dans le système
+        /// </summary>
         public DateTime DateAdhesion { get; set; }
-        public List<Reservation> Reservations { get; set; }
-        public List<ObjectId> RecompensesId { get; set; }
 
-        [BsonIgnore] public List<Recompense> Recompenses { get; set; }
-
+        /// <summary>
+        /// Obitient ou défini l'objet <see cref="Classes.Preference"/> de l'abonné
+        /// </summary>
         public Preference Preference { get; set; }
 
-        public int NbSeances
-        {
-            get { return Reservations.Count; }
-        }
+        /// <summary>
+        /// Nombre de séances auxquelles l'abonné a assisté
+        /// </summary>
+        [BsonIgnore]
+        public int NbSeances { get; set; }
 
         #endregion
 
         #region CONSTRUCTEURS
 
-        public Abonne(ObjectId pId, string pNom, string pCourriel, string pMdp, DateTime pDateAdhesion,
-            List<Reservation> pReservationsId, List<ObjectId> pRecompensesId, Preference pPreference) :
+        /// <summary>
+        /// Constructeur permettant la création d'un abonné.
+        /// </summary>
+        /// <param name="pId">Identifiant de l'abonné</param>
+        /// <param name="pNom">Nom de l'abonné</param>
+        /// <param name="pCourriel">Courriel de l'abonné</param>
+        /// <param name="pMdp">Mot de passe de l'abonné</param>
+        /// <param name="pPreference">Préférence de l'abonné</param>
+        public Abonne(ObjectId pId, string pNom, string pCourriel, string pMdp, Preference pPreference) :
             base(pId, pNom, pCourriel, pMdp)
         {
-            DateAdhesion = pDateAdhesion;
-            Reservations = pReservationsId;
-            RecompensesId = pRecompensesId;
+            DateAdhesion = DateTime.Now;
             Preference = pPreference;
         }
 

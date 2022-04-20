@@ -13,6 +13,8 @@ using MonCine.Data;
 using MonCine.Data.Classes;
 using System.Data;
 using System.Windows.Navigation;
+using MonCine.Data.Classes.DAL;
+using MongoDB.Driver;
 
 namespace MonCine.Vues
 {
@@ -21,17 +23,18 @@ namespace MonCine.Vues
     /// </summary>
     public partial class FAbonnes : Page
     {
-        private List<Abonne> abonnes;
-        private DAL dal;
-        private Cinematheque cinematheque;
-        public FAbonnes(DAL pDal, Cinematheque pCinematheque)
+        private IMongoClient _client;
+        private IMongoDatabase _db;
+        private List<Abonne> _abonnes;
+        private DALAbonne _dalAbonne;
+        public FAbonnes(IMongoClient pClient, IMongoDatabase pDb)
         {
             InitializeComponent();
-            dal = pDal;
-            cinematheque = pCinematheque;
-            cinematheque = dal.ObtenirCinematheque();
-            abonnes = cinematheque.Abonnes;
-            DataGridAbonnes.DataContext = abonnes;
+            _client = pClient;
+            _db = pDb;
+            _dalAbonne = new DALAbonne(_client, _db);
+            _abonnes = _dalAbonne.ObtenirAbonnes();
+            DataGridAbonnes.DataContext = _abonnes;
         }
     }
 }

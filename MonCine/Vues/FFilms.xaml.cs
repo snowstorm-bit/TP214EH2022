@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MonCine.Data;
 using MonCine.Data.Classes;
+using MonCine.Data.Classes.DAL;
+using MongoDB.Driver;
 
 namespace MonCine.Vues
 {
@@ -20,60 +22,46 @@ namespace MonCine.Vues
     /// </summary>
     public partial class FFilms : Page
     {
-        private DAL _dal;
-        private Cinematheque _cinematheque;
+        private IMongoClient _client;
+        private IMongoDatabase _db;
+        private DALFilm _dal;
         private List<Film> _filmList;
 
-        public FFilms(DAL pDal, Cinematheque pCinematheque)
+        public FFilms(IMongoClient pClient, IMongoDatabase pDb)
         {
-            _dal = pDal;
-            _cinematheque = pCinematheque;
-            _filmList = new();
             InitializeComponent();
+            _client = pClient;
+            _db = pDb;
+            _dal = new DALFilm(_client, _db);
+            _filmList = _dal.ObtenirFilms();
         }
 
         private void radioEstPasAffiche_Checked(object sender, RoutedEventArgs e)
         {
             lstFilms.Items.Clear();
-            _filmList.Clear();
-            _cinematheque.Films
-                .Where(film => film.Etat == false).ToList()
-                .ForEach(film => _filmList.Add(film));
 
-            foreach (Film f in _filmList)
-            {
-                lstFilms.Items.Add(f);
-            }
+            _filmList
+                .Where(film => film.EstAffiche == false).ToList()
+                .ForEach(film => lstFilms.Items.Add(film));
         }
 
         private void radioTousLesFilm_Checked(object sender, RoutedEventArgs e)
         {
             lstFilms.Items.Clear();
-            _filmList.Clear();
-            _cinematheque.Films.ForEach(film => _filmList.Add(film));
 
-            foreach (Film f in _filmList)
-            {
-                lstFilms.Items.Add(f);
-            }
+            _filmList.ForEach(film => lstFilms.Items.Add(film));
         }
         private void radioEstAffiche_Checked(object sender, RoutedEventArgs e)
         {
             lstFilms.Items.Clear();
-            _filmList.Clear();
-            _cinematheque.Films
-                .Where(film => film.Etat == true).ToList()
-                .ForEach(film => _filmList.Add(film));
-
-            foreach (Film f in _filmList)
-            {
-                lstFilms.Items.Add(f);
-            }
+            _filmList
+                .Where(film => film.EstAffiche == false).ToList()
+                .ForEach(film => lstFilms.Items.Add(film));
         }
 
         private void ButtonAjouterFilmClick(object sender, RoutedEventArgs e)
         {
-            AjouterFilm ajouter = new AjouterFilm(_dal, _cinematheque);
+            AjouterFilm ajouter = new AjouterFilm();
             ajouter.Show();
         }
 
@@ -87,7 +75,7 @@ namespace MonCine.Vues
             var item = ((FrameworkElement)e.OriginalSource).DataContext;
             if (item != null)
             {
-                ModifierFilm modifierFilm = new ModifierFilm(_dal, _cinematheque, (Film)item);
+                ModifierFilm modifierFilm = new ModifierFilm((Film)item, _client, _db);
                 modifierFilm.Show();
             }
         }

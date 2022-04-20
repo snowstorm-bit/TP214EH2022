@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 #endregion
 
-namespace MonCine.Data.Classes
+namespace MonCine.Data.Classes.BD
 {
     /// <summary>
     /// Classe permettant de journalisé les erreurs lancées par le programme.
@@ -25,7 +25,7 @@ namespace MonCine.Data.Classes
         /// <summary>
         /// Permet de tracer les erreurs
         /// </summary>
-        private static readonly TraceSource _traceur = new TraceSource("TraceSourceApp");
+        private static readonly TraceSource traceur = new TraceSource("TraceSourceApp");
 
         #endregion
 
@@ -40,8 +40,8 @@ namespace MonCine.Data.Classes
         /// <param name="pId">Identifiant du message</param>
         public static void Journaliser(string pMsg, TraceEventType pType, int pId)
         {
-            ErreurLog._traceur.TraceEvent(pType, pId, $"{DateTime.Now} : {pMsg}");
-            ErreurLog._traceur.Flush();
+            ErreurLog.traceur.TraceEvent(pType, pId, $"{DateTime.Now} : {pMsg}");
+            ErreurLog.traceur.Flush();
         }
 
         #endregion
