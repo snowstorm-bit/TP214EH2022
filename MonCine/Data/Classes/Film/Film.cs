@@ -160,6 +160,21 @@ namespace MonCine.Data.Classes
         #region MÉTHODES
 
         /// <summary>
+        /// Permet de retirer un film à l'affiche.
+        /// </summary>
+        /// <returns>Vrai si le film n'est plus à l'affiche. Faux si l'opération n'a pas pu être effectuée.</returns>
+        public bool RetirerFilmEstAffiche()
+        {
+            if (Projections.Count > 0)
+            {
+                Projections[Projections.Count - 1].EstActive = false;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Permet d'ajouter une projection au film.
         /// </summary>
         /// <param name="pDateDebut"></param>
