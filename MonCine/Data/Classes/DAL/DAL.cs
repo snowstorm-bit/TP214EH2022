@@ -1,0 +1,107 @@
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : DAL.cs
+// Date de création : 2022-04-18
+// Date de modification : 2022-04-20
+
+#endregion
+
+#region USING
+
+using System;
+using MonCine.Data.Classes.BD;
+using MongoDB.Driver;
+
+#endregion
+
+namespace MonCine.Data.Classes.DAL
+{
+    /// <summary>
+    /// Classe représentant une couche d'accès aux données pour le type de document spécifié.
+    /// </summary>
+    /// <typeparam name="TDocument">Type du document</typeparam>
+    public abstract class DAL<TDocument>
+    {
+        #region ATTRIBUTS
+
+        /// <summary>
+        /// L'interface client vers MongoDB
+        /// </summary>
+        protected internal IMongoClient MongoDbClient;
+
+        /// <summary>
+        /// Base de données MongoDB utilisée
+        /// </summary>
+        protected internal IMongoDatabase Db;
+
+        /// <summary>
+        /// Gestionnaire de la collection pour le type de document spécifié
+        /// </summary>
+        private MongoDbContext<TDocument> _dbContext;
+
+        #endregion
+
+        #region PROPRIÉTÉS ET INDEXEURS
+
+        public MongoDbContext<TDocument> DbContext
+        {
+            get { return _dbContext; }
+        }
+
+        #endregion
+
+        #region CONSTRUCTEURS
+
+        /// <summary>
+        /// Constructeur permettant la création d'une couche d'accès aux données.
+        /// </summary>
+        /// <param name="pClient">L'interface client vers MongoDB</param>
+        /// <param name="pDb">Base de données MongoDB utilisée</param>
+        protected DAL(IMongoClient pClient = null, IMongoDatabase pDb = null)
+        {
+            MongoDbClient = pClient ?? OuvrirConnexion();
+            Db = pDb ?? ObtenirBd();
+            _dbContext = new MongoDbContext<TDocument>(Db);
+        }
+
+        #endregion
+
+        #region MÉTHODES
+
+        /// <summary>
+        /// Permet d'ouvrir une connexion vers MongoDB.
+        /// </summary>
+        /// <returns>La connexion vers MongoDB.</returns>
+        /// <exception cref="ExceptionBD">Lancée lorsqu'une erreur liée à la base de données se produit.</exception>
+        private IMongoClient OuvrirConnexion()
+        {
+            try
+            {
+                return new MongoClient("mongodb://localhost:27017/");
+            }
+            catch (Exception e)
+            {
+                throw new ExceptionBD($"Méthode : OuvrirConnexion - Exception : {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Permet d'obtenir la base de données MongoDB utillisée.
+        /// </summary>
+        /// <returns>La base de données MongoDB utilisée</returns>
+        /// <exception cref="ExceptionBD">Lancée lorsqu'une erreur liée à la base de données se produit.</exception>
+        private IMongoDatabase ObtenirBd()
+        {
+            try
+            {
+                return MongoDbClient.GetDatabase("TP2DB");
+            }
+            catch (Exception e)
+            {
+                throw new ExceptionBD($"Méthode : ObtenirBD - Exception : {e.Message}");
+            }
+        }
+
+        #endregion
+    }
+}

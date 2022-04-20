@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MonCine.Data;
 using MonCine.Data.Classes;
+using MonCine.Data.Classes.DAL;
+using MongoDB.Driver;
 
 namespace MonCine.Vues
 {
@@ -20,66 +22,64 @@ namespace MonCine.Vues
     /// </summary>
     public partial class FFilms : Page
     {
-        private DAL _dal;
-        private Cinematheque _cinematheque;
-        private List<Film> _filmList;
+        private IMongoClient _client;
+        private IMongoDatabase _db;
+        private DALFilm _dalFilm;
+        private List<Film> _films;
 
-        public FFilms(DAL pDal, Cinematheque pCinematheque)
+        public FFilms(IMongoClient pClient, IMongoDatabase pDb)
         {
-            _dal = pDal;
-            _cinematheque = pCinematheque;
-            _filmList = new();
             InitializeComponent();
+            _client = pClient;
+            _db = pDb;
+            _dalFilm = new DALFilm(_client, _db);
+            _films = _dalFilm.ObtenirFilms();
         }
 
-        private void radioEstPasAffiche_Checked(object sender, RoutedEventArgs e)
-        {
-            lstFilms.Items.Clear();
-            _filmList.Clear();
-            _cinematheque.Films
-                .Where(film => film.Etat == false).ToList()
-                .ForEach(film => _filmList.Add(film));
+        private void RadioTousLesFilm_Checked(object sender, RoutedEventArgs e)
+            => AfficherTousLesFilms();
 
-            foreach (Film f in _filmList)
-            {
-                lstFilms.Items.Add(f);
-            }
-        }
-
-        private void radioEstAffiche_Checked(object sender, RoutedEventArgs e)
-        {
-            lstFilms.Items.Clear();
-            _filmList.Clear();
-            _cinematheque.Films
-                .Where(film => film.Etat == true).ToList()
-                .ForEach(film => _filmList.Add(film));
-
-            foreach (Film f in _filmList)
-            {
-                lstFilms.Items.Add(f);
-            }
-        }
+        private void RadioEstAffiche_Checked(object sender, RoutedEventArgs e)
+            => AfficherLesFilmsALaffiche();
 
         private void ButtonAjouterFilmClick(object sender, RoutedEventArgs e)
         {
-            AjouterFilm ajouter = new AjouterFilm(_dal, _cinematheque);
+            AjouterFilm ajouter = new AjouterFilm(_client, _db);
             ajouter.Show();
         }
 
-        private void btnRetourAcceuil_Click(object sender, RoutedEventArgs e)
+        private void BtnRetourAcceuil_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Retour acceuil non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Retour acceuil non implémenté", "Information!",
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        /// <summary>
-        /// A Supprimer car c'est juste un test
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnTestModifierFilm_Click(object sender, RoutedEventArgs e)
+        void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ModifierFilm modifierFilm = new ModifierFilm(_dal, _cinematheque);
-            modifierFilm.Show();
+            var itemFilm = ((FrameworkElement)e.OriginalSource).DataContext;
+            if (itemFilm != null)
+            {
+                ModifierFilm modifierFilm = new ModifierFilm((Film)itemFilm, _client, _db);
+                modifierFilm.Show();
+            }
+        }
+
+        private void AfficherLesFilmsALaffiche()
+        {
+            lstFilms.Items.Clear();
+            _films
+                .Where(film => film.EstAffiche)
+                .ToList()
+                .ForEach(film => lstFilms.Items.Add(film));
+        }
+
+        private void AfficherTousLesFilms()
+        {
+            lstFilms.Items.Clear();
+            _films
+                .Where(film => film.EstAffiche)
+                .ToList()
+                .ForEach(film => lstFilms.Items.Add(film));
         }
     }
 }

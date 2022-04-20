@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 #endregion
 
-namespace MonCine.Data.Classes
+namespace MonCine.Data.Classes.BD
 {
     /// <summary>
     /// Classe représentant une exception personnalisée lorsqu'il y a une erreur en lien avec une base de donnée.

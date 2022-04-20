@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Title="Films" Height="450" Width="800">
     <Grid Background="White">
-        <!--<Grid Grid.Row="2" Grid.Column="2" />-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="4*" />
@@ -16,9 +15,9 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <TextBlock x:Name="TitrePageFilm" HorizontalAlignment="Left" Margin="96,13,0,0" Text="Gestion des films" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="36" Grid.Column="1"/>
-        <Button Content="Ajouter un film" HorizontalAlignment="Center" Margin="0,138,0,0" Background="#FF7CB8FF" Width="96" FontSize="14" FontFamily="Arial" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Click="ButtonAjouterFilmClick"/>
-        <RadioButton x:Name="radioEstAffiche" Content="Film a l'affiche" HorizontalAlignment="Left" Margin="12,94,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Checked="radioEstAffiche_Checked"/>
-        <RadioButton x:Name="radioEstPasAffiche" Content="Film non a l'affiche" HorizontalAlignment="Center" Margin="0,70,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Checked="radioEstPasAffiche_Checked"/>
+        <Button Content="Ajouter un film" HorizontalAlignment="Center" Margin="0,138,0,0" Background="#FF7CB8FF" FontSize="14" FontFamily="Arial" Width="126" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Click="ButtonAjouterFilmClick"/>
+        <RadioButton x:Name="radioEstAffiche" Content="Film a l'affiche" HorizontalAlignment="Left" Margin="12,94,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Checked="RadioEstAffiche_Checked"/>
+        <RadioButton x:Name="radioTousLesFilm" Content="Tous les films" HorizontalAlignment="Left" Margin="12,70,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="Arial" Checked="RadioTousLesFilm_Checked"/>
         <TextBlock x:Name="titreFiltre" HorizontalAlignment="Center" Margin="0,26,0,0" Text="Filtre" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="22" TextDecorations="{x:Null}"/>
 
         <Grid Grid.Column="1" Margin="0,59,0,0">
@@ -29,7 +28,7 @@
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
 
-            <ListView x:Name="lstFilms" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Cursor="Hand">
+            <ListView MouseDoubleClick="ListView_MouseDoubleClick" x:Name="lstFilms" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Cursor="Hand">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -40,11 +39,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
@@ -58,24 +55,16 @@
                             <TextBlock Grid.Row="0" Grid.Column="4" Text="À l'affiche: " FontWeight="Bold" TextAlignment="Right"/>
                             <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding Etat}" Margin="5,0,15,0"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Id:" FontWeight="Bold" TextAlignment="Right"/>
-                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Id}" Margin="5,0,15,0"/>
-
-                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Note moyenne: " FontWeight="Bold" TextAlignment="Right"/>
-                            <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding NoteMoy}" Margin="5,0,15,0"/>
-
-                            <Button Grid.Row="1" Grid.Column="6" Content="Modifier" HorizontalAlignment="Center"  Background="#FF7CB8FF" Width="70" FontSize="14" FontFamily="Arial" Height="22" VerticalAlignment="Top" />
-
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Note moyenne: " FontWeight="Bold" TextAlignment="Right"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding NoteMoy}" Margin="5,0,15,0"/>
 
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
-
         </Grid>
-        <Button x:Name="btnRetourAcceuil" Content="Retourn acceuil" HorizontalAlignment="Center" Margin="0,382,0,0" Background="#FF7CB8FF" Width="110" FontSize="14" FontFamily="Arial" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Click="btnRetourAcceuil_Click"/>
-        <Button x:Name="btnTestModifierFilm" Content="Modifier film test" HorizontalAlignment="Center" Margin="0,218,0,0" Background="#FF7CB8FF" Width="120" FontSize="14" FontFamily="Arial" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Click="btnTestModifierFilm_Click"/>
+        <Button x:Name="btnRetourAcceuil" Content="Retourn acceuil" HorizontalAlignment="Center" Margin="0,174,0,0" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Click="BtnRetourAcceuil_Click"/>
 
     </Grid>
 </Page>

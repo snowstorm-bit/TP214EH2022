@@ -8,9 +8,12 @@
 
 #region USING
 
+using System.Collections.Generic;
 using System.Windows;
 using MonCine.Data;
 using MonCine.Data.Classes;
+using MonCine.Data.Classes.BD;
+using MonCine.Data.Classes.DAL;
 using MonCine.Vues;
 
 #endregion
@@ -22,22 +25,22 @@ namespace MonCine
     /// </summary>
     public partial class MainWindow : Window
     {
-        private DAL _dal;
-        private Cinematheque _cinematheque;
-
         #region CONSTRUCTEURS
+
+        private Utilisateur _utilisateurCourant;
 
         public MainWindow()
         {
             InitializeComponent();
-            _dal = new DAL();
-            _cinematheque = _dal.ObtenirCinematheque();
 
-            if (_cinematheque.UtilisateurCourant is Administrateur admin)
+            DALAdministrateur dalAdministrateur = new DALAdministrateur();
+            SeedData.GenererDonnees(dalAdministrateur.MongoDbClient, dalAdministrateur.Db);
+
+            _utilisateurCourant = dalAdministrateur.ObtenirAdministrateur();
+
+            if (_utilisateurCourant is Administrateur)
             {
-
-                // TODO : Affichage pour un utilisateur admin
-                _NavigationFrame.Navigate(new Accueil(_dal, _cinematheque));
+                _NavigationFrame.Navigate(new Accueil(dalAdministrateur.MongoDbClient, dalAdministrateur.Db));
             }
             else
             {

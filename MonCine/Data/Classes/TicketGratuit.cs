@@ -18,7 +18,7 @@ namespace MonCine.Data.Classes
     {
         #region CONSTRUCTEURS
 
-        public TicketGratuit(ObjectId pId, ObjectId pFilmId) : base(pId, pFilmId)
+        public TicketGratuit(ObjectId pId, ObjectId pFilmId, ObjectId pAbonneId) : base(pId, pFilmId, pAbonneId)
         {
         }
 

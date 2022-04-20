@@ -13,28 +13,27 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="100*" />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="ModifierFilmTitre" HorizontalAlignment="Left" Margin="10,11,0,0" TextWrapping="Wrap" Text="Modifier un film" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="36" />
-        <Button x:Name="btnModifierFilm" Content="Modifier film" HorizontalAlignment="Left" Margin="106,378,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="91" FontSize="14" FontFamily="Arial" Height="26" Click="btnModifierFilm_Click"/>
-        <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Left" Margin="9,378,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="91" FontSize="14" FontFamily="Arial" Height="26" Click="btnAjouterFilm_Copy_Click"/>
+        <TextBlock x:Name="ModifierFilmTitre" HorizontalAlignment="Left" Margin="7,4,0,0" TextWrapping="Wrap" Text="Modifier un film" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="36" />
+        <Button x:Name="btnModifierFilm" Content="Modifier film" HorizontalAlignment="Left" Margin="152,378,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnModifierFilm_Click"/>
+        <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Left" Margin="9,378,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnAnnuler_Click"/>
         <TextBox x:Name="txtNomFilm" HorizontalAlignment="Left" Margin="110,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="175"/>
         <Label x:Name="lblNom" Content="Nom :" HorizontalAlignment="Left" Margin="15,58,0,0" VerticalAlignment="Top"/>
-        <Calendar HorizontalAlignment="Left" Margin="15,162,0,0" VerticalAlignment="Top"/>
+        <Calendar x:Name="calendrierDate" HorizontalAlignment="Left" Margin="15,162,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="dropDownCategories" HorizontalAlignment="Left" Margin="110,99,0,0" VerticalAlignment="Top" Width="170" Height="20"/>
         <Label x:Name="lblCategorie" Content="Catégorie :" HorizontalAlignment="Left" Margin="15,93,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lblDateInternational" Content="Date de sortie international" HorizontalAlignment="Left" Margin="19,134,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="lstActeursComplet" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="305,41,326,235"/>
-        <ListBox x:Name="lstActeursChoisi" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="615,41,11,235"/>
-        <Button x:Name="btnRetirerActeur" Content="Retirer Acteur" HorizontalAlignment="Left" Margin="483,74,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="btnRetirerActeur_Click"/>
-        <Button x:Name="btnAjouterActeur" Content="Ajouter Acteur" HorizontalAlignment="Left" Margin="483,129,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="btnAjouterActeur_Click"/>
+        <ListBox x:Name="lstActeursComplet" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="311,41,0,0" Height="158" VerticalAlignment="Top" HorizontalAlignment="Left" Width="169"/>
+        <ListBox x:Name="lstActeursChoisi" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="612,41,0,0" HorizontalAlignment="Left" Width="174" Height="158" VerticalAlignment="Top"/>
+        <Button x:Name="btnRetirerActeur" Content="Retirer Acteur" HorizontalAlignment="Left" Margin="483,74,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="BtnRetirerActeur_Click"/>
+        <Button x:Name="btnAjouterActeur" Content="Ajouter Acteur" HorizontalAlignment="Left" Margin="483,129,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="BtnAjouterActeur_Click"/>
         <Label x:Name="lblLstActeurComplet" Content="Acteurs disponible" HorizontalAlignment="Left" Margin="332,11,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="lblLstActeurSelectioner" Content="Acteurs Choisi" HorizontalAlignment="Left" Margin="662,8,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="lstRealisateurComplet" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="310,251,326,25"/>
-        <ListBox x:Name="lstRealisateurChoisi" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="620,251,11,25"/>
-        <Button x:Name="btnRetirerRealisateur" Content="Retirer Réalisateur" HorizontalAlignment="Left" Margin="483,284,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="btnRetirerRealisateur_Click"/>
-        <Button x:Name="btnAjouterRealisateur" Content="Ajouter Réalisateur" HorizontalAlignment="Left" Margin="483,339,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="btnAjouterRealisateur_Click"/>
+        <Label x:Name="lblLstActeurSelectioner" Content="Acteurs Choisi" HorizontalAlignment="Left" Margin="659,8,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="lstRealisateurComplet" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="314,251,0,0" Height="158" VerticalAlignment="Top" HorizontalAlignment="Left" Width="164"/>
+        <ListBox x:Name="lstRealisateurChoisi" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="617,251,0,0" HorizontalAlignment="Left" Width="169" Height="158" VerticalAlignment="Top"/>
+        <Button x:Name="btnRetirerRealisateur" Content="Retirer Réalisateur" HorizontalAlignment="Left" Margin="483,284,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="BtnRetirerRealisateur_Click"/>
+        <Button x:Name="btnAjouterRealisateur" Content="Ajouter Réalisateur" HorizontalAlignment="Left" Margin="483,339,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" FontSize="14" FontFamily="Arial" Width="126" Height="26" Click="BtnAjouterRealisateur_Click"/>
         <Label x:Name="lblRealisateurComplet" Content="Réalisateur disponible" HorizontalAlignment="Left" Margin="326,219,0,0" VerticalAlignment="Top" Height="25" Width="125"/>
-        <Label x:Name="lblRealisateurChoisi" Content="Réalisateur choisi" HorizontalAlignment="Left" Margin="654,218,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="BtnSupprimerFilm" Content="Supprimer Film" HorizontalAlignment="Left" Margin="203,378,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="101" FontSize="14" FontFamily="Arial" Height="26" Click="BtnSupprimerFilm_Click"/>
+        <Label x:Name="lblRealisateurChoisi" Content="Réalisateur choisi" HorizontalAlignment="Left" Margin="651,218,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
