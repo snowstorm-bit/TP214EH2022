@@ -48,7 +48,7 @@ namespace MonCine.Vues
 
         private void AfficherInformationDuFilm()
         {
-            txtNomFilm.Text = _film.Nom;
+            TxtNomFilm.Text = _film.Nom;
             AfficherCategories();
             AfficherActeurs();
             AfficherRealisateurs();
@@ -58,49 +58,49 @@ namespace MonCine.Vues
         {
             _categories.ForEach(cat =>
             {
-                dropDownCategories.Items.Add(cat.Nom);
+                DropDownCategories.Items.Add(cat.Nom);
                 if (cat.Id == _film.CategorieId)
                 {
-                    int index = dropDownCategories.Items.IndexOf(cat.Nom);
-                    dropDownCategories.SelectedIndex = index;
+                    int index = DropDownCategories.Items.IndexOf(cat.Nom);
+                    DropDownCategories.SelectedIndex = index;
                     _categories.ForEach(c =>
                     {
-                        dropDownCategories.Items.Add(c.Nom);
+                        DropDownCategories.Items.Add(c.Nom);
                         if (c.Id == _film.CategorieId)
                         {
-                            dropDownCategories.SelectedIndex = dropDownCategories.Items.IndexOf(c.Nom);
+                            DropDownCategories.SelectedIndex = DropDownCategories.Items.IndexOf(c.Nom);
                         }
                     });
 
-                    calendrierDate.SelectedDate = _film.DateSortie;
-                    calendrierDate.DisplayDate = _film.DateSortie;
+                    CalendrierDate.SelectedDate = _film.DateSortie;
+                    CalendrierDate.DisplayDate = _film.DateSortie;
 
-                    _acteurs.ForEach(a => lstActeursComplet.Items.Add(a.Nom));
+                    _acteurs.ForEach(a => LstActeursComplet.Items.Add(a.Nom));
                 }
             });
         }
 
         private void AfficherActeurs()
         {
-            _acteurs.ForEach(act => lstActeursComplet.Items.Add(act.Nom));
+            _acteurs.ForEach(act => LstActeursComplet.Items.Add(act.Nom));
             if (_film.Acteurs != null)
             {
                 foreach (Acteur acteur in _film.Acteurs)
                 {
-                    lstActeursChoisi.Items.Add(acteur.Nom);
+                    LstActeursChoisi.Items.Add(acteur.Nom);
                 }
             }
         }
 
         private void AfficherRealisateurs()
         {
-            _realisateurs.ForEach(rea => lstRealisateurComplet.Items.Add(rea.Nom));
-            _realisateurs.ForEach(r => lstRealisateurComplet.Items.Add(r.Nom));
+            _realisateurs.ForEach(rea => LstRealisateurComplet.Items.Add(rea.Nom));
+            _realisateurs.ForEach(r => LstRealisateurComplet.Items.Add(r.Nom));
             if (_film.Realisateurs != null)
             {
                 foreach (Realisateur realisateur in _film.Realisateurs)
                 {
-                    lstRealisateurChoisi.Items.Add(realisateur.Nom);
+                    LstRealisateurChoisi.Items.Add(realisateur.Nom);
                 }
             }
         }

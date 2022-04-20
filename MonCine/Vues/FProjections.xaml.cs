@@ -9,6 +9,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MonCine.Data.Classes;
+using MonCine.Data.Classes.DAL;
+using MongoDB.Driver;
 
 namespace MonCine.Vues
 {
@@ -17,9 +20,17 @@ namespace MonCine.Vues
     /// </summary>
     public partial class FProjections : Page
     {
-        public FProjections()
+        private IMongoClient _client;
+        private IMongoDatabase _db;
+        private DALFilm _dalFilm;
+        private Film _film;
+
+        public FProjections(IMongoClient pClient, IMongoDatabase pDb, Film pFilm)
         {
             InitializeComponent();
+            _client = pClient;
+            _db = pDb;
+            _film = pFilm;
         }
     }
 }
