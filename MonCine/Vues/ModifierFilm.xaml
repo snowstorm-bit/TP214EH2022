@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MonCine.Vues"
         mc:Ignorable="d"
-        Title="AjouterFilm" Height="450" Width="800">
+        Title="GererFilm" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*" />
@@ -14,26 +14,26 @@
             <RowDefinition Height="100*" />
         </Grid.RowDefinitions>
         <TextBlock x:Name="ModifierFilmTitre" HorizontalAlignment="Left" Margin="7,4,0,0" TextWrapping="Wrap" Text="Modifier un film" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="36" />
-        <Button x:Name="btnModifierFilm" Content="Modifier film" HorizontalAlignment="Left" Margin="152,378,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnModifierFilm_Click"/>
-        <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Left" Margin="9,378,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnAnnuler_Click"/>
-        <TextBox x:Name="txtNomFilm" HorizontalAlignment="Left" Margin="110,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="175"/>
-        <Label x:Name="lblNom" Content="Nom :" HorizontalAlignment="Left" Margin="15,58,0,0" VerticalAlignment="Top"/>
-        <Calendar x:Name="calendrierDate" HorizontalAlignment="Left" Margin="15,162,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="dropDownCategories" HorizontalAlignment="Left" Margin="110,99,0,0" VerticalAlignment="Top" Width="170" Height="20"/>
-        <Label x:Name="lblCategorie" Content="Catégorie :" HorizontalAlignment="Left" Margin="15,93,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="lblDateInternational" Content="Date de sortie international" HorizontalAlignment="Left" Margin="19,134,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="lstActeursComplet" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="311,41,0,0" Height="158" VerticalAlignment="Top" HorizontalAlignment="Left" Width="169"/>
-        <ListBox x:Name="lstActeursChoisi" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="612,41,0,0" HorizontalAlignment="Left" Width="174" Height="158" VerticalAlignment="Top"/>
-        <Button x:Name="btnRetirerActeur" Content="Retirer Acteur" HorizontalAlignment="Left" Margin="483,74,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="BtnRetirerActeur_Click"/>
-        <Button x:Name="btnAjouterActeur" Content="Ajouter Acteur" HorizontalAlignment="Left" Margin="483,129,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="BtnAjouterActeur_Click"/>
-        <Label x:Name="lblLstActeurComplet" Content="Acteurs disponible" HorizontalAlignment="Left" Margin="332,11,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="lblLstActeurSelectioner" Content="Acteurs Choisi" HorizontalAlignment="Left" Margin="659,8,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="lstRealisateurComplet" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="314,251,0,0" Height="158" VerticalAlignment="Top" HorizontalAlignment="Left" Width="164"/>
-        <ListBox x:Name="lstRealisateurChoisi" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="617,251,0,0" HorizontalAlignment="Left" Width="169" Height="158" VerticalAlignment="Top"/>
-        <Button x:Name="btnRetirerRealisateur" Content="Retirer Réalisateur" HorizontalAlignment="Left" Margin="483,284,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="BtnRetirerRealisateur_Click"/>
-        <Button x:Name="btnAjouterRealisateur" Content="Ajouter Réalisateur" HorizontalAlignment="Left" Margin="483,339,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" FontSize="14" FontFamily="Arial" Width="126" Height="26" Click="BtnAjouterRealisateur_Click"/>
-        <Label x:Name="lblRealisateurComplet" Content="Réalisateur disponible" HorizontalAlignment="Left" Margin="326,219,0,0" VerticalAlignment="Top" Height="25" Width="125"/>
-        <Label x:Name="lblRealisateurChoisi" Content="Réalisateur choisi" HorizontalAlignment="Left" Margin="651,218,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="BtnModifierFilm" Content="Modifier film" HorizontalAlignment="Left" Margin="152,378,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnModifierFilm_Click"/>
+        <Button x:Name="BtnAnnuler" Content="Annuler" HorizontalAlignment="Left" Margin="9,378,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnAnnuler_Click"/>
+        <TextBox x:Name="TxtNomFilm" HorizontalAlignment="Left" Margin="110,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="175"/>
+        <Label x:Name="LblNom" Content="Nom :" HorizontalAlignment="Left" Margin="15,58,0,0" VerticalAlignment="Top"/>
+        <Calendar x:Name="CalendrierDate" HorizontalAlignment="Left" Margin="15,162,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="DropDownCategories" HorizontalAlignment="Left" Margin="110,99,0,0" VerticalAlignment="Top" Width="170" Height="20"/>
+        <Label x:Name="LblCategorie" Content="Catégorie :" HorizontalAlignment="Left" Margin="15,93,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LblDateInternational" Content="Date de sortie international" HorizontalAlignment="Left" Margin="19,134,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="LstActeursComplet" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="311,41,0,0" Height="158" VerticalAlignment="Top" HorizontalAlignment="Left" Width="169"/>
+        <ListBox x:Name="LstActeursChoisi" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="612,41,0,0" HorizontalAlignment="Left" Width="174" Height="158" VerticalAlignment="Top"/>
+        <Button x:Name="BtnRetirerActeur" Content="Retirer Acteur" HorizontalAlignment="Left" Margin="483,74,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="BtnRetirerActeur_Click"/>
+        <Button x:Name="BtnAjouterActeur" Content="Ajouter Acteur" HorizontalAlignment="Left" Margin="483,129,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="BtnAjouterActeur_Click"/>
+        <Label x:Name="LblLstActeurComplet" Content="Acteurs disponible" HorizontalAlignment="Left" Margin="332,11,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LblLstActeurSelectioner" Content="Acteurs Choisi" HorizontalAlignment="Left" Margin="659,8,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="LstRealisateurComplet" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="314,251,0,0" Height="158" VerticalAlignment="Top" HorizontalAlignment="Left" Width="164"/>
+        <ListBox x:Name="LstRealisateurChoisi" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="617,251,0,0" HorizontalAlignment="Left" Width="169" Height="158" VerticalAlignment="Top"/>
+        <Button x:Name="BtnRetirerRealisateur" Content="Retirer Réalisateur" HorizontalAlignment="Left" Margin="483,284,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="BtnRetirerRealisateur_Click"/>
+        <Button x:Name="BtnAjouterRealisateur" Content="Ajouter Réalisateur" HorizontalAlignment="Left" Margin="483,339,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" FontSize="14" FontFamily="Arial" Width="126" Height="26" Click="BtnAjouterRealisateur_Click"/>
+        <Label x:Name="LblRealisateurComplet" Content="Réalisateur disponible" HorizontalAlignment="Left" Margin="326,219,0,0" VerticalAlignment="Top" Height="25" Width="125"/>
+        <Label x:Name="LblRealisateurChoisi" Content="Réalisateur choisi" HorizontalAlignment="Left" Margin="651,218,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

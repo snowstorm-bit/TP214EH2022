@@ -1,6 +1,6 @@
 ﻿#region MÉTADONNÉES
 
-// Nom du fichier : AjouterFilm.xaml.cs
+// Nom du fichier : GererFilm.xaml.cs
 // Date de création : 2022-04-20
 // Date de modification : 2022-04-20
 
@@ -9,6 +9,7 @@
 #region USING
 
 using System.Windows;
+using MonCine.Data.Classes;
 using MonCine.Data.Classes.DAL;
 using MongoDB.Driver;
 
@@ -16,7 +17,7 @@ using MongoDB.Driver;
 
 namespace MonCine.Vues
 {
-    public partial class AjouterFilm : Window
+    public partial class GererFilm : Window
     {
         #region ATTRIBUTS
 
@@ -28,7 +29,7 @@ namespace MonCine.Vues
 
         #region CONSTRUCTEURS
 
-        public AjouterFilm(IMongoClient pClient, IMongoDatabase pDb)
+        public GererFilm(IMongoClient pClient, IMongoDatabase pDb, Film film = null)
         {
             InitializeComponent();
             _client = pClient;

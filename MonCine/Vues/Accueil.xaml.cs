@@ -119,9 +119,7 @@ namespace MonCine.Vues
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            //FFilms frmFilms = new FFilms(_dal, _cinematheque);
-
-            //this.NavigationService.Navigate(frmFilms);
+            NavigationService.Navigate(new FFilms(_client, _db));
         }
     }
 }

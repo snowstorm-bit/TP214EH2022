@@ -68,8 +68,8 @@ namespace MonCine.Vues
 
         private void InitialiserComposantes()
         {
-            txtNomAbonne.Text = _abonne.Nom;
-            _recompenses.ForEach(x => optRecompense.Items.Add(x));
+            TxtNomAbonne.Text = _abonne.Nom;
+            _recompenses.ForEach(x => OptRecompense.Items.Add(x));
         }
 
         /// <summary>

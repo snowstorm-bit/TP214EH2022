@@ -51,18 +51,30 @@ namespace MonCine.Vues
         #region MÉTHODES
 
         private void RadioTousLesFilm_Checked(object sender, RoutedEventArgs e)
-            => AfficherTousLesFilms();
+        {
+            LstFilms.Items.Clear();
+            _films
+                .Where(film => film.EstAffiche)
+                .ToList()
+                .ForEach(film => LstFilms.Items.Add(film));
+        }
 
         private void RadioEstAffiche_Checked(object sender, RoutedEventArgs e)
-            => AfficherLesFilmsALaffiche();
+        {
+            LstFilms.Items.Clear();
+            _films
+                .Where(film => film.EstAffiche)
+                .ToList()
+                .ForEach(film => LstFilms.Items.Add(film));
+        }
 
         private void ButtonAjouterFilmClick(object sender, RoutedEventArgs e)
         {
-            AjouterFilm ajouter = new AjouterFilm(_client, _db);
-            ajouter.Show();
+            GererFilm ajouterFilm = new GererFilm(_client, _db);
+            ajouterFilm.Show();
         }
 
-        private void BtnRetourAcceuil_Click(object sender, RoutedEventArgs e)
+        private void BtnRetourAccueil_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Retour acceuil non implémenté", "Information!",
                 MessageBoxButton.OK, MessageBoxImage.Information);
@@ -70,30 +82,22 @@ namespace MonCine.Vues
 
         void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var itemFilm = ((FrameworkElement)e.OriginalSource).DataContext;
+            object itemFilm = ((FrameworkElement)e.OriginalSource).DataContext;
             if (itemFilm != null)
             {
-                ModifierFilm modifierFilm = new ModifierFilm((Film)itemFilm, _client, _db);
+                GererFilm modifierFilm = new GererFilm(_client, _db, (Film)itemFilm);
                 modifierFilm.Show();
             }
         }
 
         private void AfficherLesFilmsALaffiche()
         {
-            lstFilms.Items.Clear();
-            _films
-                .Where(film => film.EstAffiche)
-                .ToList()
-                .ForEach(film => lstFilms.Items.Add(film));
+
         }
 
         private void AfficherTousLesFilms()
         {
-            lstFilms.Items.Clear();
-            _films
-                .Where(film => film.EstAffiche)
-                .ToList()
-                .ForEach(film => lstFilms.Items.Add(film));
+
         }
 
         #endregion
