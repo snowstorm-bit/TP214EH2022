@@ -167,12 +167,39 @@ namespace MonCine.Data.Classes.DAL
         }
 
         /// <summary>
+        /// Permet d'insérer le film reçu en paramètre dans la base de données de la cinémathèque.
+        /// </summary>
+        /// <param name="pFilms">Le film à insérer dans la base de données de la cinémathèque</param>
+        public void InsererUnFilm(Film pFilm)
+        {
+            DbContext.InsererUnDocument(pFilm);
+        }
+
+        /// <summary>
         /// Permet d'insérer la liste des films reçue en paramètre dans la base de données de la cinémathèque.
         /// </summary>
         /// <param name="pFilms">Liste des films à insérer dans la base de données de la cinémathèque</param>
         public void InsererPlusieursFilm(List<Film> pFilms)
         {
             DbContext.InsererPlusieursDocuments(pFilms);
+        }
+
+        /// <summary>
+        /// Permet de mettre à jour la liste des projections du film spécifié en paramètre. 
+        /// </summary>
+        /// <param name="pFilm">Film à mettre la liste des projections à jour</typeparam>
+        public void MAJProjectionsFilm(Film pFilm)
+        {
+            MAJUnFilm(
+                x => x.Projections == pFilm.Projections,
+                new List<(Expression<Func<Film, object>> field, object value)>
+                {
+                    (
+                        x => x.Projections,
+                        pFilm.Projections
+                    ),
+                }
+            );
         }
 
         /// <summary>

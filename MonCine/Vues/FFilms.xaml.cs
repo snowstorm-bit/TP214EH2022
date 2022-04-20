@@ -53,19 +53,14 @@ namespace MonCine.Vues
 
         private void RbTousLesFilm_Checked(object sender, RoutedEventArgs e)
         {
-            LstFilms.Items.Clear();
-            _films.ForEach(film => LstFilms.Items.Add(film));
-            AfficherBtnPourFilmEstAffiche(false);
+            ChargerFilms();
+            ActiverBtnPourFilmEstAffiche(false);
         }
 
         private void RbEstAffiche_Checked(object sender, RoutedEventArgs e)
         {
-            LstFilms.Items.Clear();
-            _films
-                .Where(film => film.EstAffiche)
-                .ToList()
-                .ForEach(film => LstFilms.Items.Add(film));
-            AfficherBtnPourFilmEstAffiche(true);
+            ChargerFilms();
+            ActiverBtnPourFilmEstAffiche(true);
         }
 
         private void BtnAjouterFilm_Click(object sender, RoutedEventArgs e)
@@ -87,22 +82,21 @@ namespace MonCine.Vues
 
         private void BtnRetourAccueil_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Retour acceuil non implémenté", "Information!",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            NavigationService.GoBack();
         }
 
         private void LstFilms_OnSelectionChanged(object pSender, SelectionChangedEventArgs pE)
         {
-            AfficherBtnsPourFilmSelectionne();
+            ActiverBtnsPourFilmSelectionneEstAffiche();
         }
 
-        private void AfficherBtnPourFilmEstAffiche(bool afficher)
+        private void ActiverBtnPourFilmEstAffiche(bool afficher)
         {
-            BtnAjouterFilm.Visibility = ObtenirVisibilite(afficher);
-            AfficherBtnsPourFilmSelectionne();
+            BtnAjouterFilm.IsEnabled = afficher;
+            ActiverBtnsPourFilmSelectionneEstAffiche();
         }
 
-        private void AfficherBtnsPourFilmSelectionne()
+        private void ActiverBtnsPourFilmSelectionneEstAffiche()
         {
             bool itemIsSelected = LstFilms.SelectedIndex > -1;
 
@@ -110,20 +104,61 @@ namespace MonCine.Vues
                 ? (Film)LstFilms.SelectedItem
                 : null;
 
-            bool btnsSontVisibles = itemIsSelected;
+            bool btnsSontActifs = itemIsSelected;
 
             if (_filmSelectionne != null)
-                btnsSontVisibles &= _filmSelectionne.EstAffiche;
+                btnsSontActifs &= _filmSelectionne.EstAffiche;
 
-            Visibility visibilite = ObtenirVisibilite(btnsSontVisibles);
-
-            BtnModifierFilm.Visibility = visibilite;
-            BtnVoirProjection.Visibility = visibilite;
+            BtnModifierFilm.IsEnabled = btnsSontActifs;
+            BtnVoirProjection.IsEnabled = btnsSontActifs;
+            BtnRetirerDeAffiche.IsEnabled = btnsSontActifs;
         }
 
-        private Visibility ObtenirVisibilite(bool pEstVisible)
+        private void BtnRetirerDeAffiche_OnClick(object pSender, RoutedEventArgs pE)
         {
-            return pEstVisible ? Visibility.Visible : Visibility.Hidden;
+            if (_filmSelectionne != null)
+            {
+                if (_filmSelectionne.EstAffiche && _filmSelectionne.RetirerFilmEstAffiche())
+                {
+                    _dalFilm.MAJProjectionsFilm(_filmSelectionne);
+                    _films[_films.FindIndex(x => x.Id == _filmSelectionne.Id)] = _filmSelectionne;
+                    ChargerFilms();
+                }
+                else
+                {
+                    AfficherMsgErreur("Il a été impossible de retiré le film sélectionné des films à l'affiche.");
+                }
+            }
+        }
+
+        private void ChargerFilms()
+        {
+            LstFilms.Items.Clear();
+
+            if (RbEstAffiche.IsChecked == true)
+            {
+                _films
+                    .Where(film => film.EstAffiche)
+                    .ToList()
+                    .ForEach(film => LstFilms.Items.Add(film));
+            }
+            else
+            {
+                _films.ForEach(film => LstFilms.Items.Add(film));
+            }
+        }
+
+        /// <summary>
+        /// Permet d'afficher le message reçu en paramètre dans un dialogue pour afficher ce dernier.
+        /// </summary>
+        /// <param name="pMsg">Message d'erreur à afficher</param>
+        private void AfficherMsgErreur(string pMsg)
+        {
+            MessageBox.Show(
+                "Une erreur s'est produite !!\n\n" + pMsg, "Erreur",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error
+            );
         }
 
         #endregion

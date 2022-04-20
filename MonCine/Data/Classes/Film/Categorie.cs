@@ -1,7 +1,7 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Categorie.cs
-// Date de création : 2022-04-14
+// Date de création : 2022-04-20
 // Date de modification : 2022-04-20
 
 #endregion
@@ -44,6 +44,17 @@ namespace MonCine.Data.Classes
         {
             Id = pId;
             Nom = pNom;
+        }
+
+        #endregion
+
+        #region MÉTHODES
+
+        public override bool Equals(object? obj)
+        {
+            if (obj != null && obj is Categorie categorie)
+                return Id == categorie.Id;
+            return false;
         }
 
         #endregion

@@ -5,35 +5,90 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MonCine.Vues"
         mc:Ignorable="d"
-        Title="GererFilm" Height="450" Width="800">
-    <Grid>
+        Title="GererFilm" Height="500" Width="800">
+    <Grid Margin="15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="ActionTitre" HorizontalAlignment="Left" Margin="10,11,0,0" TextWrapping="Wrap" Text="Ajouter un film" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="36" />
-        <Button x:Name="BtnAjouterFilm" Content="Ajouter film" HorizontalAlignment="Left" Margin="149,377,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnAjouterFilm_Click"/>
-        <Button x:Name="BtnAnnuler" Content="Annuler" HorizontalAlignment="Left" Margin="11,377,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnAnnuler_Click"/>
-        <TextBox x:Name="TxtNomFilm" HorizontalAlignment="Left" Margin="110,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="175"/>
-        <Label x:Name="LblNom" Content="Nom :" HorizontalAlignment="Left" Margin="15,58,0,0" VerticalAlignment="Top"/>
-        <Calendar HorizontalAlignment="Left" Margin="15,157,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="DropDownCategories" HorizontalAlignment="Left" Margin="110,99,0,0" VerticalAlignment="Top" Width="170" Height="20"/>
-        <Label x:Name="LblCategorie" Content="Catégorie :" HorizontalAlignment="Left" Margin="15,93,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="LblDateInternational" Content="Date de sortie international" HorizontalAlignment="Left" Margin="19,129,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="LstActeursComplet" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="303,41,0,0" HorizontalAlignment="Left" Width="169" Height="158" VerticalAlignment="Top"/>
-        <ListBox x:Name="LstActeursChoisi" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="609,41,0,0" HorizontalAlignment="Left" Width="174" Height="158" VerticalAlignment="Top"/>
-        <Button x:Name="BtnRetirerActeur" Content="Retirer Acteur" HorizontalAlignment="Left" Margin="477,74,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="BtnRetirerActeur_Click"/>
-        <Button x:Name="BtnAjouterActeur" Content="Ajouter Acteur" HorizontalAlignment="Left" Margin="477,129,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" FontSize="14" FontFamily="Arial" Height="26" Click="BtnAjouterActeur_Click"/>
-        <Label x:Name="LblLstActeurComplet" Content="Acteurs disponible" HorizontalAlignment="Left" Margin="326,11,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="LblLstActeurSelectioner" Content="Acteurs Choisi" HorizontalAlignment="Left" Margin="656,8,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="LstRealisateurComplet" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="307,251,0,0" HorizontalAlignment="Left" Width="164" Height="158" VerticalAlignment="Top"/>
-        <ListBox x:Name="LstRealisateurChoisi" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FFEDEBEB" Margin="614,251,0,0" HorizontalAlignment="Left" Width="169" Height="158" VerticalAlignment="Top"/>
-        <Button x:Name="BtnRetirerRealisateur" Content="Retirer Réalisateur" HorizontalAlignment="Left" Margin="477,284,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnRetirerRealisateur_Click"/>
-        <Button x:Name="BtnAjouterRealisateur" Content="Ajouter Réalisateur" HorizontalAlignment="Left" Margin="477,339,0,0" VerticalAlignment="Top" Background="#FF7CB8FF" Width="126" Height="26" FontSize="14" FontFamily="Arial" Click="BtnAjouterRealisateur_Click"/>
-        <Label x:Name="LblRealisateurComplet" Content="Réalisateur disponible" HorizontalAlignment="Left" Margin="320,219,0,0" VerticalAlignment="Top" Height="25" Width="125"/>
-        <Label x:Name="LblRealisateurChoisi" Content="Réalisateur choisi" HorizontalAlignment="Left" Margin="648,218,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="ActionTitre" TextWrapping="Wrap" Grid.Row="0" FontSize="22" FontWeight="Bold" Padding="3,0,0,0" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="8*" />
+                <RowDefinition Height="1.5*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label x:Name="LblNom" Content="Nom :" Grid.Column="0" Grid.Row="0" />
+                <TextBox x:Name="TxtNom" Width="175" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"/>
+                <Label x:Name="LblCategorie" Content="Catégorie :" Grid.Column="1" Grid.Row="0" />
+                <ComboBox x:Name="CboCategories" Width="175" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"/>
+                <Label x:Name="LblDateInternational" Content="Date de sortie international" Grid.Column="2"
+                       Grid.Row="0" />
+                <DatePicker x:Name="DpDateSortie" Grid.Column="2" Grid.Row="1" Width="175" HorizontalAlignment="Left" InputScope="Time"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="8*" />
+                        <RowDefinition Height="1.5*" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="LblActeursDispos" Content="Acteurs disponibles" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
+                    <ListBox x:Name="LstActeursDispos" Background="#FFEDEBEB" Width="165" Height="190" Grid.Column="0" Grid.Row="1" SelectionChanged="LstActeursDispos_OnSelectionChanged"/>
+                    <Button x:Name="BtnAjouterActeur" Content="Ajouter acteur" Background="#FF7CB8FF" Width="125" Height="25" Grid.Column="0" Grid.Row="2" Click="BtnAjouterActeur_Click" />
+                    <Label x:Name="LblActeursChoisis" Content="Acteurs choisis" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"/>
+                    <ListBox x:Name="LstActeursChoisis" Background="#FFEDEBEB" Width="165" Height="190" Grid.Column="1" Grid.Row="1" SelectionChanged="LstActeursChoisis_OnSelectionChanged"/>
+                    <Button x:Name="BtnRetirerActeur" Content="Retirer acteur" Background="#FF7CB8FF" Width="125" Height="25" Grid.Column="1" Grid.Row="2" Click="BtnRetirerActeur_Click" />
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="8*" />
+                        <RowDefinition Height="1.5*" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="LblRealisateursDispos" Content="Réalisateurs disponibles" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
+                    <ListBox x:Name="LstRealisateursDispos" Background="#FFEDEBEB" Width="165" Height="190" Grid.Column="0" Grid.Row="1" SelectionChanged="LstRealisateursDispos_SelectionChanged" />
+                    <Button x:Name="BtnAjouterRealisateur" Content="Ajouter réalisateur" Background="#FF7CB8FF" Width="125" Height="25" Grid.Column="0" Grid.Row="2" Click="BtnAjouterRealisateur_Click" />
+                    <Label x:Name="LblRealisateursChoisis" Content="Réalisateurs choisis" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"/>
+                    <ListBox x:Name="LstRealisateursChoisis" Background="#FFEDEBEB" Width="165" Height="180" Grid.Column="1" Grid.Row="1" SelectionChanged="LstRealisateursChoisis_SelectionChanged" />
+                    <Button x:Name="BtnRetirerRealisateur" Content="Retirer réalisateur" Background="#FF7CB8FF" Width="125" Height="25" Grid.Column="1" Grid.Row="2" Click="BtnRetirerRealisateur_Click" />
+                </Grid>
+            </Grid>
 
+            <Button x:Name="BtnAnnuler" Content="Annuler" Background="#FF7CB8FF" Width="125" Height="25" Grid.Row="2" HorizontalAlignment="Right" Margin="0, 0, 135, 0" Click="BtnAnnuler_Click"/>
+            <Button x:Name="BtnActionFilm" Background="#FF7CB8FF" Width="125" Height="25" Grid.Row="2" HorizontalAlignment="Right" Click="BtnActionFilm_Click"/>
+        </Grid>
     </Grid>
 </Window>
