@@ -268,16 +268,17 @@ namespace MonCine.Vues
                 }
                 else
                 {
-                    //List<(Expression<Func<Film, object>> field, object value)> filtre = new List<(Expression<Func<Film, object>> field, object value)>
-                    //{
-                    //    (
-                    //        x => x.
-                    //    )
-                    //}
-                    //_dalFilm.MAJUnFilm(
-                    //    x => x.Id == _film.Id,
-                        
-                    //);
+                    List<(Expression<Func<Film, object>> field, object value)> filtre =
+                        new List<(Expression<Func<Film, object>> field, object value)>();
+                    if (_film.Nom != TxtNom.Text)
+                    {
+                        filtre.Add((
+                            x => x.Nom,
+                            TxtNom.Text
+                        ));
+                    }
+
+                    _dalFilm.MAJUnFilm(x => x.Id == _film.Id, filtre);
                 }
             }
         }
@@ -286,18 +287,34 @@ namespace MonCine.Vues
         {
             string msgErr = "";
             if (string.IsNullOrWhiteSpace(TxtNom.Text))
+            {
                 msgErr += "Il faut entrer un nom pour le film n'étant pas uniquement composé d'espace\n";
+            }
+
             if (CboCategories.SelectedIndex < 0)
+            {
                 msgErr += "Il faut sélectionner une catégorie pour le film\n";
+            }
+
             if (DpDateSortie.SelectedDate == null)
+            {
                 msgErr += "Il faut sélectionner une date de sortie internationnale pour le film \n";
+            }
+
             if (_acteursChoisis.Count < 1)
+            {
                 msgErr += "Il faut choisir au moins un acteur\n";
+            }
+
             if (_realisateursChoisis.Count < 1)
+            {
                 msgErr += "Il faut choisir au moins un réalisateur";
+            }
 
             if (msgErr == "")
+            {
                 return true;
+            }
 
             AfficherMsgErreur(msgErr);
             return false;

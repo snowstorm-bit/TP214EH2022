@@ -132,6 +132,7 @@ namespace MonCine.Data.Classes.DAL
         /// </returns>
         private List<Film> ObtenirObjetsDansFilms(List<Film> pFilms)
         {
+            // Conserver ce if dans la méthode pour éviter une erreur de type StackOverflow
             if (_dalAbonne == null)
             {
                 _dalAbonne = new DALAbonne(_dalCategorie, _dalActeur, _dalRealisateur, this, MongoDbClient, Db);

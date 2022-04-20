@@ -37,7 +37,6 @@ namespace MonCine.Data.Classes.DAL
             _dalFilm = new DALFilm(dalCategorie, dalActeur, dalRealisateur, MongoDbClient, Db);
         }
 
-
         /// <summary>
         /// Permet la création de la couche d'accès aux données pour les objets de type <see cref="Reservation"/> selon les couches d'accès aux données spécifiés en paramètre.
         /// </summary>
@@ -68,7 +67,7 @@ namespace MonCine.Data.Classes.DAL
         /// </summary>
         /// <typeparam name="TField">Type du champs sur lequel le filtrage sera effectué</typeparam>
         /// <param name="pField">Champs sur lequel le filtrage sera effectué</param>
-        /// <param name="pObjects">Liste des valeurs à filtrer/param>
+        /// <param name="pObjects">Liste des valeurs à filtrer</param>
         /// <returns>La liste des réservations filtrée selon le champs et les valeurs spécifiés en paramètre.</returns>
         public List<Reservation> ObtenirReservationsFiltrees<TField>(Expression<Func<Reservation, TField>> pField,
             List<TField> pObjects)

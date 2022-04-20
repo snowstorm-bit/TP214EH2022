@@ -60,8 +60,13 @@ namespace MonCine.Data.Classes
                 if (Projections != null && Projections.Count > 0)
                 {
                     Projection derniereProjection = Projections[Projections.Count - 1];
+
                     if (derniereProjection.EstActive)
-                        return derniereProjection.DateFin > DateTime.Now;
+                    {
+                        derniereProjection.EstActive = DateSortie < derniereProjection.DateDebut;
+
+                        return derniereProjection.DateFin > DateTime.Now && derniereProjection.EstActive;
+                    }
                 }
 
                 return false;

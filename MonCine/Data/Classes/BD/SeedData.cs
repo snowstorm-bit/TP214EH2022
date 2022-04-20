@@ -463,13 +463,14 @@ namespace MonCine.Data.Classes.BD
 
                 if (!reservations.Any())
                 {
-                    int nbReservations = SeedData._rand.Next(0, pFilms.Count);
+                    int nbReservations = SeedData._rand.Next(20, 40);
 
                     for (int i = 0; i < nbReservations; i++)
                     {
-                        if (pFilms[i].Projections.Count > 0)
+                        int indexFilm = SeedData._rand.Next(0, pFilms.Count - 1);
+
+                        if (pFilms[indexFilm].Projections.Count > 0)
                         {
-                            int indexFilm = SeedData._rand.Next(0, pFilms.Count - 1);
                             int indexProjection = pFilms[indexFilm].Projections.Count - 1;
                             int nbPlaces = SeedData._rand.Next(1, 10);
 

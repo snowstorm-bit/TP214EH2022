@@ -75,7 +75,7 @@ namespace MonCine.Data.Classes
             {
                 if (value < 1)
                     throw new ArgumentOutOfRangeException(
-                        "Le nombre de places maximum pour la projection doit être supérieur à 0"
+                        "Le nombre de places maximum pour la projection doit être supérieur à 0."
                     );
                 _nbPlacesMax = value;
             }

@@ -65,14 +65,12 @@ namespace MonCine.Vues
 
         private void BtnAjouterFilm_Click(object sender, RoutedEventArgs e)
         {
-            GererFilm ajouterFilm = new GererFilm(_client, _db);
-            ajouterFilm.Show();
+            NavigationService.Navigate(new GererFilm(_client, _db));
         }
 
         private void BtnModifierFilm_Click(object pSender, RoutedEventArgs pE)
         {
-            GererFilm modifierFilm = new GererFilm(_client, _db, _filmSelectionne);
-            modifierFilm.Show();
+            NavigationService.Navigate(new GererFilm(_client, _db, _filmSelectionne));
         }
 
         private void BtnVoirProjections_Click(object pSender, RoutedEventArgs pE)
