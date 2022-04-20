@@ -1,19 +1,23 @@
-﻿using System;
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : FFilms.xaml.cs
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-20
+
+#endregion
+
+#region USING
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MonCine.Data;
 using MonCine.Data.Classes;
 using MonCine.Data.Classes.DAL;
 using MongoDB.Driver;
+
+#endregion
 
 namespace MonCine.Vues
 {
@@ -22,10 +26,16 @@ namespace MonCine.Vues
     /// </summary>
     public partial class FFilms : Page
     {
+        #region ATTRIBUTS
+
         private IMongoClient _client;
         private IMongoDatabase _db;
         private DALFilm _dalFilm;
         private List<Film> _films;
+
+        #endregion
+
+        #region CONSTRUCTEURS
 
         public FFilms(IMongoClient pClient, IMongoDatabase pDb)
         {
@@ -35,6 +45,10 @@ namespace MonCine.Vues
             _dalFilm = new DALFilm(_client, _db);
             _films = _dalFilm.ObtenirFilms();
         }
+
+        #endregion
+
+        #region MÉTHODES
 
         private void RadioTousLesFilm_Checked(object sender, RoutedEventArgs e)
             => AfficherTousLesFilms();
@@ -81,5 +95,7 @@ namespace MonCine.Vues
                 .ToList()
                 .ForEach(film => lstFilms.Items.Add(film));
         }
+
+        #endregion
     }
 }
