@@ -24,61 +24,62 @@ namespace MonCine.Vues
     {
         private IMongoClient _client;
         private IMongoDatabase _db;
-        private DALFilm _dal;
-        private List<Film> _filmList;
+        private DALFilm _dalFilm;
+        private List<Film> _films;
 
         public FFilms(IMongoClient pClient, IMongoDatabase pDb)
         {
             InitializeComponent();
             _client = pClient;
             _db = pDb;
-            _dal = new DALFilm(_client, _db);
-            _filmList = _dal.ObtenirFilms();
+            _dalFilm = new DALFilm(_client, _db);
+            _films = _dalFilm.ObtenirFilms();
         }
 
-        private void radioEstPasAffiche_Checked(object sender, RoutedEventArgs e)
-        {
-            lstFilms.Items.Clear();
+        private void RadioTousLesFilm_Checked(object sender, RoutedEventArgs e)
+            => AfficherTousLesFilms();
 
-            _filmList
-                .Where(film => film.EstAffiche == false).ToList()
-                .ForEach(film => lstFilms.Items.Add(film));
-        }
-
-        private void radioTousLesFilm_Checked(object sender, RoutedEventArgs e)
-        {
-            lstFilms.Items.Clear();
-
-            _filmList.ForEach(film => lstFilms.Items.Add(film));
-        }
-        private void radioEstAffiche_Checked(object sender, RoutedEventArgs e)
-        {
-            lstFilms.Items.Clear();
-            _filmList
-                .Where(film => film.EstAffiche == false).ToList()
-                .ForEach(film => lstFilms.Items.Add(film));
-        }
+        private void RadioEstAffiche_Checked(object sender, RoutedEventArgs e)
+            => AfficherLesFilmsALaffiche();
 
         private void ButtonAjouterFilmClick(object sender, RoutedEventArgs e)
         {
-            AjouterFilm ajouter = new AjouterFilm();
+            AjouterFilm ajouter = new AjouterFilm(_client, _db);
             ajouter.Show();
         }
 
-        private void btnRetourAcceuil_Click(object sender, RoutedEventArgs e)
+        private void BtnRetourAcceuil_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Retour acceuil non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Retour acceuil non implémenté", "Information!",
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var item = ((FrameworkElement)e.OriginalSource).DataContext;
-            if (item != null)
+            var itemFilm = ((FrameworkElement)e.OriginalSource).DataContext;
+            if (itemFilm != null)
             {
-                ModifierFilm modifierFilm = new ModifierFilm((Film)item, _client, _db);
+                ModifierFilm modifierFilm = new ModifierFilm((Film)itemFilm, _client, _db);
                 modifierFilm.Show();
             }
         }
 
+        private void AfficherLesFilmsALaffiche()
+        {
+            lstFilms.Items.Clear();
+            _films
+                .Where(film => film.EstAffiche)
+                .ToList()
+                .ForEach(film => lstFilms.Items.Add(film));
+        }
+
+        private void AfficherTousLesFilms()
+        {
+            lstFilms.Items.Clear();
+            _films
+                .Where(film => film.EstAffiche)
+                .ToList()
+                .ForEach(film => lstFilms.Items.Add(film));
+        }
     }
 }

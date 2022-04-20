@@ -10,45 +10,58 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MonCine.Data.Classes.DAL;
+using MongoDB.Driver;
 
 namespace MonCine.Vues
 {
     public partial class AjouterFilm : Window
     {
+        private IMongoClient _client;
+        private IMongoDatabase _db;
+        private DALFilm _dalFilm;
 
-        public AjouterFilm()
+        public AjouterFilm(IMongoClient pClient, IMongoDatabase pDb)
         {
             InitializeComponent();
+            _client = pClient;
+            _db = pDb;
+            _dalFilm = new DALFilm(_client, _db);
         }
 
-        private void btnAjouterFilm_Copy_Click(object sender, RoutedEventArgs e)
+        private void BtnAjouterFilm_Copy_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void btnAjouterFilm_Click(object sender, RoutedEventArgs e)
+        private void BtnAjouterFilm_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Ajouter un nouveau film, non implémenté!", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Ajouter un nouveau film, non implémenté!", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void btnRetirerActeur_Click(object sender, RoutedEventArgs e)
+        private void BtnRetirerActeur_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Retiré un acteur non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Retiré un acteur non implémenté", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void btnAjouterActeur_Click(object sender, RoutedEventArgs e)
+        private void BtnAjouterActeur_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Ajouté un acteur non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Ajouté un acteur non implémenté", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void btnRetirerRealisateur_Click(object sender, RoutedEventArgs e)
+        private void BtnRetirerRealisateur_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Retiré un réalisateur non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Retiré un réalisateur non implémenté", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void btnAjouterRealisateur_Click(object sender, RoutedEventArgs e)
+        private void BtnAjouterRealisateur_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Ajouter un realisateur non implémenté", "Information!", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Ajouter un realisateur non implémenté", "Information!", 
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
