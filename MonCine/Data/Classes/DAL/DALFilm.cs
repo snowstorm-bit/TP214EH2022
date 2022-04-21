@@ -214,7 +214,7 @@ namespace MonCine.Data.Classes.DAL
             }
 
             MAJUnFilm(
-                x => x.Projections == pFilm.Projections,
+                x => x.Id == pFilm.Id,
                 new List<(Expression<Func<Film, object>> field, object value)>
                 {
                     (
