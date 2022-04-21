@@ -54,15 +54,6 @@ namespace MonCine.Vues
 
         #region MÉTHODES
 
-        private void LstAbonnes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var item = ((FrameworkElement)e.OriginalSource).DataContext;
-            if (item != null)
-            {
-                OffrirRecompense offrirRecompense = new OffrirRecompense(_client, _db, (Abonne)item);
-                offrirRecompense.Show();
-            }
-        }
         private void btnRetour_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
