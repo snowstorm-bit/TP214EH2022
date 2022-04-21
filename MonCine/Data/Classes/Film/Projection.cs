@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Projection.cs
-// Date de création : 2022-04-14
-// Date de modification : 2022-04-19
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -57,9 +57,12 @@ namespace MonCine.Data.Classes
             set
             {
                 if (DateDebut > value)
+                {
                     throw new ArgumentOutOfRangeException(
                         "La date de fin de la projection doit être supérieure à la date de début de la projection."
                     );
+                }
+
                 _dateFin = value;
             }
         }
@@ -74,9 +77,12 @@ namespace MonCine.Data.Classes
             set
             {
                 if (value < 1)
+                {
                     throw new ArgumentOutOfRangeException(
-                        "Le nombre de places maximum pour la projection doit être supérieur à 0"
+                        "Le nombre de places maximum pour la projection doit être supérieur à 0."
                     );
+                }
+
                 _nbPlacesMax = value;
             }
         }
@@ -91,9 +97,12 @@ namespace MonCine.Data.Classes
             set
             {
                 if (value < 0)
+                {
                     throw new ArgumentOutOfRangeException(
                         "Il est impossible d'affectuer une valeur négative au nombre de places restantes de la projection"
                     );
+                }
+
                 _nbPlacesRestantes = value;
             }
         }
@@ -116,6 +125,19 @@ namespace MonCine.Data.Classes
             NbPlacesRestantes = NbPlacesMax;
             EstActive = true;
         }
+
+        #endregion
+
+        #region MÉTHODES
+
+        #region Overrides of Object
+
+        public override string ToString()
+        {
+            return "Début de la projection: " + DateDebut.ToString("d MMMM") + "\rDate de fin: " + _dateFin.ToString("d MMMM") + " \r\rNb. place restantes: " + _nbPlacesRestantes;
+        }
+
+        #endregion
 
         #endregion
     }

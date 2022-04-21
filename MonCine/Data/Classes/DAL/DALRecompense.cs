@@ -1,21 +1,35 @@
-﻿using System;
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : DALRecompense.cs
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
+
+#endregion
+
+#region USING
+
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
+using MonCine.Data.Classes.BD;
 using MongoDB.Bson;
 using MongoDB.Driver;
+
+#endregion
 
 namespace MonCine.Data.Classes.DAL
 {
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour les objets de type <see cref="Recompense"/>
     /// </summary>
-    public class DALRecompense : DAL<Recompense>
+    public class DALRecompense : DAL
     {
+        #region ATTRIBUTS
+
         /// <summary>
         /// Couche d'accès aux données pour les films
         /// </summary>
-        private DALFilm _dalFilm;
+        private readonly DALFilm _dalFilm;
+
+        #endregion
 
         #region CONSTRUCTEURS
 
@@ -46,7 +60,7 @@ namespace MonCine.Data.Classes.DAL
             List<Recompense> recompenses = new List<Recompense>();
             recompenses.AddRange(ObtenirObjetsDansRecompenses(
                 new List<Recompense>(
-                    DbContext.ObtenirCollection()
+                    MongoDbContext.ObtenirCollection<Recompense>(Db)
                         .Aggregate()
                         .OfType<TicketGratuit>()
                         .ToList())
@@ -91,7 +105,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pRecompenses">Liste des récompenses à insérer dans la base de données</param>
         public void InsererPlusieursRecompenses(List<Recompense> pRecompenses)
         {
-            DbContext.InsererPlusieursDocuments(pRecompenses);
+            MongoDbContext.InsererPlusieursDocuments(Db, pRecompenses);
         }
 
         #endregion

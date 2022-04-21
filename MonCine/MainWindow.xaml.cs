@@ -1,16 +1,14 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : MainWindow.xaml.cs
-// Date de création : 2022-04-06
-// Date de modification : 2022-04-10
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
 #region USING
 
-using System.Collections.Generic;
 using System.Windows;
-using MonCine.Data;
 using MonCine.Data.Classes;
 using MonCine.Data.Classes.BD;
 using MonCine.Data.Classes.DAL;
@@ -25,9 +23,13 @@ namespace MonCine
     /// </summary>
     public partial class MainWindow : Window
     {
-        #region CONSTRUCTEURS
+        #region ATTRIBUTS
 
-        private Utilisateur _utilisateurCourant;
+        private readonly Utilisateur _utilisateurCourant;
+
+        #endregion
+
+        #region CONSTRUCTEURS
 
         public MainWindow()
         {
@@ -47,6 +49,10 @@ namespace MonCine
                 AfficherMsgErreur("Vous n'êtes pas connecté en tant qu'administrateur");
             }
         }
+
+        #endregion
+
+        #region MÉTHODES
 
         /// <summary>
         /// Permet d'afficher le message reçu en paramètre dans un dialogue pour afficher ce dernier.

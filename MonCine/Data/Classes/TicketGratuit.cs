@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : TicketGratuit.cs
-// Date de création : 2022-04-12
-// Date de modification : 2022-04-12
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 

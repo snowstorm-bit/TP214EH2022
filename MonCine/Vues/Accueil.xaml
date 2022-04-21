@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Accueil">
 
-    <Grid ShowGridLines="True" Background="#FF0492C5" Margin="0,0,0,-6">
+    <Grid Background="#FFF" Margin="0,0,0,-6">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="*"/>
@@ -19,17 +19,15 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <Image Grid.Row="0" Grid.Column="0" Source="/Ressources/Images/Logo.png"/>
-        <Label Grid.Row="0" Grid.Column="1" Content="Mon ciné" Foreground="#FFF9F7F7" HorizontalAlignment="Center" VerticalAlignment="Stretch" FontFamily="MV Boli" FontSize="36" FontWeight="Bold"/>
+        <Label Grid.Row="0" Grid.Column="1" Content="Mon ciné" Foreground="#000" HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="48"/>
         <Border Grid.Row="1" Grid.Column="1" BorderThickness="2,2,2,2" Height="280" Opacity="0.3" Margin="50,0,50,0">
             <Border.Background>
                 <ImageBrush ImageSource="/Ressources/Images/sallecinema.jpg" />
             </Border.Background>
         </Border>
-
-        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,0" Height="250">
-            <Button Content="Consulter les abonnées" Grid.Column="0" Grid.Row="0" Background="#FF220C0C" Foreground="#FFFDFCFC" FontWeight="Bold" Margin="150,25,150,25" Click="BtnConsulterAbonne_Click" Height="30"/>
-            <Button Content="Consulter les films" Grid.Column="0" Grid.Row="0" Background="#FF220C0C" Foreground="#FFFDFCFC" FontWeight="Bold" Margin="150,25,150,25" Click="BtnConsulterFilms_Click" Height="30"/>
-        </StackPanel>
+        <Button x:Name="btnRetour" Content="Consulter les abonnées"
+            Background="#FF7CB8FF" Width="130" Height="25" Margin="285,110,285,0" Click="BtnConsulterAbonne_Click" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" />
+        <Button x:Name="btnRetour_Copy" Content="Consulter les films"
+            Background="#FF7CB8FF" Width="130" Height="25" Margin="285,171,285,0" Click="BtnConsulterFilms_Click" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" />
     </Grid>
 </Page>

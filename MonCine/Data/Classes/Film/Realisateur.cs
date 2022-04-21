@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Realisateur.cs
-// Date de création : 2022-04-14
-// Date de modification : 2022-04-20
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -44,6 +44,25 @@ namespace MonCine.Data.Classes
         {
             Id = pId;
             Nom = pNom;
+        }
+
+        #endregion
+
+        #region MÉTHODES
+
+        public override string ToString()
+        {
+            return Nom;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj != null && obj is Realisateur realisateur)
+            {
+                return Id == realisateur.Id;
+            }
+
+            return false;
         }
 
         #endregion

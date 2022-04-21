@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : DALAdministrateur.cs
-// Date de création : 2022-04-18
-// Date de modification : 2022-04-20
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using MonCine.Data.Classes.BD;
 using MongoDB.Driver;
 
 #endregion
@@ -19,7 +20,7 @@ namespace MonCine.Data.Classes.DAL
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour les objets de type <see cref="Administrateur"/>.
     /// </summary>
-    public class DALAdministrateur : DAL<Administrateur>
+    public class DALAdministrateur : DAL
     {
         #region CONSTRUCTEURS
 
@@ -43,11 +44,14 @@ namespace MonCine.Data.Classes.DAL
         /// <exception cref="IndexOutOfRangeException">Lancée lorsqu'il y a plus de 1 administrateur dans la base de données.</exception>
         public Administrateur ObtenirAdministrateur()
         {
-            List<Administrateur> administrateurs = DbContext.ObtenirCollectionListe();
+            List<Administrateur> administrateurs = MongoDbContext.ObtenirCollectionListe<Administrateur>(Db);
             if (administrateurs.Count > 1)
+            {
                 throw new IndexOutOfRangeException(
                     "La base de données contient plus d'un administrateur pour la cinémathèque."
                 );
+            }
+
             return administrateurs.Count == 1 ? administrateurs[0] : null;
         }
 
@@ -57,7 +61,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pAdministrateur">Administrateur à insérer dans la base de données</param>
         public void InsererAdministrateur(Administrateur pAdministrateur)
         {
-            DbContext.InsererUnDocument(pAdministrateur);
+            MongoDbContext.InsererUnDocument(Db, pAdministrateur);
         }
 
         #endregion

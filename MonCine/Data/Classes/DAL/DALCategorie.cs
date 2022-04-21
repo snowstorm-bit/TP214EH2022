@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : DALCategorie.cs
-// Date de création : 2022-04-18
-// Date de modification : 2022-04-20
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MonCine.Data.Classes.BD;
 using MongoDB.Driver;
 
 #endregion
@@ -20,7 +21,7 @@ namespace MonCine.Data.Classes.DAL
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour les objets de type <see cref="Categorie"/>
     /// </summary>
-    public class DALCategorie : DAL<Categorie>
+    public class DALCategorie : DAL
     {
         #region CONSTRUCTEURS
 
@@ -43,7 +44,7 @@ namespace MonCine.Data.Classes.DAL
         /// <returns>La liste des catégories contenue dans la base de données de la cinémathèque.</returns>
         public List<Categorie> ObtenirCategories()
         {
-            return DbContext.ObtenirCollectionListe();
+            return MongoDbContext.ObtenirCollectionListe<Categorie>(Db);
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace MonCine.Data.Classes.DAL
         public List<Categorie> ObtenirCategorieesFiltres<TField>(Expression<Func<Categorie, TField>> pField,
             List<TField> pObjects)
         {
-            return DbContext.ObtenirDocumentsFiltres(pField, pObjects);
+            return MongoDbContext.ObtenirDocumentsFiltres(Db, pField, pObjects);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pCategories">Liste des catégories à insérer dans la base de données</param>
         public void InsererPlusieursCategories(List<Categorie> pCategories)
         {
-            DbContext.InsererPlusieursDocuments(pCategories);
+            MongoDbContext.InsererPlusieursDocuments(Db, pCategories);
         }
 
         #endregion

@@ -5,7 +5,12 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonCine", "MonCine\MonCine.csproj", "{CD87F92F-165D-4177-A761-FDF337F1BE15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonCineTests", "MonCineTests\MonCineTests.csproj", "{E868BE3D-E9C1-4BFE-99DF-430DD136395C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonCineTests", "MonCineTests\MonCineTests.csproj", "{E868BE3D-E9C1-4BFE-99DF-430DD136395C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CEDF41AC-9009-4C86-87FB-6110C6B8AE7D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : SeedData.cs
-// Date de création : 2022-04-18
-// Date de modification : 2022-04-19
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -30,7 +30,7 @@ namespace MonCine.Data.Classes.BD
         /// <summary>
         /// Générateur de nombres pseudo-alatoire
         /// </summary>
-        private static Random _rand = new Random();
+        private static readonly Random _rand = new Random();
 
         #endregion
 
@@ -78,7 +78,8 @@ namespace MonCine.Data.Classes.BD
             SeedData.GenererReservations(dalReservation, dalFilm.ObtenirFilms(), dalAbonne.ObtenirAbonnes());
 
             // Récompenses
-            SeedData.GenererRecompenses(new DALRecompense(dalFilm, pClient, pDb), dalFilm.ObtenirFilms(), dalAbonne.ObtenirAbonnes());
+            SeedData.GenererRecompenses(new DALRecompense(dalFilm, pClient, pDb), dalFilm.ObtenirFilms(),
+                dalAbonne.ObtenirAbonnes());
         }
 
         /// <summary>
@@ -94,6 +95,7 @@ namespace MonCine.Data.Classes.BD
                 Administrateur administrateur = pDalAdministrateur.ObtenirAdministrateur();
 
                 if (administrateur == null)
+                {
                     pDalAdministrateur.InsererAdministrateur(
                         new Administrateur(
                             new ObjectId(),
@@ -102,6 +104,7 @@ namespace MonCine.Data.Classes.BD
                             "admin"
                         )
                     );
+                }
             }
             catch (IndexOutOfRangeException e)
             {
@@ -129,6 +132,7 @@ namespace MonCine.Data.Classes.BD
                 List<Categorie> categories = pDalCategorie.ObtenirCategories();
 
                 if (categories.Count == 0)
+                {
                     pDalCategorie.InsererPlusieursCategories(
                         new List<Categorie>
                         {
@@ -139,6 +143,7 @@ namespace MonCine.Data.Classes.BD
                             new(new ObjectId(), "Romance")
                         }
                     );
+                }
             }
             catch (ExceptionBD e)
             {
@@ -162,6 +167,7 @@ namespace MonCine.Data.Classes.BD
                 List<Acteur> acteurs = pDalActeur.ObtenirActeurs();
 
                 if (acteurs.Count == 0)
+                {
                     pDalActeur.InsererPlusieursActeurs(
                         new List<Acteur>
                         {
@@ -176,6 +182,7 @@ namespace MonCine.Data.Classes.BD
                             new(new ObjectId(), "Mélina Chaud")
                         }
                     );
+                }
             }
             catch (ExceptionBD e)
             {
@@ -199,6 +206,7 @@ namespace MonCine.Data.Classes.BD
                 List<Realisateur> realisateurs = pDalRealisateur.ObtenirRealisateurs();
 
                 if (realisateurs.Count == 0)
+                {
                     pDalRealisateur.InsererPlusieursRealisateurs(
                         new List<Realisateur>()
                         {
@@ -209,6 +217,7 @@ namespace MonCine.Data.Classes.BD
                             new(new ObjectId(), "Michael Bay")
                         }
                     );
+                }
             }
             catch (ExceptionBD e)
             {
@@ -460,22 +469,22 @@ namespace MonCine.Data.Classes.BD
             try
             {
                 List<Reservation> reservations = pDalReservation.ObtenirReservations();
-
                 if (!reservations.Any())
                 {
-                    int nbReservations = SeedData._rand.Next(0, pFilms.Count);
+                    int nbReservations = SeedData._rand.Next(20, 40);
 
                     for (int i = 0; i < nbReservations; i++)
                     {
-                        if (pFilms[i].Projections.Count > 0)
+                        int indexFilm = SeedData._rand.Next(0, pFilms.Count - 1);
+
+                        if (pFilms[indexFilm].Projections.Count > 0)
                         {
-                            int indexFilm = SeedData._rand.Next(0, pFilms.Count - 1);
                             int indexProjection = pFilms[indexFilm].Projections.Count - 1;
                             int nbPlaces = SeedData._rand.Next(1, 10);
 
                             if (pFilms[indexFilm].Projections[indexProjection].NbPlacesRestantes - nbPlaces > -1)
                             {
-                                reservations.Add(new Reservation(
+                                pDalReservation.InsererUneReservation(new Reservation(
                                     new ObjectId(),
                                     pFilms[indexFilm].Projections[indexProjection].DateDebut,
                                     pFilms[indexFilm],
@@ -484,11 +493,6 @@ namespace MonCine.Data.Classes.BD
                                 ));
                             }
                         }
-                    }
-
-                    if (reservations.Count > 0)
-                    {
-                        pDalReservation.InsererPlusieursReservations(reservations);
                     }
                 }
             }
@@ -500,28 +504,6 @@ namespace MonCine.Data.Classes.BD
             {
                 throw new ExceptionBD($"Méthode : GenererReservations - Exception : {e.Message}");
             }
-        }
-
-        /// <summary>
-        /// Permet de générer des récompenses de type <see cref="TicketGratuit"/>.
-        /// </summary>
-        /// <param name="pFilms">Liste des films</param>
-        /// <param name="pAbonnes">Liste des abonnés</param>
-        /// <returns>Liste des récompenses de type <see cref="TicketGratuit"/> générée.</returns>
-        private static List<TicketGratuit> GenererTicketGratuits(List<Film> pFilms, List<Abonne> pAbonnes)
-        {
-            List<TicketGratuit> ticketGratuits = new List<TicketGratuit>();
-            int nbTicketGratuitsGeneres = SeedData._rand.Next(pFilms.Count);
-            for (int i = 0; i < nbTicketGratuitsGeneres; i++)
-            {
-                ticketGratuits.Add(new TicketGratuit(
-                    new ObjectId(),
-                    pFilms[i].Id,
-                    pAbonnes[SeedData._rand.Next(0, pAbonnes.Count - 1)].Id)
-                );
-            }
-
-            return ticketGratuits;
         }
 
         /// <summary>
@@ -541,7 +523,9 @@ namespace MonCine.Data.Classes.BD
                     recompenses.AddRange(SeedData.GenererTicketGratuits(pFilms, pAbonnes));
 
                     if (recompenses.Count > 0)
+                    {
                         pDalRecompense.InsererPlusieursRecompenses(recompenses);
+                    }
                 }
             }
             catch (ExceptionBD e)
@@ -553,6 +537,29 @@ namespace MonCine.Data.Classes.BD
                 throw new ExceptionBD($"Méthode : GenererRecompenses - Exception : {e.Message}");
             }
         }
+
+        /// <summary>
+        /// Permet de générer des récompenses de type <see cref="TicketGratuit"/>.
+        /// </summary>
+        /// <param name="pFilms">Liste des films</param>
+        /// <param name="pAbonnes">Liste des abonnés</param>
+        /// <returns>Liste des récompenses de type <see cref="TicketGratuit"/> générée.</returns>
+        private static List<TicketGratuit> GenererTicketGratuits(List<Film> pFilms, List<Abonne> pAbonnes)
+        {
+            List<TicketGratuit> ticketGratuits = new List<TicketGratuit>();
+            int nbTicketGratuitsGeneres = SeedData._rand.Next(2, pFilms.Count);
+            for (int i = 0; i < nbTicketGratuitsGeneres; i++)
+            {
+                ticketGratuits.Add(new TicketGratuit(
+                    new ObjectId(),
+                    pFilms[i].Id,
+                    pAbonnes[SeedData._rand.Next(0, pAbonnes.Count - 1)].Id)
+                );
+            }
+
+            return ticketGratuits;
+        }
+
         #endregion
     }
 }

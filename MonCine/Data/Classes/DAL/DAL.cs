@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : DAL.cs
-// Date de création : 2022-04-18
-// Date de modification : 2022-04-20
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -19,8 +19,7 @@ namespace MonCine.Data.Classes.DAL
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour le type de document spécifié.
     /// </summary>
-    /// <typeparam name="TDocument">Type du document</typeparam>
-    public abstract class DAL<TDocument>
+    public abstract class DAL
     {
         #region ATTRIBUTS
 
@@ -33,20 +32,6 @@ namespace MonCine.Data.Classes.DAL
         /// Base de données MongoDB utilisée
         /// </summary>
         protected internal IMongoDatabase Db;
-
-        /// <summary>
-        /// Gestionnaire de la collection pour le type de document spécifié
-        /// </summary>
-        private MongoDbContext<TDocument> _dbContext;
-
-        #endregion
-
-        #region PROPRIÉTÉS ET INDEXEURS
-
-        public MongoDbContext<TDocument> DbContext
-        {
-            get { return _dbContext; }
-        }
 
         #endregion
 
@@ -61,7 +46,6 @@ namespace MonCine.Data.Classes.DAL
         {
             MongoDbClient = pClient ?? OuvrirConnexion();
             Db = pDb ?? ObtenirBd();
-            _dbContext = new MongoDbContext<TDocument>(Db);
         }
 
         #endregion

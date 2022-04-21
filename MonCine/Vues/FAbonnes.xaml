@@ -6,8 +6,8 @@
       mc:Ignorable="d"
       Title="FAbonnes" Height="450" Width="800">
     <Grid Background="White">
-        <Label Grid.Row="0" Content="Liste des abonnées" Foreground="Black" HorizontalAlignment="Center" FontFamily="MV Boli" FontSize="36" FontWeight="Bold" Margin="0,12,0,378"/>
-        <ListView Name="LstAbonnes" Margin="0,96,0,10" MouseDoubleClick="LstAbonnes_MouseDoubleClick">
+        <Label Grid.Row="0" Content="Liste des abonnées" Foreground="Black" HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" Margin="0,12,0,378"/>
+        <ListView Name="LstAbonnes" Margin="0,96,0,10">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -21,7 +21,7 @@
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Nom}" FontWeight="Bold" TextAlignment="Left"></TextBlock>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="" FontWeight="Bold" TextAlignment="Left"></TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Nb. seances : " TextAlignment="Left">
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Nombre de séances: " TextAlignment="Left">
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding NbSeances}" TextAlignment="Left"></TextBlock>
                         </TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Preference}" TextAlignment="Left"></TextBlock>
@@ -31,5 +31,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button x:Name="btnRetour" Content="Retour"
+            Background="#FF7CB8FF" Width="130" Height="25" Margin="10,66,660,359" Click="btnRetour_Click" />
     </Grid>
 </Page>

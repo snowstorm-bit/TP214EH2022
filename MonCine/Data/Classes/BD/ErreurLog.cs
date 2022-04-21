@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : ErreurLog.cs
-// Date de création : 2022-04-12
-// Date de modification : 2022-04-12
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -28,7 +28,7 @@ namespace MonCine.Data.Classes.BD
         private static readonly TraceSource traceur = new TraceSource("TraceSourceApp");
 
         #endregion
-
+        
         #region MÉTHODES
 
         /// <summary>

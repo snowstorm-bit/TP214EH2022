@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Preference.cs
-// Date de création : 2022-04-19
-// Date de modification : 2022-04-20
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -10,7 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using MonCine.Data.Classes;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -73,8 +72,11 @@ namespace MonCine.Data.Classes
             set
             {
                 if (value.Count > Preference.NB_MAX_CATEGORIES_PREF)
+                {
                     throw new IndexOutOfRangeException(
                         $"Le nombre de catégories préférées est supérieur à {Preference.NB_MAX_CATEGORIES_PREF}");
+                }
+
                 _categoriesId = value;
             }
         }
@@ -89,8 +91,11 @@ namespace MonCine.Data.Classes
             set
             {
                 if (value.Count > Preference.NB_MAX_ACTEURS_PREF)
+                {
                     throw new IndexOutOfRangeException(
                         $"Le nombre d'acteurs préférés est supérieur à {Preference.NB_MAX_ACTEURS_PREF}");
+                }
+
                 _acteursId = value;
             }
         }
@@ -105,8 +110,11 @@ namespace MonCine.Data.Classes
             set
             {
                 if (value.Count > Preference.NB_MAX_REALISATEURS_PREF)
+                {
                     throw new IndexOutOfRangeException(
                         $"Le nombre de réalisateurs préférés est supérieur à {Preference.NB_MAX_REALISATEURS_PREF}");
+                }
+
                 _realisateursId = value;
             }
         }
@@ -148,32 +156,51 @@ namespace MonCine.Data.Classes
 
         #endregion
 
+        #region MÉTHODES
 
         #region Overrides of Object
 
         public override string ToString()
         {
             string sautDeLigne = "\n";
-            string aucun = "Aucun";
+            string aucun = "Aucune";
             string strFormate = sautDeLigne + "Catégories: ";
+            int nbIterations = 0;
+
             if (Categories.Count > 0)
             {
                 foreach (Categorie categorie in Categories)
                 {
-                    strFormate += categorie.Nom + " | ";
+                    if (Categories.IndexOf(categorie) == Categories.Count - 1)
+                    {
+                        strFormate += categorie.Nom;
+                    }
+                    else
+                    {
+                        strFormate += categorie.Nom + ", ";
+                    }
+                    nbIterations++;
                 }
             }
             else
             {
-                strFormate += $"{aucun}e";
+                strFormate += aucun;
             }
 
             strFormate += sautDeLigne + "Acteurs: ";
+
             if (Acteurs.Count > 0)
             {
                 foreach (Acteur acteur in Acteurs)
                 {
-                    strFormate += acteur.Nom + " | ";
+                    if (Acteurs.IndexOf(acteur) == Acteurs.Count - 1)
+                    {
+                        strFormate += acteur.Nom;
+                    }
+                    else
+                    {
+                        strFormate += acteur.Nom + ", ";
+                    }
                 }
             }
             else
@@ -182,20 +209,29 @@ namespace MonCine.Data.Classes
             }
 
             strFormate += sautDeLigne + "Réalisateurs: ";
+
             if (Realisateurs.Count > 0)
             {
                 foreach (Realisateur realisateur in Realisateurs)
                 {
-                    strFormate += realisateur.Nom + " | ";
+                    if (Realisateurs.IndexOf(realisateur) == Realisateurs.Count - 1)
+                    {
+                        strFormate += realisateur.Nom;
+                    }
+                    else
+                    {
+                        strFormate += realisateur.Nom + ", ";
+                    }
                 }
             }
             else
             {
                 strFormate += aucun;
             }
-
-            return strFormate + sautDeLigne;
+            return strFormate;
         }
+
+        #endregion
 
         #endregion
     }

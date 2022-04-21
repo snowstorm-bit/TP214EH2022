@@ -1,20 +1,21 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : FFilms.xaml.cs
-// Date de création : 2022-04-20
-// Date de modification : 2022-04-20
+// Date de création : 2022-04-21
+// Date de modification : 2022-04-21
 
 #endregion
 
 #region USING
 
+using MonCine.Data.Classes;
+using MonCine.Data.Classes.DAL;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using MonCine.Data.Classes;
-using MonCine.Data.Classes.DAL;
-using MongoDB.Driver;
 
 #endregion
 
@@ -27,9 +28,9 @@ namespace MonCine.Vues
     {
         #region ATTRIBUTS
 
-        private IMongoClient _client;
-        private IMongoDatabase _db;
-        private DALFilm _dalFilm;
+        private readonly IMongoClient _client;
+        private readonly IMongoDatabase _db;
+        private readonly DALFilm _dalFilm;
         private List<Film> _films;
         private Film _filmSelectionne;
 
@@ -40,44 +41,54 @@ namespace MonCine.Vues
         public FFilms(IMongoClient pClient, IMongoDatabase pDb)
         {
             InitializeComponent();
+
             _client = pClient;
             _db = pDb;
             _dalFilm = new DALFilm(_client, _db);
-            _films = _dalFilm.ObtenirFilms();
-            RbTousLesFilms.IsChecked = true;
+
+            Loaded += OnLoaded;
         }
 
         #endregion
 
         #region MÉTHODES
 
+        private void OnLoaded(object pSender, RoutedEventArgs pE)
+        {
+            ObtenirFilms();
+        }
+
+        private void ObtenirFilms()
+        {
+            _films = _dalFilm.ObtenirFilms();
+            if (LstFilms.Items.Count != 0)
+            {
+                ChargerLstFilms(false);
+            }
+            else
+            {
+                RbTousLesFilms.IsChecked = true;
+            }
+        }
+
         private void RbTousLesFilm_Checked(object sender, RoutedEventArgs e)
         {
-            LstFilms.Items.Clear();
-            _films.ForEach(film => LstFilms.Items.Add(film));
-            AfficherBtnPourFilmEstAffiche(false);
+            ChargerLstFilms(false);
         }
 
         private void RbEstAffiche_Checked(object sender, RoutedEventArgs e)
         {
-            LstFilms.Items.Clear();
-            _films
-                .Where(film => film.EstAffiche)
-                .ToList()
-                .ForEach(film => LstFilms.Items.Add(film));
-            AfficherBtnPourFilmEstAffiche(true);
+            ChargerLstFilms(true);
         }
 
         private void BtnAjouterFilm_Click(object sender, RoutedEventArgs e)
         {
-            GererFilm ajouterFilm = new GererFilm(_client, _db);
-            ajouterFilm.Show();
+            NavigationService.Navigate(new GererFilm(_client, _db));
         }
 
         private void BtnModifierFilm_Click(object pSender, RoutedEventArgs pE)
         {
-            GererFilm modifierFilm = new GererFilm(_client, _db, _filmSelectionne);
-            modifierFilm.Show();
+            NavigationService.Navigate(new GererFilm(_client, _db, _filmSelectionne));
         }
 
         private void BtnVoirProjections_Click(object pSender, RoutedEventArgs pE)
@@ -87,43 +98,94 @@ namespace MonCine.Vues
 
         private void BtnRetourAccueil_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Retour acceuil non implémenté", "Information!",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            NavigationService.GoBack();
         }
 
         private void LstFilms_OnSelectionChanged(object pSender, SelectionChangedEventArgs pE)
         {
-            AfficherBtnsPourFilmSelectionne();
+            ActiverBtnsPourFilmSelectionneEstAffiche();
         }
 
-        private void AfficherBtnPourFilmEstAffiche(bool afficher)
+        private void ActiverBtnPourFilmEstAffiche(bool afficher)
         {
-            BtnAjouterFilm.Visibility = ObtenirVisibilite(afficher);
-            AfficherBtnsPourFilmSelectionne();
+            BtnAjouterFilm.IsEnabled = afficher;
+            ActiverBtnsPourFilmSelectionneEstAffiche();
         }
 
-        private void AfficherBtnsPourFilmSelectionne()
+        private void ActiverBtnsPourFilmSelectionneEstAffiche()
         {
             bool itemIsSelected = LstFilms.SelectedIndex > -1;
-
             _filmSelectionne = itemIsSelected
                 ? (Film)LstFilms.SelectedItem
                 : null;
 
-            bool btnsSontVisibles = itemIsSelected;
+            bool btnsSontActifs = itemIsSelected;
 
             if (_filmSelectionne != null)
-                btnsSontVisibles &= _filmSelectionne.EstAffiche;
+            {
+                btnsSontActifs &= _filmSelectionne.EstAffiche;
+            }
 
-            Visibility visibilite = ObtenirVisibilite(btnsSontVisibles);
-
-            BtnModifierFilm.Visibility = visibilite;
-            BtnVoirProjection.Visibility = visibilite;
+            BtnModifierFilm.IsEnabled = btnsSontActifs;
+            BtnVoirProjection.IsEnabled = btnsSontActifs;
+            BtnRetirerDeAffiche.IsEnabled = btnsSontActifs;
         }
 
-        private Visibility ObtenirVisibilite(bool pEstVisible)
+        private void BtnRetirerDeAffiche_OnClick(object pSender, RoutedEventArgs pE)
         {
-            return pEstVisible ? Visibility.Visible : Visibility.Hidden;
+            if (_filmSelectionne != null)
+            {
+                if (_filmSelectionne.EstAffiche && _filmSelectionne.RetirerFilmEstAffiche())
+                {
+                    try
+                    {
+                        _dalFilm.MAJProjectionsFilm(_filmSelectionne);
+                        _films[_films.FindIndex(x => x.Id == _filmSelectionne.Id)] = _filmSelectionne;
+                        RbTousLesFilms.IsChecked = true;
+                        ChargerLstFilms(!(bool)RbTousLesFilms.IsChecked);
+                    }
+                    catch (Exception e)
+                    {
+                        AfficherMsgErreur(e.Message);
+                    }
+                }
+                else
+                {
+                    AfficherMsgErreur("Il a été impossible de retiré le film sélectionné des films à l'affiche.");
+                }
+            }
+        }
+
+        private void ChargerLstFilms(bool affichagePourRbEstAffiche)
+        {
+            LstFilms.Items.Clear();
+
+            if (affichagePourRbEstAffiche)
+            {
+                _films
+                    .Where(film => film.EstAffiche)
+                    .ToList()
+                    .ForEach(film => LstFilms.Items.Add(film));
+            }
+            else
+            {
+                _films.ForEach(film => LstFilms.Items.Add(film));
+            }
+
+            ActiverBtnPourFilmEstAffiche(affichagePourRbEstAffiche);
+        }
+
+        /// <summary>
+        /// Permet d'afficher le message reçu en paramètre dans un dialogue pour afficher ce dernier.
+        /// </summary>
+        /// <param name="pMsg">Message d'erreur à afficher</param>
+        private void AfficherMsgErreur(string pMsg)
+        {
+            MessageBox.Show(
+                "Une erreur s'est produite !!\n\n" + pMsg, "Erreur",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error
+            );
         }
 
         #endregion

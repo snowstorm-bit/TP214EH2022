@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Film.cs
-// Date de création : 2022-04-12
-// Date de modification : 2022-04-12
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -20,7 +20,11 @@ namespace MonCine.Data.Classes
 {
     public class Film
     {
+        #region CONSTANTES ET ATTRIBUTS STATIQUES
+
         private const int NB_MAX_PROJECTIONS_PAR_ANNEE = 2;
+
+        #endregion
 
         #region PROPRIÉTÉS ET INDEXEURS
 
@@ -61,7 +65,9 @@ namespace MonCine.Data.Classes
                 {
                     Projection derniereProjection = Projections[Projections.Count - 1];
                     if (derniereProjection.EstActive)
-                        return derniereProjection.DateFin > DateTime.Now;
+                    {
+                        return DateSortie < derniereProjection.DateDebut && derniereProjection.DateFin > DateTime.Now;
+                    }
                 }
 
                 return false;
@@ -83,9 +89,11 @@ namespace MonCine.Data.Classes
             get
             {
                 if (Notes == null)
+                {
                     throw new NullReferenceException(
                         "Il est impossible d'obtenir la note moyenne du film puisque la liste des notes est nulle."
                     );
+                }
 
                 int nbNotes = Notes.Count;
                 return nbNotes > 0
@@ -160,6 +168,21 @@ namespace MonCine.Data.Classes
         #region MÉTHODES
 
         /// <summary>
+        /// Permet de retirer un film à l'affiche.
+        /// </summary>
+        /// <returns>Vrai si le film n'est plus à l'affiche. Faux si l'opération n'a pas pu être effectuée.</returns>
+        public bool RetirerFilmEstAffiche()
+        {
+            if (Projections.Count > 0)
+            {
+                Projections[Projections.Count - 1].EstActive = false;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Permet d'ajouter une projection au film.
         /// </summary>
         /// <param name="pDateDebut"></param>
@@ -175,13 +198,28 @@ namespace MonCine.Data.Classes
         public void AjouterProjection(DateTime pDateDebut, DateTime pDateFin, int pNbPlacesMax)
         {
             if (DateSortie > pDateDebut)
+            {
                 throw new ArgumentOutOfRangeException(
+                    "pDateDebut",
                     "La date de début de la projection doit être supérieure à la date de sortie internationnale du film."
                 );
+            }
+
             if (DateSortie > pDateFin)
+            {
                 throw new ArgumentOutOfRangeException(
+                    "pDateFin",
                     "La date de fin de la projection doit être supérieure à la date de sortie internationnale du film."
                 );
+            }
+
+            if (pDateDebut < DateTime.Now)
+            {
+                throw new ArgumentOutOfRangeException(
+                    "pDateDebut",
+                    "La date de début de la projection doit être supérieure à la date actuelle."
+                );
+            }
 
             #region Reprojection
 
@@ -208,9 +246,11 @@ namespace MonCine.Data.Classes
                     }
 
                     if (cptProjections == Film.NB_MAX_PROJECTIONS_PAR_ANNEE - 1)
+                    {
                         throw new InvalidOperationException(
                             $"Il est impossible d'ajouter une autre projection puisque celle-ci a déjà été projetée {Film.NB_MAX_PROJECTIONS_PAR_ANNEE} fois dans la même année"
                         );
+                    }
                 }
 
                 derniereProjection.EstActive = false;
