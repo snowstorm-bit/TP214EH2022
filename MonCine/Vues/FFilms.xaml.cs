@@ -141,8 +141,15 @@ namespace MonCine.Vues
                     {
                         _dalFilm.MAJProjectionsFilm(_filmSelectionne);
                         _films[_films.FindIndex(x => x.Id == _filmSelectionne.Id)] = _filmSelectionne;
-                        RbTousLesFilms.IsChecked = true;
-                        ChargerLstFilms(!(bool)RbTousLesFilms.IsChecked);
+                        if (RbTousLesFilms.IsChecked == true)
+                        {
+                            ChargerLstFilms(!(bool)RbTousLesFilms.IsChecked);
+
+                        }
+                        else
+                        {
+                            ChargerLstFilms((bool)RbEstAffiche.IsChecked);
+                        }
                     }
                     catch (Exception e)
                     {
