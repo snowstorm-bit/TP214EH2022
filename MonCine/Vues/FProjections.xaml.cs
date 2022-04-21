@@ -39,6 +39,13 @@ namespace MonCine.Vues
             _client = pClient;
             _db = pDb;
             _film = pFilm;
+
+            _film.Projections.ForEach(x => LstProjections.Items.Add(x));
+        }
+
+        private void btnRetour_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
         }
 
         #endregion
