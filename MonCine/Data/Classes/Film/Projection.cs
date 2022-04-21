@@ -127,12 +127,17 @@ namespace MonCine.Data.Classes
         }
 
         #endregion
+
+        #region MÉTHODES
+
         #region Overrides of Object
 
         public override string ToString()
         {
-            return "Début de la projection: " + DateDebut.ToString("d MMMM") + "\r Date de fin: " + _dateFin.ToString("d MMMM") + " \r Nb. place restantes: " + _nbPlacesRestantes;
+            return "Début de la projection: " + DateDebut.ToString("d MMMM") + "\rDate de fin: " + _dateFin.ToString("d MMMM") + " \r\rNb. place restantes: " + _nbPlacesRestantes;
         }
+
+        #endregion
 
         #endregion
     }

@@ -8,13 +8,14 @@
 
 #region USING
 
+using MonCine.Data.Classes;
+using MonCine.Data.Classes.DAL;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using MonCine.Data.Classes;
-using MonCine.Data.Classes.DAL;
-using MongoDB.Driver;
 
 #endregion
 
@@ -114,7 +115,6 @@ namespace MonCine.Vues
         private void ActiverBtnsPourFilmSelectionneEstAffiche()
         {
             bool itemIsSelected = LstFilms.SelectedIndex > -1;
-
             _filmSelectionne = itemIsSelected
                 ? (Film)LstFilms.SelectedItem
                 : null;
@@ -137,10 +137,17 @@ namespace MonCine.Vues
             {
                 if (_filmSelectionne.EstAffiche && _filmSelectionne.RetirerFilmEstAffiche())
                 {
-                    _dalFilm.MAJProjectionsFilm(_filmSelectionne);
-                    _films[_films.FindIndex(x => x.Id == _filmSelectionne.Id)] = _filmSelectionne;
-                    RbTousLesFilms.IsChecked = true;
-                    ChargerLstFilms(!(bool)RbTousLesFilms.IsChecked);
+                    try
+                    {
+                        _dalFilm.MAJProjectionsFilm(_filmSelectionne);
+                        _films[_films.FindIndex(x => x.Id == _filmSelectionne.Id)] = _filmSelectionne;
+                        RbTousLesFilms.IsChecked = true;
+                        ChargerLstFilms(!(bool)RbTousLesFilms.IsChecked);
+                    }
+                    catch (Exception e)
+                    {
+                        AfficherMsgErreur(e.Message);
+                    }
                 }
                 else
                 {

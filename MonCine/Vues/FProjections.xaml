@@ -9,7 +9,7 @@
     <Grid>
         
         <Grid Background="White">
-            <Label Grid.Row="0" Content="Liste des projections&#xD;&#xA;" Foreground="Black" HorizontalAlignment="Center" FontFamily="MV Boli" FontSize="36" FontWeight="Bold" Margin="0,12,0,378"/>
+            <Label Grid.Row="0" Content="Liste des projections&#xD;&#xA;" Foreground="Black" HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" Margin="0,12,0,378"/>
             <ListView x:Name="LstProjections" Margin="0,96,0,10">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -30,7 +30,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             <Button x:Name="btnRetour" Content="Retour"
-                Background="#FF7CB8FF" Width="130" Height="25" Margin="10,25,660,400" Click="btnRetour_Click" />
+                Background="#FF7CB8FF" Width="130" Height="25" Margin="10,66,660,359" Click="btnRetour_Click" />
         </Grid>
 
     </Grid>

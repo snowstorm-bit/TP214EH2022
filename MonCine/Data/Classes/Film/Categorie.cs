@@ -50,6 +50,10 @@ namespace MonCine.Data.Classes
 
         #region MÉTHODES
 
+        public override string ToString()
+        {
+            return Nom;
+        }
         public override bool Equals(object? obj)
         {
             if (obj != null && obj is Categorie categorie)
