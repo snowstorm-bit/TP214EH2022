@@ -144,7 +144,6 @@ namespace MonCine.Vues
                         if (RbTousLesFilms.IsChecked == true)
                         {
                             ChargerLstFilms(!(bool)RbTousLesFilms.IsChecked);
-
                         }
                         else
                         {
