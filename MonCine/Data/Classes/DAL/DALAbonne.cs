@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MonCine.Data.Classes.BD;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -28,22 +29,22 @@ namespace MonCine.Data.Classes.DAL
         /// <summary>
         /// Couche d'accès aux données pour les catégories
         /// </summary>
-        private DALCategorie _dalCategorie;
+        private readonly DALCategorie _dalCategorie;
 
         /// <summary>
         /// Couche d'accès aux données pour les acteurs
         /// </summary>
-        private DALActeur _dalActeur;
+        private readonly DALActeur _dalActeur;
 
         /// <summary>
         /// Couche d'accès aux données pour les réalisateurs
         /// </summary>
-        private DALRealisateur _dalRealisateur;
+        private readonly DALRealisateur _dalRealisateur;
 
         /// <summary>
         /// Couche d'accès aux données pour les réservations
         /// </summary>
-        private DALReservation _dalReservation;
+        private readonly DALReservation _dalReservation;
 
         #endregion
 
@@ -110,7 +111,7 @@ namespace MonCine.Data.Classes.DAL
         /// <returns>La liste des abonnés contenue dans la base de données de la cinémathèque.</returns>
         public List<Abonne> ObtenirAbonnes()
         {
-            return ObtenirObjetsDansAbonnes(DbContext.ObtenirCollectionListe());
+            return ObtenirObjetsDansAbonnes(MongoDbContext.ObtenirCollectionListe<Abonne>(Db));
         }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace MonCine.Data.Classes.DAL
         public List<Abonne> ObtenirAbonnesFiltres<TField>(Expression<Func<Abonne, TField>> pField,
             List<TField> pObjects)
         {
-            return ObtenirObjetsDansAbonnes(DbContext.ObtenirDocumentsFiltres(pField, pObjects));
+            return ObtenirObjetsDansAbonnes(MongoDbContext.ObtenirDocumentsFiltres(Db, pField, pObjects));
         }
 
         /// <summary>
@@ -157,7 +158,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pAbonnes">Liste des abonnés à insérer dans la base de données</param>
         public void InsererPlusieursAbonnes(List<Abonne> pAbonnes)
         {
-            DbContext.InsererPlusieursDocuments(pAbonnes);
+            MongoDbContext.InsererPlusieursDocuments(Db, pAbonnes);
         }
 
         #endregion

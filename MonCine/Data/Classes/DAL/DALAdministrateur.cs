@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using MonCine.Data.Classes.BD;
 using MongoDB.Driver;
 
 #endregion
@@ -43,7 +44,7 @@ namespace MonCine.Data.Classes.DAL
         /// <exception cref="IndexOutOfRangeException">Lancée lorsqu'il y a plus de 1 administrateur dans la base de données.</exception>
         public Administrateur ObtenirAdministrateur()
         {
-            List<Administrateur> administrateurs = DbContext.ObtenirCollectionListe();
+            List<Administrateur> administrateurs = MongoDbContext.ObtenirCollectionListe<Administrateur>(Db);
             if (administrateurs.Count > 1)
             {
                 throw new IndexOutOfRangeException(
@@ -60,7 +61,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pAdministrateur">Administrateur à insérer dans la base de données</param>
         public void InsererAdministrateur(Administrateur pAdministrateur)
         {
-            DbContext.InsererUnDocument(pAdministrateur);
+            MongoDbContext.InsererUnDocument(Db, pAdministrateur);
         }
 
         #endregion

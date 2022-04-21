@@ -28,10 +28,10 @@ namespace MonCine.Vues
     {
         #region ATTRIBUTS
 
-        private IMongoClient _client;
-        private IMongoDatabase _db;
-        private List<Abonne> _abonnes;
-        private DALAbonne _dalAbonne;
+        private readonly IMongoClient _client;
+        private readonly IMongoDatabase _db;
+        private readonly List<Abonne> _abonnes;
+        private readonly DALAbonne _dalAbonne;
 
         #endregion
 

@@ -33,13 +33,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Vues\ModifierFilm.xaml.cs">
+    <Compile Update="Vues\FProgrammerProjection.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Vues\ModifierFilm.xaml">
+    <Page Update="Vues\FProgrammerProjection.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

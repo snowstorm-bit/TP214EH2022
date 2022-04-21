@@ -26,10 +26,10 @@ namespace MonCine.Vues
     {
         #region ATTRIBUTS
 
-        private Abonne _abonne;
+        private readonly Abonne _abonne;
         private List<Recompense> _recompenses;
-        private IMongoClient _client;
-        private IMongoDatabase _db;
+        private readonly IMongoClient _client;
+        private readonly IMongoDatabase _db;
         private DALFilm _dalFilm;
         private DALRecompense _dalRecompense;
 

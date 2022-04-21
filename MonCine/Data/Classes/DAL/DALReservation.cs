@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MonCine.Data.Classes.BD;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -28,7 +29,7 @@ namespace MonCine.Data.Classes.DAL
         /// <summary>
         /// Couche d'accès aux données pour les films
         /// </summary>
-        private DALFilm _dalFilm;
+        private readonly DALFilm _dalFilm;
 
         #endregion
 
@@ -76,7 +77,7 @@ namespace MonCine.Data.Classes.DAL
         /// <returns>La liste des réservations contenue dans la base de données de la cinémathèque.</returns>
         public List<Reservation> ObtenirReservations()
         {
-            return ObtenirObjetsDansReservations(DbContext.ObtenirCollectionListe());
+            return ObtenirObjetsDansReservations(MongoDbContext.ObtenirCollectionListe<Reservation>(Db));
         }
 
         /// <summary>
@@ -89,12 +90,12 @@ namespace MonCine.Data.Classes.DAL
         public List<Reservation> ObtenirReservationsFiltrees<TField>(Expression<Func<Reservation, TField>> pField,
             List<TField> pObjects)
         {
-            return ObtenirObjetsDansReservations(DbContext.ObtenirDocumentsFiltres(pField, pObjects));
+            return ObtenirObjetsDansReservations(MongoDbContext.ObtenirDocumentsFiltres(Db, pField, pObjects));
         }
 
         public int ObtenirNbReservations<TField>(Expression<Func<Reservation, TField>> pField, List<TField> pObjects)
         {
-            return DbContext.ObtenirDocumentsFiltres(pField, pObjects).Count;
+            return MongoDbContext.ObtenirDocumentsFiltres(Db, pField, pObjects).Count;
         }
 
         /// <summary>
@@ -136,7 +137,7 @@ namespace MonCine.Data.Classes.DAL
         {
             MAJProjectionFilm(pReservation.Film);
 
-            DbContext.InsererUnDocument(pReservation);
+            MongoDbContext.InsererUnDocument(Db, pReservation);
         }
 
         /// <summary>

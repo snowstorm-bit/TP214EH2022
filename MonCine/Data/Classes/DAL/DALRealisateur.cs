@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MonCine.Data.Classes.BD;
 using MongoDB.Driver;
 
 #endregion
@@ -43,7 +44,7 @@ namespace MonCine.Data.Classes.DAL
         /// <returns>La liste des réalisateurs contenue dans la base de données de la cinémathèque.</returns>
         public List<Realisateur> ObtenirRealisateurs()
         {
-            return DbContext.ObtenirCollectionListe();
+            return MongoDbContext.ObtenirCollectionListe<Realisateur>(Db);
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace MonCine.Data.Classes.DAL
         public List<Realisateur> ObtenirRealisateursFiltres<TField>(Expression<Func<Realisateur, TField>> pField,
             List<TField> pObjects)
         {
-            return DbContext.ObtenirDocumentsFiltres(pField, pObjects);
+            return MongoDbContext.ObtenirDocumentsFiltres(Db, pField, pObjects);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pRealisateurs">Liste des réalisateurs à insérer dans la base de données</param>
         public void InsererPlusieursRealisateurs(List<Realisateur> pRealisateurs)
         {
-            DbContext.InsererPlusieursDocuments(pRealisateurs);
+            MongoDbContext.InsererPlusieursDocuments(Db, pRealisateurs);
         }
 
         #endregion

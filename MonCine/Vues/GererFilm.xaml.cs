@@ -27,8 +27,8 @@ namespace MonCine.Vues
     {
         #region ATTRIBUTS
 
-        private IMongoClient _client;
-        private IMongoDatabase _db;
+        private readonly IMongoClient _client;
+        private readonly IMongoDatabase _db;
         private DALCategorie _dalCategorie;
         private DALActeur _dalActeur;
         private DALRealisateur _dalRealisateur;
@@ -38,8 +38,8 @@ namespace MonCine.Vues
         private List<Realisateur> _realisateurs;
         private List<Acteur> _acteursChoisis;
         private List<Realisateur> _realisateursChoisis;
-        private Film _film;
-        private bool _actionEstAjout;
+        private readonly Film _film;
+        private readonly bool _actionEstAjout;
 
         #endregion
 

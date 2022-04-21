@@ -9,6 +9,7 @@
 #region USING
 
 using System.Collections.Generic;
+using MonCine.Data.Classes.BD;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -26,7 +27,7 @@ namespace MonCine.Data.Classes.DAL
         /// <summary>
         /// Couche d'accès aux données pour les films
         /// </summary>
-        private DALFilm _dalFilm;
+        private readonly DALFilm _dalFilm;
 
         #endregion
 
@@ -59,7 +60,7 @@ namespace MonCine.Data.Classes.DAL
             List<Recompense> recompenses = new List<Recompense>();
             recompenses.AddRange(ObtenirObjetsDansRecompenses(
                 new List<Recompense>(
-                    DbContext.ObtenirCollection()
+                    MongoDbContext.ObtenirCollection<Recompense>(Db)
                         .Aggregate()
                         .OfType<TicketGratuit>()
                         .ToList())
@@ -104,7 +105,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pRecompenses">Liste des récompenses à insérer dans la base de données</param>
         public void InsererPlusieursRecompenses(List<Recompense> pRecompenses)
         {
-            DbContext.InsererPlusieursDocuments(pRecompenses);
+            MongoDbContext.InsererPlusieursDocuments(Db, pRecompenses);
         }
 
         #endregion

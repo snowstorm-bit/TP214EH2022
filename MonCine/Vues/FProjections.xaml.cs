@@ -25,10 +25,10 @@ namespace MonCine.Vues
     {
         #region ATTRIBUTS
 
-        private IMongoClient _client;
-        private IMongoDatabase _db;
-        private DALFilm _dalFilm;
-        private Film _film;
+        private readonly IMongoClient _client;
+        private readonly IMongoDatabase _db;
+        private readonly DALFilm _dalFilm;
+        private readonly Film _film;
 
         #endregion
 

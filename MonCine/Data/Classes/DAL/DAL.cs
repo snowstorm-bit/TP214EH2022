@@ -34,20 +34,6 @@ namespace MonCine.Data.Classes.DAL
         /// </summary>
         protected internal IMongoDatabase Db;
 
-        /// <summary>
-        /// Gestionnaire de la collection pour le type de document spécifié
-        /// </summary>
-        private MongoDbContext<TDocument> _dbContext;
-
-        #endregion
-
-        #region PROPRIÉTÉS ET INDEXEURS
-
-        public MongoDbContext<TDocument> DbContext
-        {
-            get { return _dbContext; }
-        }
-
         #endregion
 
         #region CONSTRUCTEURS
@@ -61,7 +47,6 @@ namespace MonCine.Data.Classes.DAL
         {
             MongoDbClient = pClient ?? OuvrirConnexion();
             Db = pDb ?? ObtenirBd();
-            _dbContext = new MongoDbContext<TDocument>(Db);
         }
 
         #endregion

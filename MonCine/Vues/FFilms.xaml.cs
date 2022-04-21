@@ -27,9 +27,9 @@ namespace MonCine.Vues
     {
         #region ATTRIBUTS
 
-        private IMongoClient _client;
-        private IMongoDatabase _db;
-        private DALFilm _dalFilm;
+        private readonly IMongoClient _client;
+        private readonly IMongoDatabase _db;
+        private readonly DALFilm _dalFilm;
         private List<Film> _films;
         private Film _filmSelectionne;
 
@@ -139,7 +139,8 @@ namespace MonCine.Vues
                 {
                     _dalFilm.MAJProjectionsFilm(_filmSelectionne);
                     _films[_films.FindIndex(x => x.Id == _filmSelectionne.Id)] = _filmSelectionne;
-                    ChargerLstFilms((bool)RbTousLesFilms.IsChecked);
+                    RbTousLesFilms.IsChecked = true;
+                    ChargerLstFilms(!(bool)RbTousLesFilms.IsChecked);
                 }
                 else
                 {

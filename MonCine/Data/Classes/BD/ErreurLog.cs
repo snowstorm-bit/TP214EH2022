@@ -28,7 +28,7 @@ namespace MonCine.Data.Classes.BD
         private static readonly TraceSource traceur = new TraceSource("TraceSourceApp");
 
         #endregion
-
+        
         #region MÉTHODES
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace MonCine.Data.Classes.BD
         /// <summary>
         /// Générateur de nombres pseudo-alatoire
         /// </summary>
-        private static Random _rand = new Random();
+        private static readonly Random _rand = new Random();
 
         #endregion
 

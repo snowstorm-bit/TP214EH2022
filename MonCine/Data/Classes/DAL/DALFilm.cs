@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MonCine.Data.Classes.BD;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -28,17 +29,17 @@ namespace MonCine.Data.Classes.DAL
         /// <summary>
         /// Couche d'accès aux données pour les catégories
         /// </summary>
-        private DALCategorie _dalCategorie;
+        private readonly DALCategorie _dalCategorie;
 
         /// <summary>
         /// Couche d'accès aux données pour les acteurs
         /// </summary>
-        private DALActeur _dalActeur;
+        private readonly DALActeur _dalActeur;
 
         /// <summary>
         /// Couche d'accès aux données pour les réalisateurs
         /// </summary>
-        private DALRealisateur _dalRealisateur;
+        private readonly DALRealisateur _dalRealisateur;
 
         /// <summary>
         /// Couche d'accès aux données pour les abonnés
@@ -107,7 +108,7 @@ namespace MonCine.Data.Classes.DAL
         /// <returns>La liste des films contenue dans la base de données de la cinémathèque.</returns>
         public List<Film> ObtenirFilms()
         {
-            List<Film> a = DbContext.ObtenirCollectionListe();
+            List<Film> a = MongoDbContext.ObtenirCollectionListe<Film>(Db);
             return ObtenirObjetsDansFilms(a);
         }
 
@@ -120,7 +121,7 @@ namespace MonCine.Data.Classes.DAL
         /// <returns>La liste des films filtrée selon le champs et les valeurs spécifiés en paramètre.</returns>
         public List<Film> ObtenirFilmsFiltres<TField>(Expression<Func<Film, TField>> pFiltre, List<TField> pObjectIds)
         {
-            return ObtenirObjetsDansFilms(DbContext.ObtenirDocumentsFiltres(pFiltre, pObjectIds));
+            return ObtenirObjetsDansFilms(MongoDbContext.ObtenirDocumentsFiltres(Db, pFiltre, pObjectIds));
         }
 
         /// <summary>
@@ -187,7 +188,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pFilms">Le film à insérer dans la base de données de la cinémathèque</param>
         public void InsererUnFilm(Film pFilm)
         {
-            DbContext.InsererUnDocument(pFilm);
+            MongoDbContext.InsererUnDocument(Db, pFilm);
         }
 
         /// <summary>
@@ -196,7 +197,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pFilms">Liste des films à insérer dans la base de données de la cinémathèque</param>
         public void InsererPlusieursFilm(List<Film> pFilms)
         {
-            DbContext.InsererPlusieursDocuments(pFilms);
+            MongoDbContext.InsererPlusieursDocuments(Db, pFilms);
         }
 
         /// <summary>
@@ -214,7 +215,7 @@ namespace MonCine.Data.Classes.DAL
             }
 
             MAJUnFilm(
-                x => x.Projections == pFilm.Projections,
+                x => x.Id == pFilm.Id,
                 new List<(Expression<Func<Film, object>> field, object value)>
                 {
                     (
@@ -235,7 +236,7 @@ namespace MonCine.Data.Classes.DAL
         public bool MAJUnFilm<TField>(Expression<Func<Film, bool>> pFiltre,
             List<(Expression<Func<Film, TField>> field, TField value)> pMajDefinitions)
         {
-            return DbContext.MAJUn(pFiltre, pMajDefinitions);
+            return MongoDbContext.MAJUn(Db, pFiltre, pMajDefinitions);
         }
 
         #endregion

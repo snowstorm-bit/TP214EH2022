@@ -24,8 +24,8 @@ namespace MonCine.Vues
     {
         #region ATTRIBUTS
 
-        private IMongoClient _client;
-        private IMongoDatabase _db;
+        private readonly IMongoClient _client;
+        private readonly IMongoDatabase _db;
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace MonCine.Vues
                 ////    .ForEach(film => filmsAffiche.Add(film));
 
                 //// POUR FILM À L'AFFICHE DEPUIS BD
-                ////List<Film> filmsAffiche = _dal.DbContext.ObtenirDocumentsFiltres<Film>(x => x.EtatAffiche);
+                ////List<Film> filmsAffiche = _dal.MongoDbContext.ObtenirDocumentsFiltres<Film>(x => x.EtatAffiche);
 
                 //// POUR OBTENIR TOUS LES OBJETS DEPUIS LA LISTE DES IDENTIFIANTS DES OBJETS D'UN TDOCUMENT
                 //foreach (Abonne abonne in _cinematheque.Abonnes)
@@ -56,19 +56,19 @@ namespace MonCine.Vues
                 //    Preference preference = abonne.Preference;
 
                 //    preference.Categories =
-                //        _dal.DbContext.ObtenirDocumentsFiltres<Categorie>(x => x.Id, preference.CategoriesId);
+                //        _dal.MongoDbContext.ObtenirDocumentsFiltres<Categorie>(x => x.Id, preference.CategoriesId);
 
                 //    preference.Acteurs =
-                //        _dal.DbContext.ObtenirDocumentsFiltres<Acteur>(x => x.Id, preference.ActeursId);
+                //        _dal.MongoDbContext.ObtenirDocumentsFiltres<Acteur>(x => x.Id, preference.ActeursId);
                 //    preference.Realisateurs =
-                //        _dal.DbContext.ObtenirDocumentsFiltres<Realisateur>(x => x.Id, preference.RealisateursId);
+                //        _dal.MongoDbContext.ObtenirDocumentsFiltres<Realisateur>(x => x.Id, preference.RealisateursId);
                 //}
                 //foreach (Abonne abonne in _cinematheque.Abonnes)
                 //{
                 //    Preference preference = abonne.Preference;
-                //    preference.Acteurs = _dal.DbContext.ObtenirDocumentsFiltres<Acteur, ObjectId>(x => x.Id, preference.ActeursId);
-                //    preference.Categories = _dal.DbContext.ObtenirDocumentsFiltres<Categorie, ObjectId>(x => x.Id, preference.CategoriesId);
-                //    preference.Realisateurs = _dal.DbContext.ObtenirDocumentsFiltres<Realisateur, ObjectId>(x => x.Id, preference.RealisateursId);
+                //    preference.Acteurs = _dal.MongoDbContext.ObtenirDocumentsFiltres<Acteur, ObjectId>(x => x.Id, preference.ActeursId);
+                //    preference.Categories = _dal.MongoDbContext.ObtenirDocumentsFiltres<Categorie, ObjectId>(x => x.Id, preference.CategoriesId);
+                //    preference.Realisateurs = _dal.MongoDbContext.ObtenirDocumentsFiltres<Realisateur, ObjectId>(x => x.Id, preference.RealisateursId);
                 //}
 
                 //DALAbonne dalAbonne = new DALAbonne();
@@ -78,7 +78,7 @@ namespace MonCine.Vues
 
                 //}
                 //_cinematheque.Abonnes[0].Preference.Acteurs
-                //    _dal.DbContext.MAJUn<Film, object>(
+                //    _dal.MongoDbContext.MAJUn<Film, object>(
                 //        x => x.Id == _cinematheque.Films[3].Id,
 
                 //        new List<(System.Linq.Expressions.Expression<Func<Film, object>> field, object value)>

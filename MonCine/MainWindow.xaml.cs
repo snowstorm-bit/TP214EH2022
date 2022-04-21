@@ -25,7 +25,7 @@ namespace MonCine
     {
         #region ATTRIBUTS
 
-        private Utilisateur _utilisateurCourant;
+        private readonly Utilisateur _utilisateurCourant;
 
         #endregion
 

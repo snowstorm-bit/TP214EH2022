@@ -57,7 +57,7 @@ namespace MonCine.Data.Classes
 
         public override bool Equals(object? obj)
         {
-            if (obj != null && obj is Acteur acteur)
+            if (obj is Acteur acteur)
             {
                 return Id == acteur.Id;
             }
