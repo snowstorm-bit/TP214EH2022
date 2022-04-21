@@ -1,7 +1,7 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : FFilms.xaml.cs
-// Date de création : 2022-04-20
+// Date de création : 2022-04-21
 // Date de modification : 2022-04-21
 
 #endregion
@@ -40,27 +40,44 @@ namespace MonCine.Vues
         public FFilms(IMongoClient pClient, IMongoDatabase pDb)
         {
             InitializeComponent();
+
             _client = pClient;
             _db = pDb;
             _dalFilm = new DALFilm(_client, _db);
-            _films = _dalFilm.ObtenirFilms();
-            RbTousLesFilms.IsChecked = true;
+
+            Loaded += OnLoaded;
         }
 
         #endregion
 
         #region MÉTHODES
 
+        private void OnLoaded(object pSender, RoutedEventArgs pE)
+        {
+            ObtenirFilms();
+        }
+
+        private void ObtenirFilms()
+        {
+            _films = _dalFilm.ObtenirFilms();
+            if (LstFilms.Items.Count != 0)
+            {
+                ChargerLstFilms(false);
+            }
+            else
+            {
+                RbTousLesFilms.IsChecked = true;
+            }
+        }
+
         private void RbTousLesFilm_Checked(object sender, RoutedEventArgs e)
         {
-            ChargerFilms();
-            ActiverBtnPourFilmEstAffiche(false);
+            ChargerLstFilms(false);
         }
 
         private void RbEstAffiche_Checked(object sender, RoutedEventArgs e)
         {
-            ChargerFilms();
-            ActiverBtnPourFilmEstAffiche(true);
+            ChargerLstFilms(true);
         }
 
         private void BtnAjouterFilm_Click(object sender, RoutedEventArgs e)
@@ -122,7 +139,7 @@ namespace MonCine.Vues
                 {
                     _dalFilm.MAJProjectionsFilm(_filmSelectionne);
                     _films[_films.FindIndex(x => x.Id == _filmSelectionne.Id)] = _filmSelectionne;
-                    ChargerFilms();
+                    ChargerLstFilms((bool)RbTousLesFilms.IsChecked);
                 }
                 else
                 {
@@ -131,11 +148,11 @@ namespace MonCine.Vues
             }
         }
 
-        private void ChargerFilms()
+        private void ChargerLstFilms(bool affichagePourRbEstAffiche)
         {
             LstFilms.Items.Clear();
 
-            if (RbEstAffiche.IsChecked == true)
+            if (affichagePourRbEstAffiche)
             {
                 _films
                     .Where(film => film.EstAffiche)
@@ -146,6 +163,8 @@ namespace MonCine.Vues
             {
                 _films.ForEach(film => LstFilms.Items.Add(film));
             }
+
+            ActiverBtnPourFilmEstAffiche(affichagePourRbEstAffiche);
         }
 
         /// <summary>

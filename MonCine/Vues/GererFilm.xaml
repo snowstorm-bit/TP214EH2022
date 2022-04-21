@@ -1,21 +1,21 @@
-﻿<Window x:Class="MonCine.Vues.GererFilm"
+﻿<Page x:Class="MonCine.Vues.GererFilm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MonCine.Vues"
         mc:Ignorable="d"
-        Title="GererFilm" Height="500" Width="800">
-    <Grid Margin="15">
+        Title="GererFilm" Height="400" Width="800">
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100*" />
+            <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="ActionTitre" TextWrapping="Wrap" Grid.Row="0" FontSize="22" FontWeight="Bold" Padding="3,0,0,0" />
-        <Grid Grid.Row="1">
+        <TextBlock x:Name="ActionTitre" TextWrapping="Wrap" Grid.Row="0" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" />
+        <Grid Grid.Row="1" Margin="20, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100*" />
             </Grid.ColumnDefinitions>
@@ -62,10 +62,10 @@
                         <RowDefinition Height="1.5*" />
                     </Grid.RowDefinitions>
                     <Label x:Name="LblActeursDispos" Content="Acteurs disponibles" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
-                    <ListBox x:Name="LstActeursDispos" Background="#FFEDEBEB" Width="165" Height="190" Grid.Column="0" Grid.Row="1" SelectionChanged="LstActeursDispos_OnSelectionChanged"/>
+                    <ListBox x:Name="LstActeursDispos" Background="#FFEDEBEB" Width="165" Height="180" Grid.Column="0" Grid.Row="1" SelectionChanged="LstActeursDispos_OnSelectionChanged"/>
                     <Button x:Name="BtnAjouterActeur" Content="Ajouter acteur" Background="#FF7CB8FF" Width="125" Height="25" Grid.Column="0" Grid.Row="2" Click="BtnAjouterActeur_Click" />
                     <Label x:Name="LblActeursChoisis" Content="Acteurs choisis" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"/>
-                    <ListBox x:Name="LstActeursChoisis" Background="#FFEDEBEB" Width="165" Height="190" Grid.Column="1" Grid.Row="1" SelectionChanged="LstActeursChoisis_OnSelectionChanged"/>
+                    <ListBox x:Name="LstActeursChoisis" Background="#FFEDEBEB" Width="165" Height="180" Grid.Column="1" Grid.Row="1" SelectionChanged="LstActeursChoisis_OnSelectionChanged"/>
                     <Button x:Name="BtnRetirerActeur" Content="Retirer acteur" Background="#FF7CB8FF" Width="125" Height="25" Grid.Column="1" Grid.Row="2" Click="BtnRetirerActeur_Click" />
                 </Grid>
                 <Grid Grid.Column="1">
@@ -79,7 +79,7 @@
                         <RowDefinition Height="1.5*" />
                     </Grid.RowDefinitions>
                     <Label x:Name="LblRealisateursDispos" Content="Réalisateurs disponibles" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
-                    <ListBox x:Name="LstRealisateursDispos" Background="#FFEDEBEB" Width="165" Height="190" Grid.Column="0" Grid.Row="1" SelectionChanged="LstRealisateursDispos_SelectionChanged" />
+                    <ListBox x:Name="LstRealisateursDispos" Background="#FFEDEBEB" Width="165" Height="180" Grid.Column="0" Grid.Row="1" SelectionChanged="LstRealisateursDispos_SelectionChanged" />
                     <Button x:Name="BtnAjouterRealisateur" Content="Ajouter réalisateur" Background="#FF7CB8FF" Width="125" Height="25" Grid.Column="0" Grid.Row="2" Click="BtnAjouterRealisateur_Click" />
                     <Label x:Name="LblRealisateursChoisis" Content="Réalisateurs choisis" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"/>
                     <ListBox x:Name="LstRealisateursChoisis" Background="#FFEDEBEB" Width="165" Height="180" Grid.Column="1" Grid.Row="1" SelectionChanged="LstRealisateursChoisis_SelectionChanged" />
@@ -91,4 +91,4 @@
             <Button x:Name="BtnActionFilm" Background="#FF7CB8FF" Width="125" Height="25" Grid.Row="2" HorizontalAlignment="Right" Click="BtnActionFilm_Click"/>
         </Grid>
     </Grid>
-</Window>
+</Page>

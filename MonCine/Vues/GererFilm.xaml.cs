@@ -1,7 +1,7 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : GererFilm.xaml.cs
-// Date de création : 2022-04-20
+// Date de création : 2022-04-21
 // Date de modification : 2022-04-21
 
 #endregion
@@ -23,7 +23,7 @@ using MongoDB.Driver;
 
 namespace MonCine.Vues
 {
-    public partial class GererFilm : Window
+    public partial class GererFilm : Page
     {
         #region ATTRIBUTS
 
@@ -80,14 +80,20 @@ namespace MonCine.Vues
             ActionTitre.Text = _actionEstAjout ? "Ajouter un film" : "Modifier le film";
             BtnActionFilm.Content = ActionTitre.Text;
 
-            _categories.ForEach(cat => CboCategories.Items.Add(cat.Nom));
+            _categories.ForEach(cat => CboCategories.Items.Add(cat));
             if (!_actionEstAjout)
             {
                 TxtNom.Text = _film.Nom;
-                int a = _categories.IndexOf(_film.Categorie);
-                CboCategories.SelectedIndex = a;
+                CboCategories.SelectedIndex = _categories.IndexOf(_film.Categorie);
+                DpDateSortie.BlackoutDates.Add(new CalendarDateRange(_film.DateSortie.AddDays(1), DateTime.Now));
+                DpDateSortie.BlackoutDates.Add(new CalendarDateRange(new DateTime(1000, 1, 1),
+                    _film.DateSortie.AddDays(-1)));
                 DpDateSortie.SelectedDate = _film.DateSortie;
                 DpDateSortie.DisplayDate = _film.DateSortie;
+            }
+            else
+            {
+                DpDateSortie.BlackoutDates.AddDatesInPast();
             }
 
             BtnAjouterActeur.IsEnabled = false;
@@ -124,6 +130,8 @@ namespace MonCine.Vues
             bool acteurDispoEstSelectionne = LstActeursDispos.SelectedIndex != -1;
             BtnAjouterActeur.IsEnabled = acteurDispoEstSelectionne;
             BtnRetirerActeur.IsEnabled = !acteurDispoEstSelectionne;
+            BtnAjouterRealisateur.IsEnabled = false;
+            BtnRetirerRealisateur.IsEnabled = false;
 
             if (acteurDispoEstSelectionne)
             {
@@ -136,6 +144,8 @@ namespace MonCine.Vues
             bool acteurChoisiEstSelectionne = LstActeursChoisis.SelectedIndex != -1;
             BtnRetirerActeur.IsEnabled = acteurChoisiEstSelectionne;
             BtnAjouterActeur.IsEnabled = !acteurChoisiEstSelectionne;
+            BtnAjouterRealisateur.IsEnabled = false;
+            BtnRetirerRealisateur.IsEnabled = false;
 
             if (acteurChoisiEstSelectionne)
             {
@@ -192,6 +202,8 @@ namespace MonCine.Vues
             bool realisateurDispoEstSelectionne = LstRealisateursDispos.SelectedIndex != -1;
             BtnAjouterRealisateur.IsEnabled = realisateurDispoEstSelectionne;
             BtnRetirerRealisateur.IsEnabled = !realisateurDispoEstSelectionne;
+            BtnAjouterActeur.IsEnabled = false;
+            BtnRetirerActeur.IsEnabled = false;
 
             if (realisateurDispoEstSelectionne)
             {
@@ -204,6 +216,8 @@ namespace MonCine.Vues
             bool realisateurChoisiEstSelectionne = LstRealisateursChoisis.SelectedIndex != -1;
             BtnRetirerRealisateur.IsEnabled = realisateurChoisiEstSelectionne;
             BtnAjouterRealisateur.IsEnabled = !realisateurChoisiEstSelectionne;
+            BtnAjouterActeur.IsEnabled = false;
+            BtnRetirerActeur.IsEnabled = false;
 
             if (realisateurChoisiEstSelectionne)
             {
@@ -257,7 +271,7 @@ namespace MonCine.Vues
 
         private void BtnAnnuler_Click(object pSender, RoutedEventArgs pE)
         {
-            Close();
+            NavigationService.GoBack();
         }
 
         private void BtnActionFilm_Click(object sender, RoutedEventArgs e)
@@ -269,18 +283,30 @@ namespace MonCine.Vues
                 List<ObjectId> realisateurIds = new List<ObjectId>();
                 _realisateursChoisis.ForEach(x => realisateurIds.Add(x.Id));
                 Categorie categorieChoisie = (Categorie)CboCategories.SelectedItem;
+
+                string nom = TxtNom.Text;
+                DateTime dateSortie = DpDateSortie.DisplayDate;
+
                 if (_actionEstAjout)
                 {
-                    _dalFilm.InsererUnFilm(new Film(
-                        new ObjectId(),
-                        TxtNom.Text,
-                        (DateTime)DpDateSortie.SelectedDate,
-                        new List<Projection>(),
-                        new List<Note>(),
-                        categorieChoisie.Id,
-                        acteurIds,
-                        realisateurIds
-                    ));
+                    try
+                    {
+                        _dalFilm.InsererUnFilm(new Film(
+                            new ObjectId(),
+                            nom,
+                            dateSortie,
+                            new List<Projection>(),
+                            new List<Note>(),
+                            categorieChoisie.Id,
+                            acteurIds,
+                            realisateurIds
+                        ));
+                        NavigationService.GoBack();
+                    }
+                    catch (Exception exception)
+                    {
+                        AfficherMsgErreur(exception.Message);
+                    }
                 }
                 else
                 {
@@ -290,14 +316,18 @@ namespace MonCine.Vues
                     {
                         filtre.Add((
                             x => x.Nom,
-                            TxtNom.Text
+                            nom
                         ));
                     }
 
-                    filtre.Add((
-                        x => x.DateSortie,
-                        (DateTime)DpDateSortie.SelectedDate
-                    ));
+                    if (_film.DateSortie.Year != dateSortie.Year || _film.DateSortie.Month != dateSortie.Month ||
+                        _film.DateSortie.Day != dateSortie.Day)
+                    {
+                        filtre.Add((
+                            x => x.DateSortie,
+                            dateSortie
+                        ));
+                    }
 
                     if (!_film.Categorie.Equals(categorieChoisie))
                     {
@@ -307,7 +337,7 @@ namespace MonCine.Vues
                         ));
                     }
 
-                    if (_film.ActeursId != acteurIds)
+                    if (_film.Acteurs != _acteursChoisis)
                     {
                         filtre.Add((
                             x => x.ActeursId,
@@ -315,7 +345,7 @@ namespace MonCine.Vues
                         ));
                     }
 
-                    if (_film.RealisateursId != realisateurIds)
+                    if (_film.Realisateurs != _realisateursChoisis)
                     {
                         filtre.Add((
                             x => x.ActeursId,
@@ -323,7 +353,24 @@ namespace MonCine.Vues
                         ));
                     }
 
-                    _dalFilm.MAJUnFilm(x => x.Id == _film.Id, filtre);
+                    try
+                    {
+                        if (filtre.Count > 0)
+                        {
+                            _dalFilm.MAJUnFilm(x => x.Id == _film.Id, filtre);
+                            NavigationService.GoBack();
+                        }
+                        else
+                        {
+                            AfficherMsgErreur(
+                                "Aucune modification n'a été apporté. Si vous souhaitez retourner à la liste des films, veuillez cliquer sur le bouton 'Annuler'"
+                            );
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        AfficherMsgErreur(exception.Message);
+                    }
                 }
             }
         }
@@ -344,6 +391,15 @@ namespace MonCine.Vues
             if (DpDateSortie.SelectedDate == null)
             {
                 msgErr += "Il faut sélectionner une date de sortie internationnale pour le film \n";
+            }
+            else
+            {
+                bool dateEstInvalide = DpDateSortie.DisplayDate <= DateTime.Now;
+                if (_actionEstAjout && dateEstInvalide ||
+                    !_actionEstAjout && DpDateSortie.DisplayDate != _film.DateSortie && dateEstInvalide)
+                {
+                    msgErr += "Il faut sélectionner une date de sortie internationnale supérieure à la date actuelle";
+                }
             }
 
             if (_acteursChoisis.Count < 1)
