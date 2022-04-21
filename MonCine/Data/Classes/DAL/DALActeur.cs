@@ -21,7 +21,7 @@ namespace MonCine.Data.Classes.DAL
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour les objets de type <see cref="Acteur"/>
     /// </summary>
-    public class DALActeur : DAL<Acteur>
+    public class DALActeur : DAL
     {
         #region CONSTRUCTEURS
 

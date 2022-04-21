@@ -20,7 +20,7 @@ namespace MonCine.Data.Classes.DAL
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour les objets de type <see cref="Administrateur"/>.
     /// </summary>
-    public class DALAdministrateur : DAL<Administrateur>
+    public class DALAdministrateur : DAL
     {
         #region CONSTRUCTEURS
 

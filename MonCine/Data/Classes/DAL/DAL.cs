@@ -19,8 +19,7 @@ namespace MonCine.Data.Classes.DAL
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour le type de document spécifié.
     /// </summary>
-    /// <typeparam name="TDocument">Type du document</typeparam>
-    public abstract class DAL<TDocument>
+    public abstract class DAL
     {
         #region ATTRIBUTS
 

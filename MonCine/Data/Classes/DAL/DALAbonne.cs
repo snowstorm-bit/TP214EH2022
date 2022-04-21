@@ -22,7 +22,7 @@ namespace MonCine.Data.Classes.DAL
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour les objets de type <see cref="Abonne"/>.
     /// </summary>
-    public class DALAbonne : DAL<Abonne>
+    public class DALAbonne : DAL
     {
         #region ATTRIBUTS
 

@@ -22,7 +22,7 @@ namespace MonCine.Data.Classes.DAL
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour les objets de type <see cref="Film"/>.
     /// </summary>
-    public class DALFilm : DAL<Film>
+    public class DALFilm : DAL
     {
         #region ATTRIBUTS
 
