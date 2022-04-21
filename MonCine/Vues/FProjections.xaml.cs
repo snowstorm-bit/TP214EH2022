@@ -27,7 +27,6 @@ namespace MonCine.Vues
 
         private IMongoClient _client;
         private IMongoDatabase _db;
-        private DALFilm _dalFilm;
         private Film _film;
 
         #endregion

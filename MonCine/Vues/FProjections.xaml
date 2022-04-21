@@ -30,7 +30,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             <Button x:Name="btnRetour" Content="Retour"
-                Background="#FF7CB8FF" Width="130" Height="25" Margin="10,25,660,400" Click="btnRetour_Click" />
+                Background="#FF7CB8FF" Width="130" Height="25" Margin="10,66,660,359" Click="btnRetour_Click" />
         </Grid>
 
     </Grid>

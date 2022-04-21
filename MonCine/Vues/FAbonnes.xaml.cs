@@ -48,38 +48,6 @@ namespace MonCine.Vues
             LstAbonnes.Items.Clear();
 
             _abonnes.OrderByDescending(x => x.NbSeances).ToList().ForEach(film => LstAbonnes.Items.Add(film));
-
-            //foreach (Abonne abonne in _abonnes)
-            //{
-            //    lstAbonnes.Items.Add(abonne);
-            //string itemListRealisateur = "";
-            //Preference preferenceAbonne = abonne.Preference;
-            //foreach (ObjectId realisateurId in preferenceAbonne.RealisateursId)
-            //{
-            //    foreach (Realisateur realisateur in realisateursBD)
-            //    {
-            //        if (realisateur.Id == realisateurId)
-            //        {
-            //            itemListRealisateur += " " + realisateur.Nom;
-            //            break;
-            //        }
-            //    }
-            //}
-            //ListViewRealisateurs.Items.Add(itemListRealisateur);
-            //string itemListActeur = "";
-            //foreach (ObjectId acteurId in preferenceAbonne.ActeursId)
-            //{
-            //    foreach (Acteur acteur in acteursBD)
-            //    {
-            //        if (acteur.Id == acteurId)
-            //        {
-            //            itemListActeur += " " + acteur.Nom;
-            //            break;
-            //        }
-            //    }
-            //}
-            //ListViewActeurs.Items.Add(itemListActeur);
-            //}
         }
 
         #endregion
@@ -94,6 +62,10 @@ namespace MonCine.Vues
                 OffrirRecompense offrirRecompense = new OffrirRecompense(_client, _db, (Abonne)item);
                 offrirRecompense.Show();
             }
+        }
+        private void btnRetour_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
         }
 
         #endregion

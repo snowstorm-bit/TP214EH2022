@@ -163,26 +163,44 @@ namespace MonCine.Data.Classes
         public override string ToString()
         {
             string sautDeLigne = "\n";
-            string aucun = "Aucun";
+            string aucun = "Aucune";
             string strFormate = sautDeLigne + "Catégories: ";
+            int nbIterations = 0;
+
             if (Categories.Count > 0)
             {
                 foreach (Categorie categorie in Categories)
                 {
-                    strFormate += categorie.Nom + " | ";
+                    if (Categories.IndexOf(categorie) == Categories.Count - 1)
+                    {
+                        strFormate += categorie.Nom;
+                    }
+                    else
+                    {
+                        strFormate += categorie.Nom + ", ";
+                    }
+                    nbIterations++;
                 }
             }
             else
             {
-                strFormate += $"{aucun}e";
+                strFormate += aucun;
             }
 
             strFormate += sautDeLigne + "Acteurs: ";
+
             if (Acteurs.Count > 0)
             {
                 foreach (Acteur acteur in Acteurs)
                 {
-                    strFormate += acteur.Nom + " | ";
+                    if (Acteurs.IndexOf(acteur) == Acteurs.Count - 1)
+                    {
+                        strFormate += acteur.Nom;
+                    }
+                    else
+                    {
+                        strFormate += acteur.Nom + ", ";
+                    }
                 }
             }
             else
@@ -191,19 +209,26 @@ namespace MonCine.Data.Classes
             }
 
             strFormate += sautDeLigne + "Réalisateurs: ";
+
             if (Realisateurs.Count > 0)
             {
                 foreach (Realisateur realisateur in Realisateurs)
                 {
-                    strFormate += realisateur.Nom + " | ";
+                    if (Realisateurs.IndexOf(realisateur) == Realisateurs.Count - 1)
+                    {
+                        strFormate += realisateur.Nom;
+                    }
+                    else
+                    {
+                        strFormate += realisateur.Nom + ", ";
+                    }
                 }
             }
             else
             {
                 strFormate += aucun;
             }
-
-            return strFormate + sautDeLigne;
+            return strFormate;
         }
 
         #endregion

@@ -21,7 +21,7 @@
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Nom}" FontWeight="Bold" TextAlignment="Left"></TextBlock>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="" FontWeight="Bold" TextAlignment="Left"></TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Nb. seances : " TextAlignment="Left">
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Nombre de séances: " TextAlignment="Left">
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding NbSeances}" TextAlignment="Left"></TextBlock>
                         </TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Preference}" TextAlignment="Left"></TextBlock>
@@ -31,5 +31,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button x:Name="btnRetour" Content="Retour"
+            Background="#FF7CB8FF" Width="130" Height="25" Margin="10,66,660,359" Click="btnRetour_Click" />
     </Grid>
 </Page>
