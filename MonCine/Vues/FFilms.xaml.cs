@@ -81,54 +81,14 @@ namespace MonCine.Vues
             ChargerLstFilms(true);
         }
 
-        private void BtnAjouterFilm_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new GererFilm(_client, _db));
-        }
-
-        private void BtnModifierFilm_Click(object pSender, RoutedEventArgs pE)
-        {
-            NavigationService.Navigate(new GererFilm(_client, _db, _filmSelectionne));
-        }
-
-        private void BtnVoirProjections_Click(object pSender, RoutedEventArgs pE)
-        {
-            NavigationService.Navigate(new FProjections(_client, _db, _filmSelectionne));
-        }
-
         private void BtnRetourAccueil_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }
 
-        private void LstFilms_OnSelectionChanged(object pSender, SelectionChangedEventArgs pE)
+        private void BtnVoirProjections_Click(object pSender, RoutedEventArgs pE)
         {
-            ActiverBtnsPourFilmSelectionneEstAffiche();
-        }
-
-        private void ActiverBtnPourFilmEstAffiche(bool afficher)
-        {
-            BtnAjouterFilm.IsEnabled = afficher;
-            ActiverBtnsPourFilmSelectionneEstAffiche();
-        }
-
-        private void ActiverBtnsPourFilmSelectionneEstAffiche()
-        {
-            bool itemIsSelected = LstFilms.SelectedIndex > -1;
-            _filmSelectionne = itemIsSelected
-                ? (Film)LstFilms.SelectedItem
-                : null;
-
-            bool btnsSontActifs = itemIsSelected;
-
-            if (_filmSelectionne != null)
-            {
-                btnsSontActifs &= _filmSelectionne.EstAffiche;
-            }
-
-            BtnModifierFilm.IsEnabled = btnsSontActifs;
-            BtnVoirProjection.IsEnabled = btnsSontActifs;
-            BtnRetirerDeAffiche.IsEnabled = btnsSontActifs;
+            NavigationService.Navigate(new FProjections(_client, _db, _filmSelectionne));
         }
 
         private void BtnRetirerDeAffiche_OnClick(object pSender, RoutedEventArgs pE)
@@ -156,11 +116,16 @@ namespace MonCine.Vues
             }
         }
 
-        private void ChargerLstFilms(bool affichagePourRbEstAffiche)
+        private void LstFilms_OnSelectionChanged(object pSender, SelectionChangedEventArgs pE)
+        {
+            ActiverBtnsPourFilmSelectionneEstAffiche();
+        }
+
+        private void ChargerLstFilms(bool pAffichagePourRbEstAffiche)
         {
             LstFilms.Items.Clear();
 
-            if (affichagePourRbEstAffiche)
+            if (pAffichagePourRbEstAffiche)
             {
                 _films
                     .Where(film => film.EstAffiche)
@@ -172,7 +137,25 @@ namespace MonCine.Vues
                 _films.ForEach(film => LstFilms.Items.Add(film));
             }
 
-            ActiverBtnPourFilmEstAffiche(affichagePourRbEstAffiche);
+            ActiverBtnsPourFilmSelectionneEstAffiche();
+        }
+
+        private void ActiverBtnsPourFilmSelectionneEstAffiche()
+        {
+            bool itemIsSelected = LstFilms.SelectedIndex > -1;
+            _filmSelectionne = itemIsSelected
+                ? (Film)LstFilms.SelectedItem
+                : null;
+
+            bool btnsSontActifs = itemIsSelected;
+
+            if (_filmSelectionne != null)
+            {
+                btnsSontActifs &= _filmSelectionne.EstAffiche;
+            }
+
+            BtnVoirProjection.IsEnabled = btnsSontActifs;
+            BtnRetirerDeAffiche.IsEnabled = btnsSontActifs;
         }
 
         /// <summary>
