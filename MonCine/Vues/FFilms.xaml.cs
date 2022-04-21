@@ -8,13 +8,13 @@
 
 #region USING
 
+using MonCine.Data.Classes;
+using MonCine.Data.Classes.DAL;
+using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using MonCine.Data.Classes;
-using MonCine.Data.Classes.DAL;
-using MongoDB.Driver;
 
 #endregion
 
@@ -114,7 +114,6 @@ namespace MonCine.Vues
         private void ActiverBtnsPourFilmSelectionneEstAffiche()
         {
             bool itemIsSelected = LstFilms.SelectedIndex > -1;
-
             _filmSelectionne = itemIsSelected
                 ? (Film)LstFilms.SelectedItem
                 : null;
