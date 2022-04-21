@@ -2,7 +2,7 @@
 
 // Nom du fichier : OffrirRecompense.xaml.cs
 // Date de création : 2022-04-20
-// Date de modification : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -90,8 +90,6 @@ namespace MonCine.Vues
             Close();
         }
 
-        #endregion
-
         private void BtnOffrirRecompense_Click(object pSender, RoutedEventArgs pE)
         {
             MessageBox.Show(
@@ -101,5 +99,7 @@ namespace MonCine.Vues
                 MessageBoxImage.Warning
             );
         }
+
+        #endregion
     }
 }

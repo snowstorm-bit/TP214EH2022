@@ -1,9 +1,20 @@
-﻿using System;
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : DALReservation.cs
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
+
+#endregion
+
+#region USING
+
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 using MongoDB.Bson;
 using MongoDB.Driver;
+
+#endregion
 
 namespace MonCine.Data.Classes.DAL
 {
@@ -12,10 +23,14 @@ namespace MonCine.Data.Classes.DAL
     /// </summary>
     public class DALReservation : DAL<Reservation>
     {
+        #region ATTRIBUTS
+
         /// <summary>
         /// Couche d'accès aux données pour les films
         /// </summary>
         private DALFilm _dalFilm;
+
+        #endregion
 
         #region CONSTRUCTEURS
 
@@ -28,7 +43,8 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pClient">L'interface client vers MongoDB</param>
         /// <param name="pDb">Base de données MongoDB utilisée</param>
         /// <remarks>Remarque : <em>Ce constructeur doit être utilisé lorsqu'il existe déjà une instance pour les couches d'accès aux données des catégories, des acteurs et des réalisateurs.</em></remarks>
-        public DALReservation(DALCategorie pDalCategorie, DALActeur pDalActeur, DALRealisateur pDalRealisateur, IMongoClient pClient = null, IMongoDatabase pDb = null) : base(pClient, pDb)
+        public DALReservation(DALCategorie pDalCategorie, DALActeur pDalActeur, DALRealisateur pDalRealisateur,
+            IMongoClient pClient = null, IMongoDatabase pDb = null) : base(pClient, pDb)
         {
             DALCategorie dalCategorie = pDalCategorie;
             DALActeur dalActeur = pDalActeur;
@@ -44,7 +60,8 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pClient">L'interface client vers MongoDB</param>
         /// <param name="pDb">Base de données MongoDB utilisée</param>
         /// <remarks>Remarque : <em>Ce constructeur doit être utilisé lorsqu'il existe déjà une instance pour la couches d'accès aux données des films.</em></remarks>
-        public DALReservation(DALFilm pDalFilm, IMongoClient pClient = null, IMongoDatabase pDb = null) : base(pClient, pDb)
+        public DALReservation(DALFilm pDalFilm, IMongoClient pClient = null, IMongoDatabase pDb = null) : base(pClient,
+            pDb)
         {
             _dalFilm = pDalFilm;
         }

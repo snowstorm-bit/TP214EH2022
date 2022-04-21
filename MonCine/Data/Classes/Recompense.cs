@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Recompense.cs
-// Date de création : 2022-04-12
-// Date de modification : 2022-04-12
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -28,6 +28,7 @@ namespace MonCine.Data.Classes
         public ObjectId AbonneId { get; set; }
 
         [BsonIgnore] public Abonne Abonne { get; set; }
+
         #endregion
 
         #region CONSTRUCTEURS

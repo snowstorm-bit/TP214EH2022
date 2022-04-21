@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : DALAdministrateur.cs
-// Date de création : 2022-04-18
-// Date de modification : 2022-04-20
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -45,9 +45,12 @@ namespace MonCine.Data.Classes.DAL
         {
             List<Administrateur> administrateurs = DbContext.ObtenirCollectionListe();
             if (administrateurs.Count > 1)
+            {
                 throw new IndexOutOfRangeException(
                     "La base de données contient plus d'un administrateur pour la cinémathèque."
                 );
+            }
+
             return administrateurs.Count == 1 ? administrateurs[0] : null;
         }
 

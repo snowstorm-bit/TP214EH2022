@@ -1,9 +1,18 @@
-﻿using System;
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : DALRecompense.cs
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
+
+#endregion
+
+#region USING
+
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
 using MongoDB.Bson;
 using MongoDB.Driver;
+
+#endregion
 
 namespace MonCine.Data.Classes.DAL
 {
@@ -12,10 +21,14 @@ namespace MonCine.Data.Classes.DAL
     /// </summary>
     public class DALRecompense : DAL<Recompense>
     {
+        #region ATTRIBUTS
+
         /// <summary>
         /// Couche d'accès aux données pour les films
         /// </summary>
         private DALFilm _dalFilm;
+
+        #endregion
 
         #region CONSTRUCTEURS
 

@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : DALFilm.cs
-// Date de création : 2022-04-18
-// Date de modification : 2022-04-20
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -70,7 +70,8 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pClient">L'interface client vers MongoDB</param>
         /// <param name="pDb">Base de données MongoDB utilisée</param>
         /// <remarks>Remarque : <em>Ce constructeur doit être utilisé lorsqu'il existe déjà une instance pour les couches d'accès aux données des catégories, des acteurs et des réalisateurs.</em></remarks>
-        public DALFilm(DALAbonne pDalAbonne, IMongoClient pClient = null, IMongoDatabase pDb = null) : base(pClient, pDb)
+        public DALFilm(DALAbonne pDalAbonne, IMongoClient pClient = null, IMongoDatabase pDb = null) : base(pClient,
+            pDb)
         {
             _dalCategorie = new DALCategorie(MongoDbClient, Db);
             _dalActeur = new DALActeur(MongoDbClient, Db);
@@ -143,7 +144,10 @@ namespace MonCine.Data.Classes.DAL
                 List<Categorie> categories =
                     _dalCategorie.ObtenirCategorieesFiltres(pX => pX.Id, new List<ObjectId> { film.CategorieId });
                 if (categories.Count > 0)
+                {
                     film.Categorie = categories[0];
+                }
+
                 film.Acteurs = _dalActeur.ObtenirActeursFiltres(pX => pX.Id, film.ActeursId);
                 film.Realisateurs = _dalRealisateur.ObtenirRealisateursFiltres(pX => pX.Id, film.RealisateursId);
 
@@ -161,6 +165,24 @@ namespace MonCine.Data.Classes.DAL
                 foreach (Note filmNote in film.Notes)
                 {
                     filmNote.Abonne = abonnes.Find(pX => pX.Id == filmNote.AbonneId);
+                }
+
+                foreach (Projection projection in film.Projections)
+                {
+                    if (projection.EstActive && !film.EstAffiche)
+                    {
+                        projection.EstActive = false;
+                        MAJUnFilm(
+                            x => x.Id == film.Id,
+                            new List<(Expression<Func<Film, object>>, object)>
+                            {
+                                (
+                                    x => x.Projections[x.Projections.IndexOf(projection)],
+                                    projection
+                                )
+                            }
+                        );
+                    }
                 }
             }
 
@@ -191,6 +213,14 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pFilm">Film à mettre la liste des projections à jour</typeparam>
         public void MAJProjectionsFilm(Film pFilm)
         {
+            foreach (Projection projection in pFilm.Projections)
+            {
+                if (projection.EstActive && !pFilm.EstAffiche)
+                {
+                    projection.EstActive = false;
+                }
+            }
+
             MAJUnFilm(
                 x => x.Projections == pFilm.Projections,
                 new List<(Expression<Func<Film, object>> field, object value)>

@@ -1,22 +1,27 @@
-﻿using MonCine.Data.Classes;
-using System;
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : ModifierFilm.xaml.cs
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
+
+#endregion
+
+#region USING
+
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using MonCine.Data.Classes;
 using MonCine.Data.Classes.DAL;
 using MongoDB.Driver;
+
+#endregion
 
 namespace MonCine.Vues
 {
     public partial class ModifierFilm : Window
     {
+        #region ATTRIBUTS
+
         private DALCategorie _dalCategorie;
         private DALActeur _dalActeur;
         private DALRealisateur _dalRealisateur;
@@ -25,6 +30,10 @@ namespace MonCine.Vues
         private List<Acteur> _acteurs;
         private List<Realisateur> _realisateurs;
         private Film _film;
+
+        #endregion
+
+        #region CONSTRUCTEURS
 
         public ModifierFilm(Film pFilm, IMongoClient pClient, IMongoDatabase pDb)
         {
@@ -40,6 +49,10 @@ namespace MonCine.Vues
             InitializeComponent();
             AfficherInformationDuFilm();
         }
+
+        #endregion
+
+        #region MÉTHODES
 
         private void BtnAnnuler_Click(object sender, RoutedEventArgs e)
         {
@@ -140,5 +153,7 @@ namespace MonCine.Vues
             MessageBox.Show("Modifier un nouveau film, non implémenté!", "Information!",
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        #endregion
     }
 }

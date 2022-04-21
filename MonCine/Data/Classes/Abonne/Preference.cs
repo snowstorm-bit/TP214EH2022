@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Preference.cs
-// Date de création : 2022-04-19
-// Date de modification : 2022-04-20
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -10,7 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using MonCine.Data.Classes;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -73,8 +72,11 @@ namespace MonCine.Data.Classes
             set
             {
                 if (value.Count > Preference.NB_MAX_CATEGORIES_PREF)
+                {
                     throw new IndexOutOfRangeException(
                         $"Le nombre de catégories préférées est supérieur à {Preference.NB_MAX_CATEGORIES_PREF}");
+                }
+
                 _categoriesId = value;
             }
         }
@@ -89,8 +91,11 @@ namespace MonCine.Data.Classes
             set
             {
                 if (value.Count > Preference.NB_MAX_ACTEURS_PREF)
+                {
                     throw new IndexOutOfRangeException(
                         $"Le nombre d'acteurs préférés est supérieur à {Preference.NB_MAX_ACTEURS_PREF}");
+                }
+
                 _acteursId = value;
             }
         }
@@ -105,8 +110,11 @@ namespace MonCine.Data.Classes
             set
             {
                 if (value.Count > Preference.NB_MAX_REALISATEURS_PREF)
+                {
                     throw new IndexOutOfRangeException(
                         $"Le nombre de réalisateurs préférés est supérieur à {Preference.NB_MAX_REALISATEURS_PREF}");
+                }
+
                 _realisateursId = value;
             }
         }
@@ -148,6 +156,7 @@ namespace MonCine.Data.Classes
 
         #endregion
 
+        #region MÉTHODES
 
         #region Overrides of Object
 
@@ -196,6 +205,8 @@ namespace MonCine.Data.Classes
 
             return strFormate + sautDeLigne;
         }
+
+        #endregion
 
         #endregion
     }

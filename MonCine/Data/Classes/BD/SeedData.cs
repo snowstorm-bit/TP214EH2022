@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : SeedData.cs
-// Date de création : 2022-04-18
-// Date de modification : 2022-04-19
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -78,7 +78,8 @@ namespace MonCine.Data.Classes.BD
             SeedData.GenererReservations(dalReservation, dalFilm.ObtenirFilms(), dalAbonne.ObtenirAbonnes());
 
             // Récompenses
-            SeedData.GenererRecompenses(new DALRecompense(dalFilm, pClient, pDb), dalFilm.ObtenirFilms(), dalAbonne.ObtenirAbonnes());
+            SeedData.GenererRecompenses(new DALRecompense(dalFilm, pClient, pDb), dalFilm.ObtenirFilms(),
+                dalAbonne.ObtenirAbonnes());
         }
 
         /// <summary>
@@ -94,6 +95,7 @@ namespace MonCine.Data.Classes.BD
                 Administrateur administrateur = pDalAdministrateur.ObtenirAdministrateur();
 
                 if (administrateur == null)
+                {
                     pDalAdministrateur.InsererAdministrateur(
                         new Administrateur(
                             new ObjectId(),
@@ -102,6 +104,7 @@ namespace MonCine.Data.Classes.BD
                             "admin"
                         )
                     );
+                }
             }
             catch (IndexOutOfRangeException e)
             {
@@ -129,6 +132,7 @@ namespace MonCine.Data.Classes.BD
                 List<Categorie> categories = pDalCategorie.ObtenirCategories();
 
                 if (categories.Count == 0)
+                {
                     pDalCategorie.InsererPlusieursCategories(
                         new List<Categorie>
                         {
@@ -139,6 +143,7 @@ namespace MonCine.Data.Classes.BD
                             new(new ObjectId(), "Romance")
                         }
                     );
+                }
             }
             catch (ExceptionBD e)
             {
@@ -162,6 +167,7 @@ namespace MonCine.Data.Classes.BD
                 List<Acteur> acteurs = pDalActeur.ObtenirActeurs();
 
                 if (acteurs.Count == 0)
+                {
                     pDalActeur.InsererPlusieursActeurs(
                         new List<Acteur>
                         {
@@ -176,6 +182,7 @@ namespace MonCine.Data.Classes.BD
                             new(new ObjectId(), "Mélina Chaud")
                         }
                     );
+                }
             }
             catch (ExceptionBD e)
             {
@@ -199,6 +206,7 @@ namespace MonCine.Data.Classes.BD
                 List<Realisateur> realisateurs = pDalRealisateur.ObtenirRealisateurs();
 
                 if (realisateurs.Count == 0)
+                {
                     pDalRealisateur.InsererPlusieursRealisateurs(
                         new List<Realisateur>()
                         {
@@ -209,6 +217,7 @@ namespace MonCine.Data.Classes.BD
                             new(new ObjectId(), "Michael Bay")
                         }
                     );
+                }
             }
             catch (ExceptionBD e)
             {
@@ -542,7 +551,9 @@ namespace MonCine.Data.Classes.BD
                     recompenses.AddRange(SeedData.GenererTicketGratuits(pFilms, pAbonnes));
 
                     if (recompenses.Count > 0)
+                    {
                         pDalRecompense.InsererPlusieursRecompenses(recompenses);
+                    }
                 }
             }
             catch (ExceptionBD e)
@@ -554,6 +565,7 @@ namespace MonCine.Data.Classes.BD
                 throw new ExceptionBD($"Méthode : GenererRecompenses - Exception : {e.Message}");
             }
         }
+
         #endregion
     }
 }

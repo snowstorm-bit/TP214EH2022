@@ -2,7 +2,7 @@
 
 // Nom du fichier : Categorie.cs
 // Date de création : 2022-04-20
-// Date de modification : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -53,7 +53,10 @@ namespace MonCine.Data.Classes
         public override bool Equals(object? obj)
         {
             if (obj != null && obj is Categorie categorie)
+            {
                 return Id == categorie.Id;
+            }
+
             return false;
         }
 

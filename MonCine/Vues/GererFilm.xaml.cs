@@ -2,7 +2,7 @@
 
 // Nom du fichier : GererFilm.xaml.cs
 // Date de création : 2022-04-20
-// Date de modification : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -126,7 +126,9 @@ namespace MonCine.Vues
             BtnRetirerActeur.IsEnabled = !acteurDispoEstSelectionne;
 
             if (acteurDispoEstSelectionne)
+            {
                 LstActeursChoisis.SelectedIndex = -1;
+            }
         }
 
         private void LstActeursChoisis_OnSelectionChanged(object pSender, SelectionChangedEventArgs pE)
@@ -136,13 +138,17 @@ namespace MonCine.Vues
             BtnAjouterActeur.IsEnabled = !acteurChoisiEstSelectionne;
 
             if (acteurChoisiEstSelectionne)
+            {
                 LstActeursDispos.SelectedIndex = -1;
+            }
         }
 
         private void BtnAjouterActeur_Click(object sender, RoutedEventArgs e)
         {
             if (LstActeursDispos.SelectedIndex == -1)
+            {
                 AfficherMsgErreur("Vous devez sélectionner un des acteurs disponibles dans la liste de gauche.");
+            }
             else
             {
                 try
@@ -162,7 +168,9 @@ namespace MonCine.Vues
         private void BtnRetirerActeur_Click(object sender, RoutedEventArgs e)
         {
             if (LstActeursChoisis.SelectedIndex == -1)
+            {
                 AfficherMsgErreur("Vous devez sélectionner un des acteurs choisis dans la liste de droite.");
+            }
             else
             {
                 try
@@ -186,7 +194,9 @@ namespace MonCine.Vues
             BtnRetirerRealisateur.IsEnabled = !realisateurDispoEstSelectionne;
 
             if (realisateurDispoEstSelectionne)
+            {
                 LstRealisateursChoisis.SelectedIndex = -1;
+            }
         }
 
         private void LstRealisateursChoisis_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -196,13 +206,17 @@ namespace MonCine.Vues
             BtnAjouterRealisateur.IsEnabled = !realisateurChoisiEstSelectionne;
 
             if (realisateurChoisiEstSelectionne)
+            {
                 LstRealisateursDispos.SelectedIndex = -1;
+            }
         }
 
         private void BtnAjouterRealisateur_Click(object sender, RoutedEventArgs e)
         {
             if (LstRealisateursDispos.SelectedIndex == -1)
+            {
                 AfficherMsgErreur("Vous devez sélectionner un des réalisateurs disponibles dans la liste de gauche.");
+            }
             else
             {
                 try
@@ -222,7 +236,9 @@ namespace MonCine.Vues
         private void BtnRetirerRealisateur_Click(object sender, RoutedEventArgs e)
         {
             if (LstRealisateursChoisis.SelectedIndex == -1)
+            {
                 AfficherMsgErreur("Vous devez sélectionner un des réalisateurs choisis dans la liste de droite.");
+            }
             else
             {
                 try
@@ -252,7 +268,7 @@ namespace MonCine.Vues
                 _acteursChoisis.ForEach(x => acteurIds.Add(x.Id));
                 List<ObjectId> realisateurIds = new List<ObjectId>();
                 _realisateursChoisis.ForEach(x => realisateurIds.Add(x.Id));
-
+                Categorie categorieChoisie = (Categorie)CboCategories.SelectedItem;
                 if (_actionEstAjout)
                 {
                     _dalFilm.InsererUnFilm(new Film(
@@ -261,7 +277,7 @@ namespace MonCine.Vues
                         (DateTime)DpDateSortie.SelectedDate,
                         new List<Projection>(),
                         new List<Note>(),
-                        ((Categorie)CboCategories.SelectedItem).Id,
+                        categorieChoisie.Id,
                         acteurIds,
                         realisateurIds
                     ));
@@ -275,6 +291,35 @@ namespace MonCine.Vues
                         filtre.Add((
                             x => x.Nom,
                             TxtNom.Text
+                        ));
+                    }
+
+                    filtre.Add((
+                        x => x.DateSortie,
+                        (DateTime)DpDateSortie.SelectedDate
+                    ));
+
+                    if (!_film.Categorie.Equals(categorieChoisie))
+                    {
+                        filtre.Add((
+                            x => x.Categorie,
+                            categorieChoisie
+                        ));
+                    }
+
+                    if (_film.ActeursId != acteurIds)
+                    {
+                        filtre.Add((
+                            x => x.ActeursId,
+                            acteurIds
+                        ));
+                    }
+
+                    if (_film.RealisateursId != realisateurIds)
+                    {
+                        filtre.Add((
+                            x => x.ActeursId,
+                            realisateurIds
                         ));
                     }
 

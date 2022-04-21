@@ -2,7 +2,7 @@
 
 // Nom du fichier : Acteur.cs
 // Date de création : 2022-04-20
-// Date de modification : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -58,7 +58,10 @@ namespace MonCine.Data.Classes
         public override bool Equals(object? obj)
         {
             if (obj != null && obj is Acteur acteur)
+            {
                 return Id == acteur.Id;
+            }
+
             return false;
         }
 

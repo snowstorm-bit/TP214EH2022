@@ -1,8 +1,19 @@
-﻿using System;
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : DALRealisateur.cs
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
+
+#endregion
+
+#region USING
+
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 using MongoDB.Driver;
+
+#endregion
 
 namespace MonCine.Data.Classes.DAL
 {
@@ -25,6 +36,7 @@ namespace MonCine.Data.Classes.DAL
         #endregion
 
         #region MÉTHODES
+
         /// <summary>
         /// Permet d'obtenir la liste des réalisateurs contenue dans la base de données de la cinémathèque.
         /// </summary>
@@ -41,7 +53,8 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pField">Champs sur lequel le filtrage sera effectué</param>
         /// <param name="pObjects">Liste des valeurs à filtrer/param>
         /// <returns>La liste des réalisateurs filtrée selon le champs et les valeurs spécifiés en paramètre.</returns>
-        public List<Realisateur> ObtenirRealisateursFiltres<TField>(Expression<Func<Realisateur, TField>> pField, List<TField> pObjects)
+        public List<Realisateur> ObtenirRealisateursFiltres<TField>(Expression<Func<Realisateur, TField>> pField,
+            List<TField> pObjects)
         {
             return DbContext.ObtenirDocumentsFiltres(pField, pObjects);
         }

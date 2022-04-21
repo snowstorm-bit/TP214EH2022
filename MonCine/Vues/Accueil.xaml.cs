@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection.Metadata;
-using System.Text;
+﻿#region MÉTADONNÉES
+
+// Nom du fichier : Accueil.xaml.cs
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
+
+#endregion
+
+#region USING
+
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MonCine.Data;
-using MonCine.Data.Classes;
-using MonCine.Data.Classes.DAL;
-using MongoDB.Bson;
 using MongoDB.Driver;
+
+#endregion
 
 namespace MonCine.Vues
 {
@@ -26,8 +22,14 @@ namespace MonCine.Vues
     /// </summary>
     public partial class Accueil : Page
     {
+        #region ATTRIBUTS
+
         private IMongoClient _client;
         private IMongoDatabase _db;
+
+        #endregion
+
+        #region CONSTRUCTEURS
 
         public Accueil(IMongoClient pClient, IMongoDatabase pDb)
         {
@@ -71,20 +73,20 @@ namespace MonCine.Vues
 
                 //DALAbonne dalAbonne = new DALAbonne();
 
-                    //foreach (var item in collection)
-                    //{
+                //foreach (var item in collection)
+                //{
 
-                    //}
-                    //_cinematheque.Abonnes[0].Preference.Acteurs
-                    //    _dal.DbContext.MAJUn<Film, object>(
-                    //        x => x.Id == _cinematheque.Films[3].Id,
+                //}
+                //_cinematheque.Abonnes[0].Preference.Acteurs
+                //    _dal.DbContext.MAJUn<Film, object>(
+                //        x => x.Id == _cinematheque.Films[3].Id,
 
-                    //        new List<(System.Linq.Expressions.Expression<Func<Film, object>> field, object value)>
-                    //        {
-                    //            (x => x.Notes, new List<Note>()),
-                    //            (x => x.NoteMoy, 10)
-                    //        });
-                    // TODO : Affichage pour un utilisateur admin
+                //        new List<(System.Linq.Expressions.Expression<Func<Film, object>> field, object value)>
+                //        {
+                //            (x => x.Notes, new List<Note>()),
+                //            (x => x.NoteMoy, 10)
+                //        });
+                // TODO : Affichage pour un utilisateur admin
                 //}
             }
             catch (Exception e)
@@ -92,6 +94,10 @@ namespace MonCine.Vues
                 AfficherMsgErreur(e.Message);
             }
         }
+
+        #endregion
+
+        #region MÉTHODES
 
         /// <summary>
         /// Permet d'afficher le message reçu en paramètre dans un dialogue pour afficher ce dernier.
@@ -114,5 +120,7 @@ namespace MonCine.Vues
         {
             NavigationService.Navigate(new FFilms(_client, _db));
         }
+
+        #endregion
     }
 }

@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : ExceptionBD.cs
-// Date de création : 2022-04-10
-// Date de modification : 2022-04-10
+// Date de création : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -26,7 +26,9 @@ namespace MonCine.Data.Classes.BD
         /// Constructeur d'une exception personnalisée pour une exception liée à la base de donnée.
         /// </summary>
         /// <param name="pErreurMsg">Message de l'erreur lancée</param>
-        public ExceptionBD(string pErreurMsg) : base($"La base de données est présentement inaccessible. Erreur : {pErreurMsg}")
+        public ExceptionBD(string pErreurMsg) : base(
+            $"La base de données est présentement inaccessible. Erreur : {pErreurMsg}"
+        )
         {
             ErreurLog.Journaliser(pErreurMsg, TraceEventType.Warning, 1);
         }

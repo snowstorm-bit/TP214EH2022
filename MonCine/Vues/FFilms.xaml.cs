@@ -2,7 +2,7 @@
 
 // Nom du fichier : FFilms.xaml.cs
 // Date de création : 2022-04-20
-// Date de modification : 2022-04-20
+// Date de modification : 2022-04-21
 
 #endregion
 
@@ -105,7 +105,9 @@ namespace MonCine.Vues
             bool btnsSontActifs = itemIsSelected;
 
             if (_filmSelectionne != null)
+            {
                 btnsSontActifs &= _filmSelectionne.EstAffiche;
+            }
 
             BtnModifierFilm.IsEnabled = btnsSontActifs;
             BtnVoirProjection.IsEnabled = btnsSontActifs;
