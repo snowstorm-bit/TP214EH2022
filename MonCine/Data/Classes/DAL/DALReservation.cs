@@ -92,6 +92,11 @@ namespace MonCine.Data.Classes.DAL
             return ObtenirObjetsDansReservations(DbContext.ObtenirDocumentsFiltres(pField, pObjects));
         }
 
+        public int ObtenirNbReservations<TField>(Expression<Func<Reservation, TField>> pField, List<TField> pObjects)
+        {
+            return DbContext.ObtenirDocumentsFiltres(pField, pObjects).Count;
+        }
+
         /// <summary>
         /// Permet d'obtenir les objets pour les attributs d'un <see cref="Reservation"/> faisant référence à une autre
         /// collection dans la base de données de la cinémathèque pour toute la liste de abonnés spécifiée en paramètre.
@@ -127,14 +132,11 @@ namespace MonCine.Data.Classes.DAL
         /// Permet d'insérer la liste des réservations reçue en paramètre dans la base de données de la cinémathèque.
         /// </summary>
         /// <param name="pReservations">Liste des réservations à insérer dans la base de données</param>
-        public void InsererPlusieursReservations(List<Reservation> pReservations)
+        public void InsererUneReservation(Reservation pReservation)
         {
-            foreach (Reservation reservation in pReservations)
-            {
-                MAJProjectionFilm(reservation.Film);
-            }
+            MAJProjectionFilm(pReservation.Film);
 
-            DbContext.InsererPlusieursDocuments(pReservations);
+            DbContext.InsererUnDocument(pReservation);
         }
 
         /// <summary>

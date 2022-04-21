@@ -107,7 +107,8 @@ namespace MonCine.Data.Classes.DAL
         /// <returns>La liste des films contenue dans la base de données de la cinémathèque.</returns>
         public List<Film> ObtenirFilms()
         {
-            return ObtenirObjetsDansFilms(DbContext.ObtenirCollectionListe());
+            List<Film> a = DbContext.ObtenirCollectionListe();
+            return ObtenirObjetsDansFilms(a);
         }
 
         /// <summary>
@@ -161,29 +162,20 @@ namespace MonCine.Data.Classes.DAL
                     }
                 }
 
-                List<Abonne> abonnes = _dalAbonne.ObtenirAbonnesFiltres(pX => pX.Id, abonneIds);
-                foreach (Note filmNote in film.Notes)
+                try
                 {
-                    filmNote.Abonne = abonnes.Find(pX => pX.Id == filmNote.AbonneId);
-                }
-
-                foreach (Projection projection in film.Projections)
-                {
-                    if (projection.EstActive && !film.EstAffiche)
+                    List<Abonne> abonnes = _dalAbonne.ObtenirAbonnesFiltres(pX => pX.Id, abonneIds);
+                    foreach (Note filmNote in film.Notes)
                     {
-                        projection.EstActive = false;
-                        MAJUnFilm(
-                            x => x.Id == film.Id,
-                            new List<(Expression<Func<Film, object>>, object)>
-                            {
-                                (
-                                    x => x.Projections[x.Projections.IndexOf(projection)],
-                                    projection
-                                )
-                            }
-                        );
+                        filmNote.Abonne = abonnes.Find(pX => pX.Id == filmNote.AbonneId);
                     }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
             }
 
             return pFilms;

@@ -469,7 +469,6 @@ namespace MonCine.Data.Classes.BD
             try
             {
                 List<Reservation> reservations = pDalReservation.ObtenirReservations();
-
                 if (!reservations.Any())
                 {
                     int nbReservations = SeedData._rand.Next(20, 40);
@@ -485,7 +484,7 @@ namespace MonCine.Data.Classes.BD
 
                             if (pFilms[indexFilm].Projections[indexProjection].NbPlacesRestantes - nbPlaces > -1)
                             {
-                                reservations.Add(new Reservation(
+                                pDalReservation.InsererUneReservation(new Reservation(
                                     new ObjectId(),
                                     pFilms[indexFilm].Projections[indexProjection].DateDebut,
                                     pFilms[indexFilm],
@@ -494,11 +493,6 @@ namespace MonCine.Data.Classes.BD
                                 ));
                             }
                         }
-                    }
-
-                    if (reservations.Count > 0)
-                    {
-                        pDalReservation.InsererPlusieursReservations(reservations);
                     }
                 }
             }
@@ -510,28 +504,6 @@ namespace MonCine.Data.Classes.BD
             {
                 throw new ExceptionBD($"Méthode : GenererReservations - Exception : {e.Message}");
             }
-        }
-
-        /// <summary>
-        /// Permet de générer des récompenses de type <see cref="TicketGratuit"/>.
-        /// </summary>
-        /// <param name="pFilms">Liste des films</param>
-        /// <param name="pAbonnes">Liste des abonnés</param>
-        /// <returns>Liste des récompenses de type <see cref="TicketGratuit"/> générée.</returns>
-        private static List<TicketGratuit> GenererTicketGratuits(List<Film> pFilms, List<Abonne> pAbonnes)
-        {
-            List<TicketGratuit> ticketGratuits = new List<TicketGratuit>();
-            int nbTicketGratuitsGeneres = SeedData._rand.Next(pFilms.Count);
-            for (int i = 0; i < nbTicketGratuitsGeneres; i++)
-            {
-                ticketGratuits.Add(new TicketGratuit(
-                    new ObjectId(),
-                    pFilms[i].Id,
-                    pAbonnes[SeedData._rand.Next(0, pAbonnes.Count - 1)].Id)
-                );
-            }
-
-            return ticketGratuits;
         }
 
         /// <summary>
@@ -564,6 +536,28 @@ namespace MonCine.Data.Classes.BD
             {
                 throw new ExceptionBD($"Méthode : GenererRecompenses - Exception : {e.Message}");
             }
+        }
+
+        /// <summary>
+        /// Permet de générer des récompenses de type <see cref="TicketGratuit"/>.
+        /// </summary>
+        /// <param name="pFilms">Liste des films</param>
+        /// <param name="pAbonnes">Liste des abonnés</param>
+        /// <returns>Liste des récompenses de type <see cref="TicketGratuit"/> générée.</returns>
+        private static List<TicketGratuit> GenererTicketGratuits(List<Film> pFilms, List<Abonne> pAbonnes)
+        {
+            List<TicketGratuit> ticketGratuits = new List<TicketGratuit>();
+            int nbTicketGratuitsGeneres = SeedData._rand.Next(2, pFilms.Count);
+            for (int i = 0; i < nbTicketGratuitsGeneres; i++)
+            {
+                ticketGratuits.Add(new TicketGratuit(
+                    new ObjectId(),
+                    pFilms[i].Id,
+                    pAbonnes[SeedData._rand.Next(0, pAbonnes.Count - 1)].Id)
+                );
+            }
+
+            return ticketGratuits;
         }
 
         #endregion

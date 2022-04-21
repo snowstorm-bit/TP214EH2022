@@ -144,8 +144,8 @@ namespace MonCine.Data.Classes.DAL
                 abonne.Preference.Acteurs = _dalActeur.ObtenirActeursFiltres(x => x.Id, abonne.Preference.ActeursId);
                 abonne.Preference.Realisateurs =
                     _dalRealisateur.ObtenirRealisateursFiltres(x => x.Id, abonne.Preference.RealisateursId);
-                abonne.NbSeances = _dalReservation
-                    .ObtenirReservationsFiltrees(x => x.AbonneId, new List<ObjectId> { abonne.Id }).Count;
+                abonne.NbSeances =
+                    _dalReservation.ObtenirNbReservations(x => x.AbonneId, new List<ObjectId> { abonne.Id });
             }
 
             return pAbonnes;
