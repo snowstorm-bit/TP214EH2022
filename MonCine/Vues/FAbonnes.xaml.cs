@@ -43,7 +43,7 @@ namespace MonCine.Vues
             _client = pClient;
             _db = pDb;
             _dalAbonne = new DALAbonne(_client, _db);
-            _abonnes = _dalAbonne.ObtenirAbonnes();
+            _abonnes = _dalAbonne.ObtenirTout();
 
             LstAbonnes.Items.Clear();
 

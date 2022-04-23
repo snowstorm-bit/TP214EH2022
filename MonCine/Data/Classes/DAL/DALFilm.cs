@@ -146,7 +146,7 @@ namespace MonCine.Data.Classes.DAL
 
                 try
                 {
-                    List<Abonne> abonnes = _dalAbonne.ObtenirAbonnesFiltres(pX => pX.Id, abonneIds);
+                    List<Abonne> abonnes = _dalAbonne.ObtenirPlusieurs(pX => pX.Id, abonneIds);
                     foreach (Note filmNote in film.Notes)
                     {
                         filmNote.Abonne = abonnes.Find(pX => pX.Id == filmNote.AbonneId);

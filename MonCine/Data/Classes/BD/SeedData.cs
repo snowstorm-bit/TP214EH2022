@@ -76,10 +76,10 @@ namespace MonCine.Data.Classes.BD
             SeedData.GenererAbonnes(dalAbonne, categories, acteurs, realisateurs);
 
             // Notes
-            SeedData.GenererNotes(dalFilm, dalFilm.ObtenirTout(), dalAbonne.ObtenirAbonnes());
+            SeedData.GenererNotes(dalFilm, dalFilm.ObtenirTout(), dalAbonne.ObtenirTout());
 
             // Réservations
-            SeedData.GenererReservations(dalReservation, dalFilm.ObtenirTout(), dalAbonne.ObtenirAbonnes());
+            SeedData.GenererReservations(dalReservation, dalFilm.ObtenirTout(), dalAbonne.ObtenirTout());
         }
 
         /// <summary>
@@ -394,7 +394,7 @@ namespace MonCine.Data.Classes.BD
         {
             try
             {
-                List<Abonne> abonnes = pDalAbonne.ObtenirAbonnes();
+                List<Abonne> abonnes = pDalAbonne.ObtenirTout();
 
                 if (!abonnes.Any())
                 {
@@ -405,7 +405,7 @@ namespace MonCine.Data.Classes.BD
                         abonnes.Add(SeedData.GenererAbonne(i + 1, pCategories, pActeurs, pRealisateurs));
                     }
 
-                    pDalAbonne.InsererPlusieursAbonnes(abonnes);
+                    pDalAbonne.InsererPlusieurs(abonnes);
                 }
             }
             catch (ExceptionBD)
