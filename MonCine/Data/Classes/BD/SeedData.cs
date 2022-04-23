@@ -479,7 +479,7 @@ namespace MonCine.Data.Classes.BD
                             film.Notes.Add(new Note(pAbonnes[i].Id, SeedData._rand.Next(10)));
                         }
 
-                        pDalFilm.MAJUnFilm(
+                        pDalFilm.MAJUn(
                             x => x.Id == film.Id,
                             new List<(Expression<Func<Film, object>> field, object value)>
                             {
