@@ -510,7 +510,7 @@ namespace MonCine.Data.Classes.BD
                 List<Reservation> reservations = pDalReservation.ObtenirReservations();
                 if (!reservations.Any())
                 {
-                    int nbReservations = SeedData._rand.Next(20, 40);
+                    int nbReservations = SeedData._rand.Next(30, 60);
 
                     for (int i = 0; i < nbReservations; i++)
                     {
@@ -519,17 +519,20 @@ namespace MonCine.Data.Classes.BD
                         if (film.Projections.Count > 0)
                         {
                             int indexProjection = SeedData._rand.Next(0, film.Projections.Count - 1);
-                            int nbPlaces = SeedData._rand.Next(1, 10);
-
-                            if (film.Projections[indexProjection].NbPlacesRestantes - nbPlaces > -1)
+                            if (film.Projections[indexProjection].EstActive)
                             {
-                                pDalReservation.InsererUneReservation(new Reservation(
-                                    new ObjectId(),
-                                    film,
-                                    indexProjection,
-                                    pAbonnes[SeedData._rand.Next(0, pAbonnes.Count - 1)].Id,
-                                    nbPlaces
-                                ));
+                                int nbPlaces = SeedData._rand.Next(1, 10);
+
+                                if (film.Projections[indexProjection].NbPlacesRestantes - nbPlaces > -1)
+                                {
+                                    pDalReservation.InsererUneReservation(new Reservation(
+                                        new ObjectId(),
+                                        film,
+                                        indexProjection,
+                                        pAbonnes[SeedData._rand.Next(0, pAbonnes.Count - 1)].Id,
+                                        nbPlaces
+                                    ));
+                                }
                             }
                         }
                     }

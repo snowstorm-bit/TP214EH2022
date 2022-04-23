@@ -74,7 +74,7 @@ namespace MonCine.Data.Classes
                     {
                         if (derniereProjection.DateFin < DateTime.Now)
                         {
-                            DesactiverDerniereProjection();
+                            DesactiverProjection();
                         }
                         else
                         {
@@ -188,16 +188,24 @@ namespace MonCine.Data.Classes
         {
             if (Projections.Count > 0)
             {
-                DesactiverDerniereProjection();
+                foreach (Projection projection in Projections)
+                {
+                    if (Projections[Projections.Count - 1] == projection)
+                    {
+                        DesactiverDerniereProjection();
+                    }
+                    else if (projection.EstActive)
+                    {
+                        projection.EstActive = false;
+                    }
+                }
+                
                 return true;
             }
 
             return false;
         }
 
-        /// <summary>
-        /// Permet de désactiver la dernière projection du film.
-        /// </summary>
         private void DesactiverDerniereProjection()
         {
             Projection derniereProjection = Projections[Projections.Count - 1];
@@ -210,7 +218,6 @@ namespace MonCine.Data.Classes
                 );
             }
         }
-
         /// <summary>
         /// Permet d'ajouter une projection au film.
         /// </summary>
@@ -308,8 +315,6 @@ namespace MonCine.Data.Classes
                             $"Il est impossible d'ajouter une autre projection puisque celle-ci a déjà été projetée {Film.NB_MAX_EST_AFFICHE_PAR_ANNEE}");
                     }
                 }
-
-                derniereProjection.EstActive = false;
             }
 
             Projections.Add(new Projection(pDateDebut, pDateFin, pSalle));
