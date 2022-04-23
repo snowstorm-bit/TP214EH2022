@@ -55,11 +55,6 @@ namespace MonCine.Vues
 
         private void OnLoaded(object pSender, RoutedEventArgs pE)
         {
-            ObtenirFilms();
-        }
-
-        private void ObtenirFilms()
-        {
             _films = _dalFilm.ObtenirTout();
             if (LstFilms.Items.Count != 0)
             {
