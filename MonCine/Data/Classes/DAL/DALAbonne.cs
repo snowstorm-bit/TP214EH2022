@@ -159,5 +159,10 @@ namespace MonCine.Data.Classes.DAL
         {
             MongoDbContext.InsererPlusieursDocuments(Db, pAbonnes);
         }
+
+        public bool MAJUn<TField>(Expression<Func<Abonne, bool>> pFiltre, List<(Expression<Func<Abonne, TField>> field, TField value)> pMajDefinitions)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using MonCine.Data.Classes.BD;
+using MonCine.Data.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -19,10 +20,15 @@ using MongoDB.Driver;
 
 namespace MonCine.Data.Classes.DAL
 {
+    public interface IMAJ : ICRUD<Film>
+    {
+        public void MAJProjections(Film pFilm);
+    }
+
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour les objets de type <see cref="Film"/>.
     /// </summary>
-    public class DALFilm : DAL
+    public class DALFilm : DAL, IMAJ
     {
         #region ATTRIBUTS
 
@@ -89,8 +95,7 @@ namespace MonCine.Data.Classes.DAL
         /// <returns>La liste des films contenue dans la base de données de la cinémathèque.</returns>
         public List<Film> ObtenirTout()
         {
-            List<Film> a = MongoDbContext.ObtenirCollectionListe<Film>(Db);
-            return ObtenirObjetsLst(a);
+            return ObtenirObjetsDansLst(MongoDbContext.ObtenirCollectionListe<Film>(Db));
         }
 
         /// <summary>
@@ -102,7 +107,7 @@ namespace MonCine.Data.Classes.DAL
         /// <returns>La liste des films filtrée selon le champs et les valeurs spécifiés en paramètre.</returns>
         public List<Film> ObtenirPlusieurs<TField>(Expression<Func<Film, TField>> pFiltre, List<TField> pObjectIds)
         {
-            return ObtenirObjetsLst(MongoDbContext.ObtenirDocumentsFiltres(Db, pFiltre, pObjectIds));
+            return ObtenirObjetsDansLst(MongoDbContext.ObtenirDocumentsFiltres(Db, pFiltre, pObjectIds));
         }
 
         /// <summary>
@@ -114,7 +119,7 @@ namespace MonCine.Data.Classes.DAL
         /// La liste des films dont les attributs faisant référence à une autre collection
         /// dans la base de données de la cinémathèque sont à présent définis par des objets non nul.
         /// </returns>
-        private List<Film> ObtenirObjetsLst(List<Film> pFilms)
+        public List<Film> ObtenirObjetsDansLst(List<Film> pFilms)
         {
             // Conserver ce if dans la méthode pour éviter une erreur de type StackOverflow
             if (_dalAbonne == null)
@@ -162,6 +167,7 @@ namespace MonCine.Data.Classes.DAL
             return pFilms;
         }
 
+
         // TODO : RETIRER SI NON UTILISER
         ///// <summary>
         ///// Permet d'insérer le film reçu en paramètre dans la base de données de la cinémathèque.
@@ -195,7 +201,7 @@ namespace MonCine.Data.Classes.DAL
                 }
             }
 
-            MAJUnFilm(
+            MAJUn(
                 x => x.Id == pFilm.Id,
                 new List<(Expression<Func<Film, object>> field, object value)>
                 {
@@ -214,8 +220,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pFiltre">Expression permettant de déterminer quel sera le film à mettre à jour</param>
         /// <param name="pMajDefinitions">Liste des champs et de ses valeurs à mettre à jour</param>
         /// <returns>Vrai si la mise à jour du film a fonctionné. Faux dans le cas contraire.</returns>
-        public bool MAJUnFilm<TField>(Expression<Func<Film, bool>> pFiltre,
-            List<(Expression<Func<Film, TField>> field, TField value)> pMajDefinitions)
+        public bool MAJUn<TField>(Expression<Func<Film, bool>> pFiltre, List<(Expression<Func<Film, TField>> field, TField value)> pMajDefinitions)
         {
             return MongoDbContext.MAJUn(Db, pFiltre, pMajDefinitions);
         }
