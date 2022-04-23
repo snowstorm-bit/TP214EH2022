@@ -1,24 +1,19 @@
-﻿using MonCine.Data.Classes;
-using MongoDB.Bson;
-using Moq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
+using MonCine.Data.Classes;
+using MonCine.Data.Classes.DAL;
+using Moq;
+using MongoDB.Bson;
+using MonCine.Data.Interfaces;
 
 namespace MonCineTests
 {
     public class AbonneTests
     {
         private static Random _rand = new Random();
-        [Fact]
-        public void ConstructeurDevraitCreerInstanceNonVide()
-        {
-
-        }
-
-        [Fact]
-        public void ObtenirAbonnesSiToutLesAbonnesSontRetourner()
+        private List<Abonne> generationAbonnes()
         {
             int nbAbonnesGeneres = AbonneTests._rand.Next(6, 30);
             List<Abonne> abonnes = new List<Abonne>();
@@ -83,24 +78,17 @@ namespace MonCineTests
                     )
                 ));
             }
+            return abonnes;
+        }
+        [Fact]
+        public void ObtenirAbonnesSiTousLesAbonnesSontRetournes()
+        {
+            List<Abonne> abonnes = generationAbonnes();
+            var abonneMock = new Mock<ICRUD<Abonne>>();
 
-            var mock = new Mock<Abonne>();
-
-            mock.Setup(x => x.A()).Returns("dfd");
-
-            string a = abonnes[0].A();
-
-            mock.Verify();
-            //var test = new DALAbonne();
-
-            //test.ObtenirAbonnes(abonneMock.Object);
-
-            //abonneMock.Verify(a => a.ObtenirAbonnes());
-            //var abonnes = new List<Abonne>();
-
-            //abonnes.Equals(abonneMock.Object);
-
-            //abonneMock.Verify(x => x.ObtenirAbonnes());
+            abonneMock.Setup(x => x.ObtenirTout()).Returns(abonnes);
+            var abonnesMock = abonneMock.Object.ObtenirTout();
+            Assert.Equal(abonnesMock, abonnes);
         }
     }
 }
