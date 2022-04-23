@@ -135,7 +135,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pReservations">Liste des réservations à insérer dans la base de données</param>
         public void InsererUneReservation(Reservation pReservation)
         {
-            _dalFilm.MAJProjectionsFilm(pReservation.Film);
+            _dalFilm.MAJProjections(pReservation.Film);
 
             MongoDbContext.InsererUnDocument(Db, pReservation);
         }

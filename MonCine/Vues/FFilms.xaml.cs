@@ -87,7 +87,7 @@ namespace MonCine.Vues
                 {
                     try
                     {
-                        _dalFilm.MAJProjectionsFilm(_filmSelectionne);
+                        _dalFilm.MAJProjections(_filmSelectionne);
                         _films[_films.FindIndex(x => x.Id == _filmSelectionne.Id)] = _filmSelectionne;
                         if (RbTousLesFilms.IsChecked == true)
                         {
