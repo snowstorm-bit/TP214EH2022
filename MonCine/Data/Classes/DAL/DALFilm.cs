@@ -90,7 +90,7 @@ namespace MonCine.Data.Classes.DAL
         public List<Film> ObtenirTout()
         {
             List<Film> a = MongoDbContext.ObtenirCollectionListe<Film>(Db);
-            return ObtenirObjetsDansFilms(a);
+            return ObtenirObjetsLst(a);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace MonCine.Data.Classes.DAL
         /// <returns>La liste des films filtrée selon le champs et les valeurs spécifiés en paramètre.</returns>
         public List<Film> ObtenirPlusieurs<TField>(Expression<Func<Film, TField>> pFiltre, List<TField> pObjectIds)
         {
-            return ObtenirObjetsDansFilms(MongoDbContext.ObtenirDocumentsFiltres(Db, pFiltre, pObjectIds));
+            return ObtenirObjetsLst(MongoDbContext.ObtenirDocumentsFiltres(Db, pFiltre, pObjectIds));
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace MonCine.Data.Classes.DAL
         /// La liste des films dont les attributs faisant référence à une autre collection
         /// dans la base de données de la cinémathèque sont à présent définis par des objets non nul.
         /// </returns>
-        private List<Film> ObtenirObjetsDansFilms(List<Film> pFilms)
+        private List<Film> ObtenirObjetsLst(List<Film> pFilms)
         {
             // Conserver ce if dans la méthode pour éviter une erreur de type StackOverflow
             if (_dalAbonne == null)
@@ -162,14 +162,15 @@ namespace MonCine.Data.Classes.DAL
             return pFilms;
         }
 
-        /// <summary>
-        /// Permet d'insérer le film reçu en paramètre dans la base de données de la cinémathèque.
-        /// </summary>
-        /// <param name="pFilms">Le film à insérer dans la base de données de la cinémathèque</param>
-        public void InsererUnFilm(Film pFilm)
-        {
-            MongoDbContext.InsererUnDocument(Db, pFilm);
-        }
+        // TODO : RETIRER SI NON UTILISER
+        ///// <summary>
+        ///// Permet d'insérer le film reçu en paramètre dans la base de données de la cinémathèque.
+        ///// </summary>
+        ///// <param name="pFilms">Le film à insérer dans la base de données de la cinémathèque</param>
+        //public void InsererUn(Film pFilm)
+        //{
+        //    MongoDbContext.InsererUnDocument(Db, pFilm);
+        //}
 
         /// <summary>
         /// Permet d'insérer la liste des films reçue en paramètre dans la base de données de la cinémathèque.
@@ -184,7 +185,7 @@ namespace MonCine.Data.Classes.DAL
         /// Permet de mettre à jour la liste des projections du film spécifié en paramètre. 
         /// </summary>
         /// <param name="pFilm">Film à mettre la liste des projections à jour</typeparam>
-        public void MAJProjectionsFilm(Film pFilm)
+        public void MAJProjections(Film pFilm)
         {
             foreach (Projection projection in pFilm.Projections)
             {

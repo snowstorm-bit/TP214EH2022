@@ -48,10 +48,10 @@ namespace MonCine.Data.Classes
         /// </summary>
         public List<Projection> Projections { get; set; }
 
-        // TODO : Créer une instance de la liste avant la mise à jour
-        // TODO : Comparer si la liste a été modifié après l'ajout d'une projection
-        // TODO :   SI OUI ALORS
-        // TODO :       Enregistrer modif dans BD
+
+        /// <summary>
+        /// Obtient ou défini la liste des dates à auxquelles film n'était plus à l'affiche
+        /// </summary>
         public List<DateTime> DatesFinsAffiche { get; set; }
 
         /// <summary>
