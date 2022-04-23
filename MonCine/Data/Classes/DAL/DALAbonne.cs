@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using MonCine.Data.Classes.BD;
+using MonCine.Data.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -22,7 +23,7 @@ namespace MonCine.Data.Classes.DAL
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour les objets de type <see cref="Abonne"/>.
     /// </summary>
-    public class DALAbonne : DAL
+    public class DALAbonne : DAL, ICRUD<Abonne>
     {
         #region ATTRIBUTS
 
@@ -102,18 +103,17 @@ namespace MonCine.Data.Classes.DAL
         }
 
         #endregion
-
-        #region MÉTHODES
-
+        
         /// <summary>
         /// Permet d'obtenir la liste des abonnés contenue dans la base de données de la cinémathèque.
         /// </summary>
         /// <returns>La liste des abonnés contenue dans la base de données de la cinémathèque.</returns>
-        public List<Abonne> ObtenirAbonnes()
+        public List<Abonne> ObtenirTout()
         {
-            return ObtenirObjetsDansAbonnes(MongoDbContext.ObtenirCollectionListe<Abonne>(Db));
+            return ObtenirObjetsDansLst(MongoDbContext.ObtenirCollectionListe<Abonne>(Db));
         }
 
+        
         /// <summary>
         /// Permet de filtrer les abonnés contenus dans la base de données de la cinémathèque selon le champs et les valeurs spécifiés en paramètre.
         /// </summary>
@@ -121,10 +121,9 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pField">Champs sur lequel le filtrage sera effectué</param>
         /// <param name="pObjects">Liste des valeurs à filtrer</param>
         /// <returns>La liste des abonnés filtrée selon le champs et les valeurs spécifiés en paramètre.</returns>
-        public List<Abonne> ObtenirAbonnesFiltres<TField>(Expression<Func<Abonne, TField>> pField,
-            List<TField> pObjects)
+        public List<Abonne> ObtenirPlusieurs<TField>(Expression<Func<Abonne, TField>> pField, List<TField> pObjects)
         {
-            return ObtenirObjetsDansAbonnes(MongoDbContext.ObtenirDocumentsFiltres(Db, pField, pObjects));
+            return ObtenirObjetsDansLst(MongoDbContext.ObtenirDocumentsFiltres(Db, pField, pObjects));
         }
 
         /// <summary>
@@ -136,7 +135,7 @@ namespace MonCine.Data.Classes.DAL
         /// La liste des abonnés dont les attributs faisant référence à une autre collection
         /// dans la base de données de la cinémathèque sont à présent définis par des objets non nul.
         /// </returns>
-        private List<Abonne> ObtenirObjetsDansAbonnes(List<Abonne> pAbonnes)
+        public List<Abonne> ObtenirObjetsDansLst(List<Abonne> pAbonnes)
         {
             foreach (Abonne abonne in pAbonnes)
             {
@@ -156,11 +155,9 @@ namespace MonCine.Data.Classes.DAL
         /// Permet d'insérer la liste des abonnés reçue en paramètre dans la base de données de la cinémathèque.
         /// </summary>
         /// <param name="pAbonnes">Liste des abonnés à insérer dans la base de données</param>
-        public void InsererPlusieursAbonnes(List<Abonne> pAbonnes)
+        public void InsererPlusieurs(List<Abonne> pAbonnes)
         {
             MongoDbContext.InsererPlusieursDocuments(Db, pAbonnes);
         }
-
-        #endregion
     }
 }
