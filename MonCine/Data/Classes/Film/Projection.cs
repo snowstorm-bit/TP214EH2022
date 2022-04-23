@@ -1,8 +1,8 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : Projection.cs
-// Date de création : 2022-04-20
-// Date de modification : 2022-04-21
+// Date de création : 2022-04-23
+// Date de modification : 2022-04-23
 
 #endregion
 
@@ -62,8 +62,14 @@ namespace MonCine.Data.Classes
             }
         }
 
+        /// <summary>
+        /// Obtient ou défini l'identifiant de la salle pour la projection du film
+        /// </summary>
         public ObjectId SalleId { get; set; }
 
+        /// <summary>
+        /// Obtient ou défini la salle pour la projection du film
+        /// </summary>
         [BsonIgnore]
         public Salle Salle
         {
@@ -137,8 +143,8 @@ namespace MonCine.Data.Classes
             //return "Début de la projection: " + DateDebut.ToString("d MMMM") + "\rDate de fin: " + _dateFin.ToString("d MMMM") + " \r\rNb. place restantes: " + _nbPlacesRestantes;
             return
                 "Début de la projection: " + DateDebut.ToString("d MMMM") +
-                "\rDate de fin: " + _dateFin.ToString("d MMMM") +
-                "\r\rNb. place restantes: " + _nbPlacesRestantes +
+                "\rDate de fin: " + DateFin.ToString("d MMMM") +
+                "\r\rNb. place restantes: " + NbPlacesRestantes +
                 $"\rProjection active : {(EstActive ? "Vrai" : "Faux")}";
         }
 
