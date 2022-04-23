@@ -39,19 +39,28 @@ namespace MonCine.Vues
             _client = pClient;
             _db = pDb;
             _film = pFilm;
-
-            _film.Projections.ForEach(x => LstProjections.Items.Add(x));
+            Loaded += OnLoaded;
         }
 
         #endregion
 
         #region MÉTHODES
 
-        private void btnRetour_Click(object sender, RoutedEventArgs e)
+        private void OnLoaded(object pSender, RoutedEventArgs pE)
+        {
+            _film.Projections.ForEach(x => LstProjections.Items.Add(x));
+        }
+
+        private void BtnRetour_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }
 
         #endregion
+
+        private void BtnAjouter_OnClick(object pSender, RoutedEventArgs pE)
+        {
+            NavigationService.Navigate(new FProgrammerProjection(_film, _client, _db));
+        }
     }
 }
