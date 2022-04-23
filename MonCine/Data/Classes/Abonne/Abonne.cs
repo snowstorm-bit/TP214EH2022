@@ -21,6 +21,8 @@ namespace MonCine.Data.Classes
     /// </summary>
     public class Abonne : Utilisateur
     {
+        private Preference _preference;
+
         #region PROPRIÉTÉS ET INDEXEURS
 
         /// <summary>
@@ -31,7 +33,21 @@ namespace MonCine.Data.Classes
         /// <summary>
         /// Obitient ou défini l'objet <see cref="Classes.Preference"/> de l'abonné
         /// </summary>
-        public Preference Preference { get; set; }
+        /// <exception cref="NullReferenceException">Lancée lorsque la valeur est nulle.</exception>
+        public Preference Preference
+        {
+            get { return _preference; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new NullReferenceException(
+                        "Impossible d'attribuer objet nul à préférence."
+                    );
+                }
+                _preference = value;
+            }
+        }
 
         /// <summary>
         /// Nombre de séances auxquelles l'abonné a assisté
