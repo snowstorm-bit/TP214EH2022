@@ -64,17 +64,21 @@ namespace MonCine.Data.Classes
                     );
                 }
 
+                _nbPlaces = value;
+
                 if (Film != null)
                 {
-                    if (Film.Projections[IndexProjectionFilm].NbPlacesRestantes - _nbPlaces < 0)
+                    Projection projection = Film.Projections[IndexProjectionFilm];
+                    if (projection.NbPlacesRestantes - _nbPlaces < 0)
                     {
                         throw new InvalidOperationException(
                             "Il ne reste plus de places pour créer une réservation avec le nombre de places et la projection sélectionnés.");
                     }
-                    Film.Projections[IndexProjectionFilm].NbPlacesRestantes -= NbPlaces;
-                }
+                    else if (projection.NbPlacesRestantes - _nbPlaces == 0) // Lorsqu'il n'y a plus de place disponible pour une réservation
+                        projection.EstActive = false;
 
-                _nbPlaces = value;
+                    projection.NbPlacesRestantes -= _nbPlaces;
+                }
             }
         }
 

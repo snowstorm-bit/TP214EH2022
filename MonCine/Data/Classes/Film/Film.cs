@@ -70,16 +70,14 @@ namespace MonCine.Data.Classes
                 if (Projections != null && Projections.Count > 0)
                 {
                     Projection derniereProjection = Projections[Projections.Count - 1];
-                    if (derniereProjection.EstActive)
+
+                    if (derniereProjection.EstActive && derniereProjection.DateFin < DateTime.Now) // Si le film n'est plus à l'affiche
                     {
-                        if (derniereProjection.DateFin < DateTime.Now)
-                        {
-                            DesactiverProjection();
-                        }
-                        else
-                        {
-                            return true;
-                        }
+                        RetirerAffiche();
+                    }
+                    else if (Projections.Find(x => x.EstActive) != null) // S'il y a au moins une projection active
+                    {
+                        return true;
                     }
                 }
 
@@ -174,6 +172,7 @@ namespace MonCine.Data.Classes
             CategorieId = pCategorieId;
             ActeursId = pActeursId;
             RealisateursId = pRealisateursId;
+            DatesFinsAffiche = new List<DateTime>();
         }
 
         #endregion
@@ -199,13 +198,16 @@ namespace MonCine.Data.Classes
                         projection.EstActive = false;
                     }
                 }
-                
+
                 return true;
             }
 
             return false;
         }
 
+        /// <summary>
+        /// Permet de désactiver la dernière projection
+        /// </summary>
         private void DesactiverDerniereProjection()
         {
             Projection derniereProjection = Projections[Projections.Count - 1];
@@ -218,6 +220,7 @@ namespace MonCine.Data.Classes
                 );
             }
         }
+
         /// <summary>
         /// Permet d'ajouter une projection au film.
         /// </summary>

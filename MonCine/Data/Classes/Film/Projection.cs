@@ -53,6 +53,7 @@ namespace MonCine.Data.Classes
                 if (DateDebut > value)
                 {
                     throw new ArgumentOutOfRangeException(
+                        nameof(value),
                         "La date de fin de la projection doit être supérieure à la date de début de la projection."
                     );
                 }
@@ -91,6 +92,7 @@ namespace MonCine.Data.Classes
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException(
+                        nameof(value),
                         "Il est impossible d'affectuer une valeur négative au nombre de places restantes de la projection."
                     );
                 }
@@ -131,7 +133,13 @@ namespace MonCine.Data.Classes
 
         public override string ToString()
         {
-            return "Début de la projection: " + DateDebut.ToString("d MMMM") + "\rDate de fin: " + _dateFin.ToString("d MMMM") + " \r\rNb. place restantes: " + _nbPlacesRestantes;
+            // TODO : VÉRIFIER QUELLE STRING PRENDRE
+            //return "Début de la projection: " + DateDebut.ToString("d MMMM") + "\rDate de fin: " + _dateFin.ToString("d MMMM") + " \r\rNb. place restantes: " + _nbPlacesRestantes;
+            return
+                "Début de la projection: " + DateDebut.ToString("d MMMM") +
+                "\rDate de fin: " + _dateFin.ToString("d MMMM") +
+                "\r\rNb. place restantes: " + _nbPlacesRestantes +
+                $"\rProjection active : {(EstActive ? "Vrai" : "Faux")}";
         }
 
         #endregion

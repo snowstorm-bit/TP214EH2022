@@ -1,20 +1,20 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : SeedData.cs
-// Date de création : 2022-04-20
-// Date de modification : 2022-04-21
+// Date de création : 2022-04-23
+// Date de modification : 2022-04-23
 
 #endregion
 
 #region USING
 
+using MonCine.Data.Classes.DAL;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using MonCine.Data.Classes.DAL;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 #endregion
 
@@ -296,10 +296,9 @@ namespace MonCine.Data.Classes.BD
                     }
 
                     // Génération de projection pour certains films choisis aléatoirement
-                    for (int i = 0; i < films.Count; i++)
+                    for (int i = 0; i < films.Count; i+= SeedData._rand.Next(1, 3))
                     {
-                        i = SeedData._rand.Next(i, films.Count - 1);
-                        SeedData.GenererProjection(films[i], pSalles[SeedData._rand.Next(0, pSalles.Count - 1)]);
+                        SeedData.GenererProjections(films[i], pSalles);
                     }
 
                     pDalFilm.InsererPlusieurs(films);
@@ -367,15 +366,19 @@ namespace MonCine.Data.Classes.BD
         /// </summary>
         /// <param name="pFilm">Film auquel il faut ajouter la projection</param>
         /// <param name="pSalle">Salle dans laquelle aura lieu la projection</param>
-        private static void GenererProjection(Film pFilm, Salle pSalle)
+        private static void GenererProjections(Film pFilm, List<Salle> pSalles)
         {
-            DateTime dateDebut = DateTime.Now;
-            int heureSuppDebut = SeedData._rand.Next(1, 23);
+            DateTime dateFin = DateTime.Now;
+            int nbProjections = SeedData._rand.Next(0, 20);
+            for (int i = 0; i < nbProjections; i++)
+            {
+                int heureSuppDebut = SeedData._rand.Next(1, 23);
 
-            dateDebut = dateDebut.AddHours(heureSuppDebut);
-            DateTime dateFin = dateDebut.AddHours(SeedData._rand.Next(1, 23));
+                DateTime dateDebut = dateFin.AddHours(heureSuppDebut);
+                dateFin = dateDebut.AddHours(SeedData._rand.Next(1, 23));
 
-            pFilm.AjouterProjection(dateDebut, dateFin, pSalle);
+                pFilm.AjouterProjection(dateDebut, dateFin, pSalles[SeedData._rand.Next(0, pSalles.Count - 1)]);
+            }
         }
 
         /// <summary>

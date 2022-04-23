@@ -56,14 +56,7 @@ namespace MonCine.Vues
         private void OnLoaded(object pSender, RoutedEventArgs pE)
         {
             _films = _dalFilm.ObtenirTout();
-            if (LstFilms.Items.Count != 0)
-            {
-                ChargerLstFilms(false);
-            }
-            else
-            {
-                RbTousLesFilms.IsChecked = true;
-            }
+            RbTousLesFilms.IsChecked = true;
         }
 
         private void RbTousLesFilm_Checked(object sender, RoutedEventArgs e)
