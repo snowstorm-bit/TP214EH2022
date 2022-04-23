@@ -38,7 +38,7 @@ namespace MonCine
             DALAdministrateur dalAdministrateur = new DALAdministrateur();
             SeedData.GenererDonnees(dalAdministrateur.MongoDbClient, dalAdministrateur.Db);
 
-            _utilisateurCourant = dalAdministrateur.ObtenirAdministrateur();
+            _utilisateurCourant = dalAdministrateur.ObtenirUn();
 
             if (_utilisateurCourant is Administrateur)
             {

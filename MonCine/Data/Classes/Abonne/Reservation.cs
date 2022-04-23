@@ -29,8 +29,6 @@ namespace MonCine.Data.Classes
 
         public ObjectId Id { get; set; }
 
-        public DateTime Date { get; set; }
-
         public ObjectId FilmId { get; set; }
 
         [BsonIgnore]
@@ -49,6 +47,8 @@ namespace MonCine.Data.Classes
             }
         }
 
+        public int IndexProjectionFilm { get; set; }
+
         public ObjectId AbonneId { get; set; }
 
         public int NbPlaces
@@ -66,12 +66,12 @@ namespace MonCine.Data.Classes
 
                 if (Film != null)
                 {
-                    int nbPlacesRestantes = Film.Projections.Find(x => x.DateDebut == Date).NbPlacesRestantes;
-                    if (nbPlacesRestantes - _nbPlaces < 0)
+                    if (Film.Projections[IndexProjectionFilm].NbPlacesRestantes - _nbPlaces < 0)
                     {
                         throw new InvalidOperationException(
                             "Il ne reste plus de places pour créer une réservation avec le nombre de places et la projection sélectionnés.");
                     }
+                    Film.Projections[IndexProjectionFilm].NbPlacesRestantes -= NbPlaces;
                 }
 
                 _nbPlaces = value;
@@ -82,11 +82,11 @@ namespace MonCine.Data.Classes
 
         #region CONSTRUCTEURS
 
-        public Reservation(ObjectId pId, DateTime pDate, Film pFilmId, ObjectId pAbonneId, int pNbPlaces)
+        public Reservation(ObjectId pId, Film pFilm, int pIndexProjectionFilm, ObjectId pAbonneId, int pNbPlaces)
         {
             Id = pId;
-            Date = pDate;
-            Film = pFilmId;
+            Film = pFilm;
+            IndexProjectionFilm = pIndexProjectionFilm;
             AbonneId = pAbonneId;
             NbPlaces = pNbPlaces;
         }

@@ -71,25 +71,6 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pClient">L'interface client vers MongoDB</param>
         /// <param name="pDb">Base de données MongoDB utilisée</param>
         /// <remarks>Remarque : <em>Ce constructeur doit être utilisé lorsqu'il existe déjà une instance pour les couches d'accès aux données des catégories, des acteurs et des réalisateurs.</em></remarks>
-        public DALFilm(DALAbonne pDalAbonne, IMongoClient pClient = null, IMongoDatabase pDb = null) : base(pClient,
-            pDb)
-        {
-            _dalCategorie = new DALCategorie(MongoDbClient, Db);
-            _dalActeur = new DALActeur(MongoDbClient, Db);
-            _dalRealisateur = new DALRealisateur(MongoDbClient, Db);
-            _dalAbonne = pDalAbonne;
-        }
-
-
-        /// <summary>
-        /// Permet la création de la couche d'accès aux données pour les objets de type <see cref="Film"/> selon les couches d'accès aux données spécifiés en paramètre.
-        /// </summary>
-        /// <param name="pDalCategorie">Couche d'accès aux données pour les catégories</param>
-        /// <param name="pDalActeur">Couche d'accès aux données pour les acteurs</param>
-        /// <param name="pDalRealisateur">Couche d'accès aux données pour les réalisateurs</param>
-        /// <param name="pClient">L'interface client vers MongoDB</param>
-        /// <param name="pDb">Base de données MongoDB utilisée</param>
-        /// <remarks>Remarque : <em>Ce constructeur doit être utilisé lorsqu'il existe déjà une instance pour les couches d'accès aux données des catégories, des acteurs et des réalisateurs.</em></remarks>
         public DALFilm(DALCategorie pDalCategorie, DALActeur pDalActeur, DALRealisateur pDalRealisateur,
             IMongoClient pClient = null, IMongoDatabase pDb = null) : base(pClient, pDb)
         {
@@ -106,7 +87,7 @@ namespace MonCine.Data.Classes.DAL
         /// Permet d'obtenir la liste des films contenue dans la base de données de la cinémathèque.
         /// </summary>
         /// <returns>La liste des films contenue dans la base de données de la cinémathèque.</returns>
-        public List<Film> ObtenirFilms()
+        public List<Film> ObtenirTout()
         {
             List<Film> a = MongoDbContext.ObtenirCollectionListe<Film>(Db);
             return ObtenirObjetsDansFilms(a);
@@ -119,7 +100,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pFiltre">Champs sur lequel le filtrage sera effectué</param>
         /// <param name="pObjectIds">Liste des valeurs à filtrer</param>
         /// <returns>La liste des films filtrée selon le champs et les valeurs spécifiés en paramètre.</returns>
-        public List<Film> ObtenirFilmsFiltres<TField>(Expression<Func<Film, TField>> pFiltre, List<TField> pObjectIds)
+        public List<Film> ObtenirPlusieurs<TField>(Expression<Func<Film, TField>> pFiltre, List<TField> pObjectIds)
         {
             return ObtenirObjetsDansFilms(MongoDbContext.ObtenirDocumentsFiltres(Db, pFiltre, pObjectIds));
         }
@@ -144,7 +125,7 @@ namespace MonCine.Data.Classes.DAL
             foreach (Film film in pFilms)
             {
                 List<Categorie> categories =
-                    _dalCategorie.ObtenirCategorieesFiltres(pX => pX.Id, new List<ObjectId> { film.CategorieId });
+                    _dalCategorie.ObtenirCategoriesFiltrees(pX => pX.Id, new List<ObjectId> { film.CategorieId });
                 if (categories.Count > 0)
                 {
                     film.Categorie = categories[0];
@@ -176,7 +157,6 @@ namespace MonCine.Data.Classes.DAL
                     Console.WriteLine(e);
                     throw;
                 }
-
             }
 
             return pFilms;
@@ -195,7 +175,7 @@ namespace MonCine.Data.Classes.DAL
         /// Permet d'insérer la liste des films reçue en paramètre dans la base de données de la cinémathèque.
         /// </summary>
         /// <param name="pFilms">Liste des films à insérer dans la base de données de la cinémathèque</param>
-        public void InsererPlusieursFilm(List<Film> pFilms)
+        public void InsererPlusieurs(List<Film> pFilms)
         {
             MongoDbContext.InsererPlusieursDocuments(Db, pFilms);
         }

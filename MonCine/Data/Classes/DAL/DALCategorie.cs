@@ -54,7 +54,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pField">Champs sur lequel le filtrage sera effectué</param>
         /// <param name="pObjects">Liste des valeurs à filtrer/param>
         /// <returns>La liste des catégories filtrée selon le champs et les valeurs spécifiés en paramètre.</returns>
-        public List<Categorie> ObtenirCategorieesFiltres<TField>(Expression<Func<Categorie, TField>> pField,
+        public List<Categorie> ObtenirCategoriesFiltrees<TField>(Expression<Func<Categorie, TField>> pField,
             List<TField> pObjects)
         {
             return MongoDbContext.ObtenirDocumentsFiltres(Db, pField, pObjects);

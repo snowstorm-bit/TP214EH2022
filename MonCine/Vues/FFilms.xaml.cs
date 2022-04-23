@@ -60,7 +60,7 @@ namespace MonCine.Vues
 
         private void ObtenirFilms()
         {
-            _films = _dalFilm.ObtenirFilms();
+            _films = _dalFilm.ObtenirTout();
             if (LstFilms.Items.Count != 0)
             {
                 ChargerLstFilms(false);
@@ -95,7 +95,7 @@ namespace MonCine.Vues
         {
             if (_filmSelectionne != null)
             {
-                if (_filmSelectionne.EstAffiche && _filmSelectionne.RetirerFilmEstAffiche())
+                if (_filmSelectionne.EstAffiche && _filmSelectionne.RetirerAffiche())
                 {
                     try
                     {

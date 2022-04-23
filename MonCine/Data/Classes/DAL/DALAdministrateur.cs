@@ -42,7 +42,7 @@ namespace MonCine.Data.Classes.DAL
         /// </summary>
         /// <returns>L'administrateur provenant de la base de données.</returns>
         /// <exception cref="IndexOutOfRangeException">Lancée lorsqu'il y a plus de 1 administrateur dans la base de données.</exception>
-        public Administrateur ObtenirAdministrateur()
+        public Administrateur ObtenirUn()
         {
             List<Administrateur> administrateurs = MongoDbContext.ObtenirCollectionListe<Administrateur>(Db);
             if (administrateurs.Count > 1)
@@ -59,7 +59,7 @@ namespace MonCine.Data.Classes.DAL
         /// Permet d'insérer l'administrateur reçu en paramètre dans la base de données de la cinémathèque.
         /// </summary>
         /// <param name="pAdministrateur">Administrateur à insérer dans la base de données</param>
-        public void InsererAdministrateur(Administrateur pAdministrateur)
+        public void InsererUn(Administrateur pAdministrateur)
         {
             MongoDbContext.InsererUnDocument(Db, pAdministrateur);
         }

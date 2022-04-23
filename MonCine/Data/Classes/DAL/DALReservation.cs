@@ -119,7 +119,7 @@ namespace MonCine.Data.Classes.DAL
                 }
             }
 
-            List<Film> films = _dalFilm.ObtenirFilmsFiltres(x => x.Id, filmIds);
+            List<Film> films = _dalFilm.ObtenirPlusieurs(x => x.Id, filmIds);
 
             foreach (Reservation reservation in pReservations)
             {
@@ -130,23 +130,14 @@ namespace MonCine.Data.Classes.DAL
         }
 
         /// <summary>
-        /// Permet d'insérer la liste des réservations reçue en paramètre dans la base de données de la cinémathèque.
+        /// Permet d'insérer la réservation reçue en paramètre dans la base de données de la cinémathèque et met à jour la projection du film concernée par la réservation.
         /// </summary>
         /// <param name="pReservations">Liste des réservations à insérer dans la base de données</param>
         public void InsererUneReservation(Reservation pReservation)
         {
-            MAJProjectionFilm(pReservation.Film);
+            _dalFilm.MAJProjectionsFilm(pReservation.Film);
 
             MongoDbContext.InsererUnDocument(Db, pReservation);
-        }
-
-        /// <summary>
-        /// Permet de mettre à jour la liste des projections du film spécifié en paramètre. 
-        /// </summary>
-        /// <param name="pFilm">Film à mettre la liste des projections à jour</typeparam>
-        private void MAJProjectionFilm(Film pFilm)
-        {
-            _dalFilm.MAJProjectionsFilm(pFilm);
         }
 
         #endregion

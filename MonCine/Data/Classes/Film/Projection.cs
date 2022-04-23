@@ -8,6 +8,8 @@
 
 #region USING
 
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 
 #endregion
@@ -24,23 +26,15 @@ namespace MonCine.Data.Classes
         private DateTime _dateFin;
 
         /// <summary>
-        /// Nombre de places maximum de la projection
-        /// </summary>
-        private int _nbPlacesMax;
-
-        /// <summary>
         /// Nombre de places restantes de la projection
         /// </summary>
         private int _nbPlacesRestantes;
 
+        private Salle _salle;
+
         #endregion
 
         #region PROPRIÉTÉS ET INDEXEURS
-
-        /// <summary>
-        /// Obtient ou défini si la projection est active
-        /// </summary>
-        public bool EstActive { get; set; }
 
         /// <summary>
         /// Obtient ou défini la date de début de la projection
@@ -67,23 +61,21 @@ namespace MonCine.Data.Classes
             }
         }
 
-        /// <summary>
-        /// Obtient ou défini le nombre de places maximum de la projection
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Lancée lorsque la valeur est inférieure à 1.</exception>
-        public int NbPlacesMax
+        public ObjectId SalleId { get; set; }
+
+        [BsonIgnore]
+        public Salle Salle
         {
-            get { return _nbPlacesMax; }
+            get { return _salle; }
             set
             {
-                if (value < 1)
+                if (value is null)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        "Le nombre de places maximum pour la projection doit être supérieur à 0."
-                    );
+                    throw new ArgumentNullException("Le film de la réservation ne peut être nul.", nameof(value));
                 }
 
-                _nbPlacesMax = value;
+                _salle = value;
+                SalleId = _salle.Id;
             }
         }
 
@@ -99,13 +91,18 @@ namespace MonCine.Data.Classes
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException(
-                        "Il est impossible d'affectuer une valeur négative au nombre de places restantes de la projection"
+                        "Il est impossible d'affectuer une valeur négative au nombre de places restantes de la projection."
                     );
                 }
 
                 _nbPlacesRestantes = value;
             }
         }
+
+        /// <summary>
+        /// Obtient ou défini si la projection est active
+        /// </summary>
+        public bool EstActive { get; set; }
 
         #endregion
 
@@ -117,12 +114,12 @@ namespace MonCine.Data.Classes
         /// <param name="pDateDebut">Date de début de la projection</param>
         /// <param name="pDateFin">Date de fin de la projection</param>
         /// <param name="pNbPlacesMax">Nombre de places maximum de la projection</param>
-        public Projection(DateTime pDateDebut, DateTime pDateFin, int pNbPlacesMax)
+        public Projection(DateTime pDateDebut, DateTime pDateFin, Salle pSalle)
         {
             DateDebut = pDateDebut;
             DateFin = pDateFin;
-            NbPlacesMax = pNbPlacesMax;
-            NbPlacesRestantes = NbPlacesMax;
+            Salle = pSalle;
+            NbPlacesRestantes = pSalle.NbPlacesMax;
             EstActive = true;
         }
 

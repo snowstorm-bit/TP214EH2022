@@ -62,9 +62,13 @@ namespace MonCine.Data.Classes.BD
             SeedData.GenererRealisateurs(dalRealisateur);
             List<Realisateur> realisateurs = dalRealisateur.ObtenirRealisateurs();
 
+            // Salles
+            DALSalle dalSalle = new DALSalle();
+            SeedData.GenererSalles(dalSalle);
+
             // Films
             DALFilm dalFilm = new DALFilm(dalCategorie, dalActeur, dalRealisateur, pClient, pDb);
-            SeedData.GenererFilms(dalFilm, categories, acteurs, realisateurs);
+            SeedData.GenererFilms(dalFilm, categories, acteurs, realisateurs, dalSalle.ObtenirTout());
 
             // Abonnées
             DALReservation dalReservation = new DALReservation(dalFilm, pClient, pDb);
@@ -72,10 +76,10 @@ namespace MonCine.Data.Classes.BD
             SeedData.GenererAbonnes(dalAbonne, categories, acteurs, realisateurs);
 
             // Notes
-            SeedData.GenererNotes(dalFilm, dalFilm.ObtenirFilms(), dalAbonne.ObtenirAbonnes());
+            SeedData.GenererNotes(dalFilm, dalFilm.ObtenirTout(), dalAbonne.ObtenirAbonnes());
 
             // Réservations
-            SeedData.GenererReservations(dalReservation, dalFilm.ObtenirFilms(), dalAbonne.ObtenirAbonnes());
+            SeedData.GenererReservations(dalReservation, dalFilm.ObtenirTout(), dalAbonne.ObtenirAbonnes());
         }
 
         /// <summary>
@@ -88,11 +92,11 @@ namespace MonCine.Data.Classes.BD
         {
             try
             {
-                Administrateur administrateur = pDalAdministrateur.ObtenirAdministrateur();
+                Administrateur administrateur = pDalAdministrateur.ObtenirUn();
 
                 if (administrateur == null)
                 {
-                    pDalAdministrateur.InsererAdministrateur(
+                    pDalAdministrateur.InsererUn(
                         new Administrateur(
                             new ObjectId(),
                             "Administrateur",
@@ -102,13 +106,13 @@ namespace MonCine.Data.Classes.BD
                     );
                 }
             }
-            catch (IndexOutOfRangeException e)
+            catch (IndexOutOfRangeException)
             {
-                throw e;
+                throw;
             }
-            catch (ExceptionBD e)
+            catch (ExceptionBD)
             {
-                throw e;
+                throw;
             }
             catch (Exception e)
             {
@@ -141,9 +145,9 @@ namespace MonCine.Data.Classes.BD
                     );
                 }
             }
-            catch (ExceptionBD e)
+            catch (ExceptionBD)
             {
-                throw e;
+                throw;
             }
             catch (Exception e)
             {
@@ -180,9 +184,9 @@ namespace MonCine.Data.Classes.BD
                     );
                 }
             }
-            catch (ExceptionBD e)
+            catch (ExceptionBD)
             {
-                throw e;
+                throw;
             }
             catch (Exception e)
             {
@@ -215,9 +219,40 @@ namespace MonCine.Data.Classes.BD
                     );
                 }
             }
-            catch (ExceptionBD e)
+            catch (ExceptionBD)
             {
-                throw e;
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new ExceptionBD($"Méthode : GenererRealisateurs - Exception : {e.Message}");
+            }
+        }
+
+        private static void GenererSalles(DALSalle pDalSalle)
+        {
+            try
+            {
+                List<Salle> salles = pDalSalle.ObtenirTout();
+
+                if (salles.Count == 0)
+                {
+                    int nbSalles = SeedData._rand.Next(10, 20);
+                    for (int i = 0; i < nbSalles; i++)
+                    {
+                        salles.Add(new Salle(
+                            new ObjectId(),
+                            $"Salle {i + 1}",
+                            SeedData._rand.Next(20, 40)
+                        ));
+                    }
+
+                    pDalSalle.InsererPlusieurs(salles);
+                }
+            }
+            catch (ExceptionBD)
+            {
+                throw;
             }
             catch (Exception e)
             {
@@ -234,11 +269,11 @@ namespace MonCine.Data.Classes.BD
         /// <param name="pRealisateurs">Liste des réalisateurs</param>
         /// <exception cref="ExceptionBD">Lancée lorsqu'une erreur liée à la base de données se produit.</exception>
         private static void GenererFilms(DALFilm pDalFilm, List<Categorie> pCategories, List<Acteur> pActeurs,
-            List<Realisateur> pRealisateurs)
+            List<Realisateur> pRealisateurs, List<Salle> pSalles)
         {
             try
             {
-                List<Film> films = pDalFilm.ObtenirFilms();
+                List<Film> films = pDalFilm.ObtenirTout();
 
                 if (!films.Any())
                 {
@@ -264,15 +299,23 @@ namespace MonCine.Data.Classes.BD
                     for (int i = 0; i < films.Count; i++)
                     {
                         i = SeedData._rand.Next(i, films.Count - 1);
-                        SeedData.GenererProjection(films[i], SeedData._rand.Next(30, 60));
+                        SeedData.GenererProjection(films[i], pSalles[SeedData._rand.Next(0, pSalles.Count - 1)]);
                     }
 
-                    pDalFilm.InsererPlusieursFilm(films);
+                    pDalFilm.InsererPlusieurs(films);
                 }
             }
-            catch (ExceptionBD e)
+            catch (ArgumentOutOfRangeException)
             {
-                throw e;
+                throw;
+            }
+            catch (InvalidOperationException)
+            {
+                throw;
+            }
+            catch (ExceptionBD)
+            {
+                throw;
             }
             catch (Exception e)
             {
@@ -320,11 +363,11 @@ namespace MonCine.Data.Classes.BD
         }
 
         /// <summary>
-        /// Permet de générer une projection pour le film et le nombre de places maximum reçus en paramètre. 
+        /// Permet de générer une projection pour le film et la salle pour la projection du film reçus en paramètre. 
         /// </summary>
         /// <param name="pFilm">Film auquel il faut ajouter la projection</param>
-        /// <param name="nbPlacesMax">nombre de place maximum pour la projection du film</param>
-        private static void GenererProjection(Film pFilm, int nbPlacesMax)
+        /// <param name="pSalle">Salle dans laquelle aura lieu la projection</param>
+        private static void GenererProjection(Film pFilm, Salle pSalle)
         {
             DateTime dateDebut = DateTime.Now;
             int heureSuppDebut = SeedData._rand.Next(1, 23);
@@ -332,7 +375,7 @@ namespace MonCine.Data.Classes.BD
             dateDebut = dateDebut.AddHours(heureSuppDebut);
             DateTime dateFin = dateDebut.AddHours(SeedData._rand.Next(1, 23));
 
-            pFilm.AjouterProjection(dateDebut, dateFin, nbPlacesMax);
+            pFilm.AjouterProjection(dateDebut, dateFin, pSalle);
         }
 
         /// <summary>
@@ -362,9 +405,9 @@ namespace MonCine.Data.Classes.BD
                     pDalAbonne.InsererPlusieursAbonnes(abonnes);
                 }
             }
-            catch (ExceptionBD e)
+            catch (ExceptionBD)
             {
-                throw e;
+                throw;
             }
             catch (Exception e)
             {
@@ -375,10 +418,10 @@ namespace MonCine.Data.Classes.BD
         /// <summary>
         /// Permet de générer un abonné selon les informations reçues en paramètre.
         /// </summary>
-        /// <param name="numero"></param>
-        /// <param name="pCategories"></param>
-        /// <param name="pActeurs"></param>
-        /// <param name="pRealisateurs"></param>
+        /// <param name="numero">Numéro de l'abonné</param>
+        /// <param name="pCategories">Liste des catégories</param>
+        /// <param name="pActeurs">Liste des acteurs</param>
+        /// <param name="pRealisateurs">Liste des réalisateurs</param>
         /// <returns></returns>
         private static Abonne GenererAbonne(int numero, List<Categorie> pCategories,
             List<Acteur> pActeurs, List<Realisateur> pRealisateurs)
@@ -442,9 +485,9 @@ namespace MonCine.Data.Classes.BD
                     }
                 }
             }
-            catch (ExceptionBD e)
+            catch (ExceptionBD)
             {
-                throw e;
+                throw;
             }
             catch (Exception e)
             {
@@ -471,19 +514,19 @@ namespace MonCine.Data.Classes.BD
 
                     for (int i = 0; i < nbReservations; i++)
                     {
-                        int indexFilm = SeedData._rand.Next(0, pFilms.Count - 1);
+                        Film film = pFilms[SeedData._rand.Next(0, pFilms.Count - 1)];
 
-                        if (pFilms[indexFilm].Projections.Count > 0)
+                        if (film.Projections.Count > 0)
                         {
-                            int indexProjection = pFilms[indexFilm].Projections.Count - 1;
+                            int indexProjection = SeedData._rand.Next(0, film.Projections.Count - 1);
                             int nbPlaces = SeedData._rand.Next(1, 10);
 
-                            if (pFilms[indexFilm].Projections[indexProjection].NbPlacesRestantes - nbPlaces > -1)
+                            if (film.Projections[indexProjection].NbPlacesRestantes - nbPlaces > -1)
                             {
                                 pDalReservation.InsererUneReservation(new Reservation(
                                     new ObjectId(),
-                                    pFilms[indexFilm].Projections[indexProjection].DateDebut,
-                                    pFilms[indexFilm],
+                                    film,
+                                    indexProjection,
                                     pAbonnes[SeedData._rand.Next(0, pAbonnes.Count - 1)].Id,
                                     nbPlaces
                                 ));
@@ -492,9 +535,9 @@ namespace MonCine.Data.Classes.BD
                     }
                 }
             }
-            catch (ExceptionBD e)
+            catch (ExceptionBD)
             {
-                throw e;
+                throw;
             }
             catch (Exception e)
             {
