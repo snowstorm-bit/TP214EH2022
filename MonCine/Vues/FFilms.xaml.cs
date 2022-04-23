@@ -148,7 +148,6 @@ namespace MonCine.Vues
                 btnsSontActifs &= _filmSelectionne.EstAffiche;
             }
 
-            BtnVoirProjection.IsEnabled = btnsSontActifs;
             BtnRetirerDeAffiche.IsEnabled = btnsSontActifs;
         }
 
