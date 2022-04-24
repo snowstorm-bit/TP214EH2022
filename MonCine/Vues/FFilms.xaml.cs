@@ -119,16 +119,19 @@ namespace MonCine.Vues
         {
             LstFilms.Items.Clear();
 
-            if (pAffichagePourRbEstAffiche)
+            if (_films.Count > 0)
             {
-                _films
-                    .Where(film => film.EstAffiche)
-                    .ToList()
-                    .ForEach(film => LstFilms.Items.Add(film));
-            }
-            else
-            {
-                _films.ForEach(film => LstFilms.Items.Add(film));
+                if (pAffichagePourRbEstAffiche)
+                {
+                    _films
+                        .Where(film => film.EstAffiche)
+                        .ToList()
+                        .ForEach(film => LstFilms.Items.Add(film));
+                }
+                else
+                {
+                    _films.ForEach(film => LstFilms.Items.Add(film));
+                }
             }
 
             ActiverBtnsPourFilmSelectionneEstAffiche();
