@@ -76,7 +76,7 @@ namespace MonCine.Vues
 
         private void BtnVoirProjections_Click(object pSender, RoutedEventArgs pE)
         {
-            NavigationService.Navigate(new FProjections(_client, _db, _filmSelectionne));
+            NavigationService.Navigate(new FProjections(_client, _db, _filmSelectionne.Id));
         }
 
         private void BtnRetirerDeAffiche_OnClick(object pSender, RoutedEventArgs pE)
