@@ -139,8 +139,6 @@ namespace MonCine.Data.Classes
 
         public override string ToString()
         {
-            // TODO : VÉRIFIER QUELLE STRING PRENDRE
-            //return "Début de la projection: " + DateDebut.ToString("d MMMM") + "\rDate de fin: " + _dateFin.ToString("d MMMM") + " \r\rNb. place restantes: " + _nbPlacesRestantes;
             return
                 "Début de la projection: " + DateDebut.ToString("d MMMM") +
                 "\rDate de fin: " + DateFin.ToString("d MMMM") +
