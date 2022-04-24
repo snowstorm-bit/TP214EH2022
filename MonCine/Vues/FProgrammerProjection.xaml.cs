@@ -79,7 +79,7 @@ namespace MonCine.Vues
             {
                 try
                 {
-                    _film.AjouterProjection(DpDateDebut.DisplayDate, DpDateFin.DisplayDate,
+                    _film.AjouterProjection((DateTime)DpDateDebut.SelectedDate, (DateTime)DpDateFin.SelectedDate,
                         (Salle)CboSalles.SelectedItem);
                     _dalFilm.MAJProjections(_film);
                     NavigationService.GoBack();
@@ -122,7 +122,7 @@ namespace MonCine.Vues
             }
             else
             {
-                if (DpDateDebut.DisplayDate <= DateTime.Now)
+                if ((DateTime)DpDateDebut.SelectedDate <= DateTime.Now)
                     msgErr += "Il faut sélectionner une date de début supérieure à la date actuelle";
                 else
                 {
@@ -130,7 +130,7 @@ namespace MonCine.Vues
                     {
                         msgErr += "Il faut sélectionner une date de fin pour la projection du film\n";
                     }
-                    else if (DpDateFin.DisplayDate < DpDateDebut.DisplayDate)
+                    else if ((DateTime)DpDateFin.SelectedDate < (DateTime)DpDateDebut.SelectedDate)
                     {
                         msgErr +=
                             "Il faut sélectionner une date de fin supérieure à la date de début de la projection du film";
