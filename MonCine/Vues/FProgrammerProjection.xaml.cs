@@ -1,23 +1,21 @@
 ﻿#region MÉTADONNÉES
 
 // Nom du fichier : FProgrammerProjection.xaml.cs
-// Date de création : 2022-04-20
-// Date de modification : 2022-04-21
+// Date de création : 2022-04-24
+// Date de modification : 2022-04-24
 
 #endregion
 
 #region USING
 
-using System.Collections.Generic;
-using System.Windows;
 using MonCine.Data.Classes;
 using MonCine.Data.Classes.BD;
 using MonCine.Data.Classes.DAL;
 using MongoDB.Driver;
 using System;
-using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 
 #endregion
 
@@ -63,15 +61,27 @@ namespace MonCine.Vues
         {
             DpDateDebut.BlackoutDates.AddDatesInPast();
             DpDateDebut.BlackoutDates.Add(new CalendarDateRange(DateTime.Now, DateTime.Now));
-
             DpDateFin.BlackoutDates.AddDatesInPast();
             DpDateFin.BlackoutDates.Add(new CalendarDateRange(DateTime.Now, DateTime.Now.AddDays(1)));
 
-            List<Salle> salles = _dalSalle.ObtenirTout();
-            salles.ForEach(x => CboSalles.Items.Add(x));
-        }
 
-        #endregion
+            if (_film.Projections.Count > 0)
+            {
+                Projection derniereProjection = _film.Projections[_film.Projections.Count - 1];
+                if (derniereProjection.DateFin > DateTime.Now)
+                {
+                    DpDateDebut.BlackoutDates.Add(new CalendarDateRange(DateTime.Now, derniereProjection.DateFin));
+                    DpDateFin.BlackoutDates.Add(new CalendarDateRange(DateTime.Now, derniereProjection.DateFin.AddDays(1)));
+                }
+            }
+
+
+            List<Salle> salles = _dalSalle.ObtenirTout();
+            if (salles.Count > 0)
+            {
+                salles.ForEach(x => CboSalles.Items.Add(x));
+            }
+        }
 
         private void BtnAjouter_OnClick(object pSender, RoutedEventArgs pE)
         {
@@ -123,7 +133,9 @@ namespace MonCine.Vues
             else
             {
                 if ((DateTime)DpDateDebut.SelectedDate <= DateTime.Now)
+                {
                     msgErr += "Il faut sélectionner une date de début supérieure à la date actuelle";
+                }
                 else
                 {
                     if (DpDateFin.SelectedDate == null)
@@ -159,5 +171,7 @@ namespace MonCine.Vues
                 MessageBoxImage.Error
             );
         }
+
+        #endregion
     }
 }
