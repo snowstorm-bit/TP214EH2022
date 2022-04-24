@@ -50,7 +50,7 @@ namespace MonCine.Data.Classes
             get { return _dateFin; }
             set
             {
-                if (DateDebut > value)
+                if (DateDebut >= value)
                 {
                     throw new ArgumentOutOfRangeException(
                         nameof(value),
@@ -140,8 +140,8 @@ namespace MonCine.Data.Classes
         public override string ToString()
         {
             return
-                "Début de la projection: " + DateDebut.ToString("d MMMM") +
-                "\rDate de fin: " + DateFin.ToString("d MMMM") +
+                "Début de la projection: " + DateDebut.ToString("dd MMMM yyy") +
+                "\nFin de la projection: " + DateFin.ToString("dd MMMM yyy") +
                 "\r\rNb. place restantes: " + NbPlacesRestantes +
                 $"\rProjection active : {(EstActive ? "Vrai" : "Faux")}";
         }
