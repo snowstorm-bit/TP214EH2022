@@ -146,12 +146,9 @@ namespace MonCineTests
         {
             List<Abonne> abonnes = GenerationAbonnes();
             var abonneMock = new Mock<ICRUD<Abonne>>();
-            //List<ObjectId> tktBig = new List<ObjectId>();
-            //abonnes.ForEach(x => tktBig.Add(x.Id));
             abonneMock.Setup(x => x.ObtenirPlusieurs(x => x.Nom, new List<string> { "Utilisateur 6" })).Returns(new List<Abonne> { abonnes[5] });
             var abonnesMock = abonneMock.Object.ObtenirPlusieurs(x => x.Nom, new List<string> { "Utilisateur 6" });
             Assert.Equal(abonnesMock, new List<Abonne> { abonnes[5] });
         }
-
     }
 }
