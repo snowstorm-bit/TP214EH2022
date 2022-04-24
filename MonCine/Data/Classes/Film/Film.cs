@@ -244,15 +244,7 @@ namespace MonCine.Data.Classes
                 );
             }
 
-            if (DateSortie > pDateFin)
-            {
-                throw new ArgumentOutOfRangeException(
-                    "pDateFin",
-                    "La date de fin de la projection doit être supérieure à la date de sortie internationnale du film."
-                );
-            }
-
-            if (pDateDebut < DateTime.Now)
+            if (pDateDebut <= DateTime.Now)
             {
                 throw new ArgumentOutOfRangeException(
                     "pDateDebut",

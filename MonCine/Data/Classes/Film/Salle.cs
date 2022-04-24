@@ -20,7 +20,7 @@ namespace MonCine.Data.Classes
 
         public override string ToString()
         {
-            return Nom;
+            return $"{Nom} - Nb. Places : {NbPlacesMax}";
         }
 
         public override bool Equals(object? obj)

@@ -209,6 +209,10 @@ namespace MonCine.Data.Classes.DAL
                         x => x.Projections,
                         pFilm.Projections
                     ),
+                    (
+                        x=> x.DatesFinsAffiche,
+                        pFilm.DatesFinsAffiche
+                    )
                 }
             );
         }
