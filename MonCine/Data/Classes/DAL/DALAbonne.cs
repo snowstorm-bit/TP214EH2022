@@ -140,7 +140,7 @@ namespace MonCine.Data.Classes.DAL
             foreach (Abonne abonne in pAbonnes)
             {
                 abonne.Preference.Categories =
-                    _dalCategorie.ObtenirCategoriesFiltrees(x => x.Id, abonne.Preference.CategoriesId);
+                    _dalCategorie.ObtenirPlusieurs(x => x.Id, abonne.Preference.CategoriesId);
                 abonne.Preference.Acteurs = _dalActeur.ObtenirActeursFiltres(x => x.Id, abonne.Preference.ActeursId);
                 abonne.Preference.Realisateurs =
                     _dalRealisateur.ObtenirRealisateursFiltres(x => x.Id, abonne.Preference.RealisateursId);

@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using MonCine.Data.Classes.BD;
+using MonCine.Data.Interfaces;
 using MongoDB.Driver;
 
 #endregion
@@ -21,7 +22,7 @@ namespace MonCine.Data.Classes.DAL
     /// <summary>
     /// Classe représentant une couche d'accès aux données pour les objets de type <see cref="Categorie"/>
     /// </summary>
-    public class DALCategorie : DAL
+    public class DALCategorie : DAL, ICRUD<Categorie>
     {
         #region CONSTRUCTEURS
 
@@ -36,13 +37,12 @@ namespace MonCine.Data.Classes.DAL
 
         #endregion
 
-        #region MÉTHODES
-
         /// <summary>
-        /// Permet d'obtenir la liste des catégories contenue dans la base de données de la cinémathèque.
+        /// Permet la création de la couche d'accès aux données pour les objets de type <see cref="Categorie"/>
         /// </summary>
-        /// <returns>La liste des catégories contenue dans la base de données de la cinémathèque.</returns>
-        public List<Categorie> ObtenirCategories()
+        /// <param name="pClient">L'interface client vers MongoDB</param>
+        /// <param name="pDb">Base de données MongoDB utilisée</param>
+        public List<Categorie> ObtenirTout()
         {
             return MongoDbContext.ObtenirCollectionListe<Categorie>(Db);
         }
@@ -54,21 +54,28 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pField">Champs sur lequel le filtrage sera effectué</param>
         /// <param name="pObjects">Liste des valeurs à filtrer/param>
         /// <returns>La liste des catégories filtrée selon le champs et les valeurs spécifiés en paramètre.</returns>
-        public List<Categorie> ObtenirCategoriesFiltrees<TField>(Expression<Func<Categorie, TField>> pField,
-            List<TField> pObjects)
+        public List<Categorie> ObtenirPlusieurs<TField>(Expression<Func<Categorie, TField>> pField, List<TField> pObjects)
         {
             return MongoDbContext.ObtenirDocumentsFiltres(Db, pField, pObjects);
+        }
+
+        public List<Categorie> ObtenirObjetsDansLst(List<Categorie> pCategories)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Permet d'insérer la liste des catégories reçue en paramètre dans la base de données de la cinémathèque.
         /// </summary>
         /// <param name="pCategories">Liste des catégories à insérer dans la base de données</param>
-        public void InsererPlusieursCategories(List<Categorie> pCategories)
+        public bool InsererPlusieurs(List<Categorie> pCategories)
         {
-            MongoDbContext.InsererPlusieursDocuments(Db, pCategories);
+            return MongoDbContext.InsererPlusieursDocuments(Db, pCategories);
         }
 
-        #endregion
+        public bool MAJUn<TField>(Expression<Func<Categorie, bool>> pFiltre, List<(Expression<Func<Categorie, TField>> field, TField value)> pMajDefinitions)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -130,7 +130,7 @@ namespace MonCine.Data.Classes.DAL
             foreach (Film film in pFilms)
             {
                 List<Categorie> categories =
-                    _dalCategorie.ObtenirCategoriesFiltrees(pX => pX.Id, new List<ObjectId> { film.CategorieId });
+                    _dalCategorie.ObtenirPlusieurs(pX => pX.Id, new List<ObjectId> { film.CategorieId });
                 if (categories.Count > 0)
                 {
                     film.Categorie = categories[0];

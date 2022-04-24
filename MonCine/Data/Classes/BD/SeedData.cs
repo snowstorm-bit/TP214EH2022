@@ -50,7 +50,7 @@ namespace MonCine.Data.Classes.BD
             // Catégories
             DALCategorie dalCategorie = new DALCategorie(pClient, pDb);
             SeedData.GenererCategories(dalCategorie);
-            List<Categorie> categories = dalCategorie.ObtenirCategories();
+            List<Categorie> categories = dalCategorie.ObtenirTout();
 
             // Acteurs
             DALActeur dalActeur = new DALActeur(pClient, pDb);
@@ -129,11 +129,11 @@ namespace MonCine.Data.Classes.BD
         {
             try
             {
-                List<Categorie> categories = pDalCategorie.ObtenirCategories();
+                List<Categorie> categories = pDalCategorie.ObtenirTout();
 
                 if (categories.Count == 0)
                 {
-                    pDalCategorie.InsererPlusieursCategories(
+                    pDalCategorie.InsererPlusieurs(
                         new List<Categorie>
                         {
                             new(new ObjectId(), "Horreur"),
