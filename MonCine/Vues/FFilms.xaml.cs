@@ -146,6 +146,8 @@ namespace MonCine.Vues
 
             bool btnsSontActifs = itemIsSelected;
 
+            BtnVoirProjection.IsEnabled = itemIsSelected;
+
             if (_filmSelectionne != null)
             {
                 btnsSontActifs &= _filmSelectionne.EstAffiche;
