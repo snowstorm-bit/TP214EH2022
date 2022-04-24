@@ -55,7 +55,7 @@ namespace MonCine.Vues
             DALFilm dalFilm = new DALFilm(_client, _db);
             _film = dalFilm.ObtenirPlusieurs(x => x.Id, new List<ObjectId> { _filmId }).Find(x => x.Id == _filmId);
             bool filmEstVide = _film == null;
-            BtnAjouter.IsEnabled = filmEstVide;
+            BtnAjouter.IsEnabled = !filmEstVide;
             if (filmEstVide)
             {
                 MessageBox.Show(
