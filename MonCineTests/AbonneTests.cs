@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using MonCine.Data.Classes;
-using MonCine.Data.Classes.DAL;
-using Moq;
-using MongoDB.Bson;
+﻿using MonCine.Data.Classes;
 using MonCine.Data.Interfaces;
+using MongoDB.Bson;
+using Moq;
+using System.Collections.Generic;
+using Xunit;
 
 namespace MonCineTests
 {
     public class AbonneTests
     {
-        private static Random _rand = new Random();
-        private List<Abonne> generationAbonnes()
+        private List<Abonne> GenerationAbonnes()
         {
-            int nbAbonnesGeneres = AbonneTests._rand.Next(6, 30);
             List<Abonne> abonnes = new List<Abonne>();
-            for (int i = 0; i < nbAbonnesGeneres; i++)
-            {
-                List<Categorie> categories = new List<Categorie>
+
+            List<Categorie> categories = new List<Categorie>
                 {
                     new(new ObjectId(), "Horreur"),
                     new(new ObjectId(), "Fantastique"),
@@ -28,7 +22,7 @@ namespace MonCineTests
                     new(new ObjectId(), "Romance")
                 };
 
-                List<Acteur> acteurs = new List<Acteur>
+            List<Acteur> acteurs = new List<Acteur>
                 {
                     new(new ObjectId(), "Zendaya"),
                     new(new ObjectId(), "Keanu Reeves"),
@@ -41,7 +35,7 @@ namespace MonCineTests
                     new(new ObjectId(), "Mélina Chaud")
                 };
 
-                List<Realisateur> realisateurs = new List<Realisateur>()
+            List<Realisateur> realisateurs = new List<Realisateur>()
                 {
                     new(new ObjectId(), "James Cameron"),
                     new(new ObjectId(), "Steven Spielberg"),
@@ -50,45 +44,114 @@ namespace MonCineTests
                     new(new ObjectId(), "Michael Bay")
                 };
 
-                List<ObjectId> categoriesId = new List<ObjectId>();
-                categories
-                    .GetRange(0, AbonneTests._rand.Next(0, Preference.NB_MAX_CATEGORIES_PREF))
-                    .ForEach(x => categoriesId.Add(x.Id));
+            List<ObjectId> categoriesId = new List<ObjectId>();
+            categories
+                .GetRange(0, 3)
+                .ForEach(x => categoriesId.Add(x.Id));
 
-                List<ObjectId> acteursId = new List<ObjectId>();
-                acteurs
-                    .GetRange(0, AbonneTests._rand.Next(0, Preference.NB_MAX_ACTEURS_PREF))
-                    .ForEach(x => acteursId.Add(x.Id));
+            List<ObjectId> acteursId = new List<ObjectId>();
+            acteurs
+                .GetRange(0, 5)
+                .ForEach(x => acteursId.Add(x.Id));
 
-                List<ObjectId> realisateursId = new List<ObjectId>();
-                realisateurs
-                    .GetRange(0, AbonneTests._rand.Next(0, Preference.NB_MAX_REALISATEURS_PREF))
-                    .ForEach(x => realisateursId.Add(x.Id));
+            List<ObjectId> realisateursId = new List<ObjectId>();
+            realisateurs
+                .GetRange(0, 5)
+                .ForEach(x => realisateursId.Add(x.Id));
 
-                abonnes.Add(new Abonne
-                (
-                    new ObjectId(),
-                    $"Utilisateur {i + 1}",
-                    $"utilisateur{i + 1}@email.com",
-                    $"user{i + 1}",
-                    new Preference(
-                        categoriesId,
-                        acteursId,
-                        realisateursId
-                    )
-                ));
-            }
+            abonnes.Add(new Abonne
+            (
+                new ObjectId(),
+                $"Utilisateur {1}",
+                $"utilisateur{1}@email.com",
+                $"user{1}",
+                new Preference(
+                    categoriesId,
+                    acteursId,
+                    realisateursId
+                )
+            ));
+            abonnes.Add(new Abonne
+              (
+                  new ObjectId(),
+                  $"Utilisateur {2}",
+                  $"utilisateur{2}@email.com",
+                  $"user{2}",
+                  new Preference(
+                      categoriesId,
+                      acteursId,
+                      realisateursId
+                  )
+              )); abonnes.Add(new Abonne
+               (
+                   new ObjectId(),
+                   $"Utilisateur {3}",
+                   $"utilisateur{3}@email.com",
+                   $"user{3}",
+                   new Preference(
+                       categoriesId,
+                       acteursId,
+                       realisateursId
+                   )
+               )); abonnes.Add(new Abonne
+               (
+                   new ObjectId(),
+                   $"Utilisateur {4}",
+                   $"utilisateur{4}@email.com",
+                   $"user{4}",
+                   new Preference(
+                       categoriesId,
+                       acteursId,
+                       realisateursId
+                   )
+               ));
+            abonnes.Add(new Abonne
+              (
+                  new ObjectId(),
+                  $"Utilisateur {5}",
+                  $"utilisateur{5}@email.com",
+                  $"user{5}",
+                  new Preference(
+                      categoriesId,
+                      acteursId,
+                      realisateursId
+                  )
+              ));
+            abonnes.Add(new Abonne
+              (
+                  new ObjectId(),
+                  $"Utilisateur {6}",
+                  $"utilisateur{6}@email.com",
+                  $"user{6}",
+                  new Preference(
+                      categoriesId,
+                      acteursId,
+                      realisateursId
+                  )
+              ));
             return abonnes;
         }
         [Fact]
-        public void ObtenirAbonnesSiTousLesAbonnesSontRetournes()
+        public void ObtenirToutSiTousLesAbonnesSontRetournes()
         {
-            List<Abonne> abonnes = generationAbonnes();
+            List<Abonne> abonnes = GenerationAbonnes();
             var abonneMock = new Mock<ICRUD<Abonne>>();
 
             abonneMock.Setup(x => x.ObtenirTout()).Returns(abonnes);
             var abonnesMock = abonneMock.Object.ObtenirTout();
             Assert.Equal(abonnesMock, abonnes);
         }
+        [Fact]
+        public void ObtenirPlusieursRetourneAbonnesSelonFiltre()
+        {
+            List<Abonne> abonnes = GenerationAbonnes();
+            var abonneMock = new Mock<ICRUD<Abonne>>();
+            //List<ObjectId> tktBig = new List<ObjectId>();
+            //abonnes.ForEach(x => tktBig.Add(x.Id));
+            abonneMock.Setup(x => x.ObtenirPlusieurs(x => x.Nom, new List<string> { "Utilisateur 6" })).Returns(new List<Abonne> { abonnes[5] });
+            var abonnesMock = abonneMock.Object.ObtenirPlusieurs(x => x.Nom, new List<string> { "Utilisateur 6" });
+            Assert.Equal(abonnesMock, new List<Abonne> { abonnes[5] });
+        }
+
     }
 }
