@@ -8,13 +8,13 @@
 
 #region USING
 
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using MonCine.Data.Classes.BD;
 using MonCine.Data.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 #endregion
 
@@ -126,7 +126,6 @@ namespace MonCine.Data.Classes.DAL
             {
                 _dalAbonne = new DALAbonne(_dalCategorie, _dalActeur, _dalRealisateur, this, MongoDbClient, Db);
             }
-
             foreach (Film film in pFilms)
             {
                 List<Categorie> categories =
@@ -135,10 +134,8 @@ namespace MonCine.Data.Classes.DAL
                 {
                     film.Categorie = categories[0];
                 }
-
                 film.Acteurs = _dalActeur.ObtenirActeursFiltres(pX => pX.Id, film.ActeursId);
                 film.Realisateurs = _dalRealisateur.ObtenirRealisateursFiltres(pX => pX.Id, film.RealisateursId);
-
                 //Les deux boucles permettent de faire moins de requête à la base de données ce qui permet d'accélérer le temps de traitement
                 List<ObjectId> abonneIds = new List<ObjectId>();
                 foreach (Note filmNote in film.Notes)
@@ -148,7 +145,6 @@ namespace MonCine.Data.Classes.DAL
                         abonneIds.Add(filmNote.AbonneId);
                     }
                 }
-
                 try
                 {
                     List<Abonne> abonnes = _dalAbonne.ObtenirPlusieurs(pX => pX.Id, abonneIds);
@@ -189,21 +185,10 @@ namespace MonCine.Data.Classes.DAL
                     projection.EstActive = false;
                 }
             }
-
             return MAJUn(
                 x => x.Id == pFilm.Id,
                 new List<(Expression<Func<Film, object>> field, object value)>
-                {
-                    (
-                        x => x.Projections,
-                        pFilm.Projections
-                    ),
-                    (
-                        x=> x.DatesFinsAffiche,
-                        pFilm.DatesFinsAffiche
-                    )
-                }
-            );
+                {(x => x.Projections,pFilm.Projections),(x=> x.DatesFinsAffiche,pFilm.DatesFinsAffiche)});
         }
 
         /// <summary>

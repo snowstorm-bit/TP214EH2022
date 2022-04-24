@@ -22,15 +22,5 @@ namespace MonCine.Data.Classes
         {
             return $"{Nom} - Nb. Places : {NbPlacesMax}";
         }
-
-        public override bool Equals(object? obj)
-        {
-            if (obj != null && obj is Salle salle)
-            {
-                return Id == salle.Id;
-            }
-
-            return false;
-        }
     }
 }

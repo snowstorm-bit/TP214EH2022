@@ -70,17 +70,17 @@ namespace MonCine.Data.Classes
                 if (Projections != null && Projections.Count > 0)
                 {
                     Projection derniereProjection = Projections[Projections.Count - 1];
-
-                    if (derniereProjection.EstActive && derniereProjection.DateFin < DateTime.Now) // Si le film n'est plus à l'affiche
+                    bool estNonAffiche = derniereProjection.EstActive && derniereProjection.DateFin < DateTime.Now;
+                    bool auMoinsUneProjectionActive = Projections.Find(x => x.EstActive) != null;
+                    if (estNonAffiche)
                     {
                         RetirerAffiche();
                     }
-                    else if (Projections.Find(x => x.EstActive) != null) // S'il y a au moins une projection active
+                    else if (auMoinsUneProjectionActive)
                     {
                         return true;
                     }
                 }
-
                 return false;
             }
         }
@@ -105,11 +105,8 @@ namespace MonCine.Data.Classes
                         "Il est impossible d'obtenir la note moyenne du film puisque la liste des notes est nulle."
                     );
                 }
-
                 int nbNotes = Notes.Count;
-                return nbNotes > 0
-                    ? Notes.Sum(pX => pX.NoteFilm) / nbNotes
-                    : 0;
+                return nbNotes > 0 ? Notes.Sum(pX => pX.NoteFilm) / nbNotes : 0;
             }
         }
 
@@ -198,10 +195,8 @@ namespace MonCine.Data.Classes
                         projection.EstActive = false;
                     }
                 }
-
                 return true;
             }
-
             return false;
         }
 
@@ -214,10 +209,7 @@ namespace MonCine.Data.Classes
             if (derniereProjection.EstActive)
             {
                 derniereProjection.EstActive = false;
-                DatesFinsAffiche.Add(derniereProjection.DateFin < DateTime.Now
-                    ? derniereProjection.DateFin
-                    : DateTime.Now
-                );
+                DatesFinsAffiche.Add(derniereProjection.DateFin < DateTime.Now ? derniereProjection.DateFin : DateTime.Now);
             }
         }
 
@@ -238,88 +230,42 @@ namespace MonCine.Data.Classes
         {
             if (DateSortie > pDateDebut)
             {
-                throw new ArgumentOutOfRangeException(
-                    "pDateDebut",
-                    "La date de début de la projection doit être supérieure à la date de sortie internationnale du film."
-                );
+                throw new ArgumentOutOfRangeException("pDateDebut",
+                    "La date de début de la projection doit être supérieure à la date de sortie internationnale du film.");
             }
-
             if (pDateDebut <= DateTime.Now)
             {
-                throw new ArgumentOutOfRangeException(
-                    "pDateDebut",
-                    "La date de début de la projection doit être supérieure à la date actuelle."
-                );
+                throw new ArgumentOutOfRangeException("pDateDebut",
+                    "La date de début de la projection doit être supérieure à la date actuelle.");
             }
-
-            // Gestion reprojection
             if (Projections.Count > 0)
             {
                 Projection derniereProjection = Projections[Projections.Count - 1];
+                bool estMemeAnnee = pDateDebut.Year == derniereProjection.DateFin.Year;
                 if (derniereProjection.DateFin > pDateDebut)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        "pDateDebut",
-                        "La date de début de la projection à ajouter doit être supérieure à la date de fin de la dernière projection du film."
-                    );
+                    throw new ArgumentOutOfRangeException("pDateDebut",
+                        "La date de début de la projection à ajouter doit être supérieure à la date de fin de la dernière projection du film.");
                 }
-                // Si l'année est la même que la dernière projection désactivée,
-                // Vérifie dans la liste des dates de fin à l'affiche du film si le nombre de fois à l'affiche est atteint
-                // Exemple :
-                // NB_MAX_EST_AFFICHE_PAR_ANNEE = 5, DatesFinAffiche.Count = 3 => Rentre PAS dans la boucle puisque le nombre maximum ne sera jamais atteint
-                // NB_MAX_EST_AFFICHE_PAR_ANNEE = 5, DatesFinAffiche.Count = 7 => Rentre DANS la boucle puisque le nombre maximum pourrait potentiellement être atteint
-                else if (pDateDebut.Year == derniereProjection.DateFin.Year &&
-                         Film.NB_MAX_EST_AFFICHE_PAR_ANNEE < DatesFinsAffiche.Count)
+                else if (estMemeAnnee && Film.NB_MAX_EST_AFFICHE_PAR_ANNEE < DatesFinsAffiche.Count)
                 {
-                    #region EXEMPLE ITÉRATIONS SUR BOUCLE
-
-                    // NB_MAX_EST_AFFICHE_PAR_ANNEE = 3
-                    // [0] = 2021
-                    // [1] = 2022
-                    // [2] = 2022
-                    // [3] = 2022
-                    // Année courante = 2022
-
-                    // Nb. itération => 3 - 1 => 2
-                    // Itération 1
-                    // DatesFinsAffiche[(4) - 1 - (0)] => DatesFinsAffiche[3] => 2022 
-                    // DatesFinsAffiche[(4) - 2 - (0)] => DatesFinsAffiche[2] => 2022
-                    // Vrai
-                    // Itération 2
-                    // DatesFinsAffiche[(4) - 1 - (1)] => DatesFinsAffiche[2] => 2022
-                    // DatesFinsAffiche[(4) - 2 - (1)] => DatesFinsAffiche[1] => 2022
-                    // Vrai
-
-                    #endregion
-
-                    int i = 0;
-                    while (
-                        i < Film.NB_MAX_EST_AFFICHE_PAR_ANNEE - 1 &&
-                        DatesFinsAffiche[DatesFinsAffiche.Count - 1 - i].Year ==
-                        DatesFinsAffiche[DatesFinsAffiche.Count - 2 - i].Year
-                    )
+                    int iteration = 0;
+                    while (iteration < Film.NB_MAX_EST_AFFICHE_PAR_ANNEE - 1 && DatesFinsAffiche[DatesFinsAffiche.Count - 1 - iteration].Year ==
+                        DatesFinsAffiche[DatesFinsAffiche.Count - 2 - iteration].Year)
                     {
-                        i++;
+                        iteration++;
                     }
-
                     // À la première itération dans la boucle, la comparaison, si vrai, vaut pour 2
                     // Il faut donc ajouter + 1 pour arriver au bon nombre de date à l'affiche trouvé pour la même année 
-                    if (i + 1 == Film.NB_MAX_EST_AFFICHE_PAR_ANNEE)
+                    if (iteration + 1 == Film.NB_MAX_EST_AFFICHE_PAR_ANNEE)
                     {
                         throw new InvalidOperationException(
                             $"Il est impossible d'ajouter une autre projection puisque celle-ci a déjà été projetée {Film.NB_MAX_EST_AFFICHE_PAR_ANNEE}");
                     }
                 }
             }
-
             Projections.Add(new Projection(pDateDebut, pDateFin, pSalle));
-
             return true;
-        }
-
-        public override string ToString()
-        {
-            return Nom;
         }
 
         #endregion

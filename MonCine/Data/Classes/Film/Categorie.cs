@@ -60,7 +60,6 @@ namespace MonCine.Data.Classes
             {
                 return Id == categorie.Id;
             }
-
             return false;
         }
 
