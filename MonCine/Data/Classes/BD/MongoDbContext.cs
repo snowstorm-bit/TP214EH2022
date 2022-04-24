@@ -89,11 +89,12 @@ namespace MonCine.Data.Classes.BD
         /// <param name="pDocuments">Documents à insérer dans la base de données de la cinémathèque</param>
         /// <returns>Les documents insérés dans la base de données de la cinémathèque.</returns>
         /// <exception cref="ExceptionBD">Lancée lorsqu'une erreur liée à la base de données de la cinémathèque se produit.</exception>
-        public static void InsererPlusieursDocuments<TDocument>(IMongoDatabase pBd, List<TDocument> pDocuments)
+        public static bool InsererPlusieursDocuments<TDocument>(IMongoDatabase pBd, List<TDocument> pDocuments)
         {
             try
             {
                 MongoDbContext.ObtenirCollection<TDocument>(pBd).InsertMany(pDocuments);
+                return true;
             }
             catch (Exception e)
             {

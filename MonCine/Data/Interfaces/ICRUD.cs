@@ -15,7 +15,7 @@ namespace MonCine.Data.Interfaces
 
         public List<TDocument> ObtenirObjetsDansLst(List<TDocument> pDocuments);
 
-        public void InsererPlusieurs(List<TDocument> pDocuments);
+        public bool InsererPlusieurs(List<TDocument> pDocuments);
 
         public bool MAJUn<TField>(Expression<Func<TDocument, bool>> pFiltre,
             List<(Expression<Func<TDocument, TField>> field, TField value)> pMajDefinitions);

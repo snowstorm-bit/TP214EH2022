@@ -22,7 +22,7 @@ namespace MonCine.Data.Classes.DAL
 {
     public interface IMAJ : ICRUD<Film>
     {
-        public void MAJProjections(Film pFilm);
+        public bool MAJProjections(Film pFilm);
     }
 
     /// <summary>
@@ -182,16 +182,16 @@ namespace MonCine.Data.Classes.DAL
         /// Permet d'insérer la liste des films reçue en paramètre dans la base de données de la cinémathèque.
         /// </summary>
         /// <param name="pFilms">Liste des films à insérer dans la base de données de la cinémathèque</param>
-        public void InsererPlusieurs(List<Film> pFilms)
+        public bool InsererPlusieurs(List<Film> pFilms)
         {
-            MongoDbContext.InsererPlusieursDocuments(Db, pFilms);
+            return MongoDbContext.InsererPlusieursDocuments(Db, pFilms);
         }
 
         /// <summary>
         /// Permet de mettre à jour la liste des projections du film spécifié en paramètre. 
         /// </summary>
         /// <param name="pFilm">Film à mettre la liste des projections à jour</typeparam>
-        public void MAJProjections(Film pFilm)
+        public bool MAJProjections(Film pFilm)
         {
             foreach (Projection projection in pFilm.Projections)
             {
@@ -201,7 +201,7 @@ namespace MonCine.Data.Classes.DAL
                 }
             }
 
-            MAJUn(
+            return MAJUn(
                 x => x.Id == pFilm.Id,
                 new List<(Expression<Func<Film, object>> field, object value)>
                 {

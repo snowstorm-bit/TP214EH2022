@@ -155,9 +155,9 @@ namespace MonCine.Data.Classes.DAL
         /// Permet d'insérer la liste des abonnés reçue en paramètre dans la base de données de la cinémathèque.
         /// </summary>
         /// <param name="pAbonnes">Liste des abonnés à insérer dans la base de données</param>
-        public void InsererPlusieurs(List<Abonne> pAbonnes)
+        public bool InsererPlusieurs(List<Abonne> pAbonnes)
         {
-            MongoDbContext.InsererPlusieursDocuments(Db, pAbonnes);
+            return MongoDbContext.InsererPlusieursDocuments(Db, pAbonnes);
         }
 
         public bool MAJUn<TField>(Expression<Func<Abonne, bool>> pFiltre, List<(Expression<Func<Abonne, TField>> field, TField value)> pMajDefinitions)
