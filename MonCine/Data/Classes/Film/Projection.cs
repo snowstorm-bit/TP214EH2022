@@ -140,10 +140,10 @@ namespace MonCine.Data.Classes
         public override string ToString()
         {
             return
-                "Début de la projection: " + DateDebut.ToString("d MMMM") +
-                "\rDate de fin: " + DateFin.ToString("d MMMM") +
-                "\r\rNb. place restantes: " + NbPlacesRestantes +
-                $"\rProjection active : {(EstActive ? "Vrai" : "Faux")}";
+                "Début de la projection: " + DateDebut.ToString("d MMMM yyy") +
+                "\rFin de la projection: " + DateFin.ToString("d MMMM yyy") +
+                "\rNb. place restantes: " + NbPlacesRestantes +
+                $"\r{(EstActive ? "Projection active" : "Projection désactivée")}\r";
         }
 
         #endregion

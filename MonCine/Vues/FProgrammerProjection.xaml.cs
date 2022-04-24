@@ -142,7 +142,7 @@ namespace MonCine.Vues
                     {
                         msgErr += "Il faut sélectionner une date de fin pour la projection du film\n";
                     }
-                    else if ((DateTime)DpDateFin.SelectedDate < (DateTime)DpDateDebut.SelectedDate)
+                    else if ((DateTime)DpDateFin.SelectedDate <= (DateTime)DpDateDebut.SelectedDate)
                     {
                         msgErr +=
                             "Il faut sélectionner une date de fin supérieure à la date de début de la projection du film";
