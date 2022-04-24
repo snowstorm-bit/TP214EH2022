@@ -167,17 +167,6 @@ namespace MonCine.Data.Classes.DAL
             return pFilms;
         }
 
-
-        // TODO : RETIRER SI NON UTILISER
-        ///// <summary>
-        ///// Permet d'insérer le film reçu en paramètre dans la base de données de la cinémathèque.
-        ///// </summary>
-        ///// <param name="pFilms">Le film à insérer dans la base de données de la cinémathèque</param>
-        //public void InsererUn(Film pFilm)
-        //{
-        //    MongoDbContext.InsererUnDocument(Db, pFilm);
-        //}
-
         /// <summary>
         /// Permet d'insérer la liste des films reçue en paramètre dans la base de données de la cinémathèque.
         /// </summary>
