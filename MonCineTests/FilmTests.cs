@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MonCine.Data.Classes;
+﻿using MonCine.Data.Classes;
 using MonCine.Data.Interfaces;
 using MongoDB.Bson;
 using Moq;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace MonCineTests
@@ -12,8 +11,10 @@ namespace MonCineTests
     public class FilmTests
     {
         private static Random _rand = new Random();
-        private static void GenererFilms()
+        private List<Film> GenererListeFilms()
         {
+            List<Film> films = new List<Film>();
+
             List<Categorie> categories = new List<Categorie>
                 {
                     new(new ObjectId(), "Horreur"),
@@ -59,7 +60,6 @@ namespace MonCineTests
             realisateurs
                 .GetRange(0, 5)
                 .ForEach(x => realisateursId.Add(x.Id));
-            List<Film> films = pDalFilm.ObtenirTout();
 
             List<string> nomsFilm = new List<string>
             {
@@ -76,47 +76,26 @@ namespace MonCineTests
             // Génération des films
             foreach (string nom in nomsFilm)
             {
-                films.Add(FilmTests.GenererFilm(nom, pCategories, pActeurs, pRealisateurs));
+                Film film = new Film
+                (
+                    new ObjectId(),
+                    nom,
+                    DateTime.Now,
+                    new List<Projection>(),
+                    new List<Note>(),
+                    categoriesId[1],
+                    acteursId,
+                    realisateursId
+                );
+                films.Add(film);
             }
 
-            // Génération de projection pour certains films choisis aléatoirement
-            for (int i = 0; i < films.Count; i += FilmTests._rand.Next(1, 3))
-            {
-            FilmTests.GenererProjections(films[i], pSalles);
-            }
-
-        }
-
-
-        private static Film GenererFilm(string pNom, List<Categorie> pCategories, List<Acteur> pActeurs,
-            List<Realisateur> pRealisateurs)
-        {
-            DateTime dateSortie = DateTime.Now;
-            dateSortie = dateSortie.AddYears(-1 * FilmTests._rand.Next(30));
-
-            List<ObjectId> acteursId = new List<ObjectId>();
-            pActeurs
-                .GetRange(0, FilmTests._rand.Next(1, FilmTests._rand.Next(2, pActeurs.Count)))
-                .ForEach(x => acteursId.Add(x.Id));
-
-            List<ObjectId> realisateursId = new List<ObjectId>();
-            pRealisateurs
-                .GetRange(0, FilmTests._rand.Next(1, FilmTests._rand.Next(2, pRealisateurs.Count)))
-                .ForEach(x => realisateursId.Add(x.Id));
-
-            Film film = new Film
-            (
-                new ObjectId(),
-                pNom,
-                dateSortie,
-                new List<Projection>(),
-                new List<Note>(),
-                pCategories[FilmTests._rand.Next(pCategories.Count - 1)].Id,
-                acteursId,
-                realisateursId
-            );
-
-            return film;
+            //// Génération de projection pour certains films choisis aléatoirement
+            //for (int i = 0; i < films.Count; i += FilmTests._rand.Next(1, 3))
+            //{
+            //    FilmTests.GenererProjections(films[i], pSalles);
+            //}
+            return films;
         }
 
         /// <summary>
@@ -139,113 +118,33 @@ namespace MonCineTests
             }
         }
 
-        private List<Abonne> GenerationAbonnes()
-        {
-            List<Abonne> abonnes = new List<Abonne>();
-
-            
-
-            abonnes.Add(new Abonne
-            (
-                new ObjectId(),
-                $"Utilisateur {1}",
-                $"utilisateur{1}@email.com",
-                $"user{1}",
-                new Preference(
-                    categoriesId,
-                    acteursId,
-                    realisateursId
-                )
-            ));
-            abonnes.Add(new Abonne
-              (
-                  new ObjectId(),
-                  $"Utilisateur {2}",
-                  $"utilisateur{2}@email.com",
-                  $"user{2}",
-                  new Preference(
-                      categoriesId,
-                      acteursId,
-                      realisateursId
-                  )
-              )); abonnes.Add(new Abonne
-               (
-                   new ObjectId(),
-                   $"Utilisateur {3}",
-                   $"utilisateur{3}@email.com",
-                   $"user{3}",
-                   new Preference(
-                       categoriesId,
-                       acteursId,
-                       realisateursId
-                   )
-               )); abonnes.Add(new Abonne
-               (
-                   new ObjectId(),
-                   $"Utilisateur {4}",
-                   $"utilisateur{4}@email.com",
-                   $"user{4}",
-                   new Preference(
-                       categoriesId,
-                       acteursId,
-                       realisateursId
-                   )
-               ));
-            abonnes.Add(new Abonne
-              (
-                  new ObjectId(),
-                  $"Utilisateur {5}",
-                  $"utilisateur{5}@email.com",
-                  $"user{5}",
-                  new Preference(
-                      categoriesId,
-                      acteursId,
-                      realisateursId
-                  )
-              ));
-            abonnes.Add(new Abonne
-              (
-                  new ObjectId(),
-                  $"Utilisateur {6}",
-                  $"utilisateur{6}@email.com",
-                  $"user{6}",
-                  new Preference(
-                      categoriesId,
-                      acteursId,
-                      realisateursId
-                  )
-              ));
-            return abonnes;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //[Fact]
-        //public void Constructeur_Devrait_Creer_Instance_Non_Vide()
-        //{
-
-        //}
         [Fact]
         public void ObtenirTousLesFilmEtVerifierTousRetournes()
         {
-            List<Film> films = GenerationFilms();
+            List<Film> films = GenererListeFilms();
             var filmMock = new Mock<ICRUD<Film>>();
-
             filmMock.Setup(x => x.ObtenirTout()).Returns(films);
+            var filmsMock = filmMock.Object.ObtenirTout();
 
-            Assert.Equal(films, filmMock.Object.ObtenirTout());
+            Assert.Equal(filmsMock, films);
+        }
+
+        [Fact]
+        public void ObtenirPlusieursRetourneFilmsSelonFiltre()
+        {
+            List<Film> films = GenererListeFilms();
+            var filmMock = new Mock<ICRUD<Film>>();
+            filmMock.Setup(x => x.ObtenirPlusieurs(x => x.Nom, new List<string> { "American Sniper" })).Returns(new List<Film> { films[5] });
+            var filmsMock = filmMock.Object.ObtenirPlusieurs(x => x.Nom, new List<string> { "American Sniper" });
+            Assert.Equal(filmsMock, new List<Film> { films[5] });
+        }
+        [Fact]
+        public void Test()
+        {
+            List<Film> films = GenererListeFilms();
+            var filmMock = new Mock<ICRUD<Film>>();
+            filmMock.Setup(x => x.InsererPlusieurs(films));
+            filmMock.VerifyAll();
         }
     }
 }
