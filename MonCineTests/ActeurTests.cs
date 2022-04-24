@@ -27,7 +27,7 @@ namespace MonCineTests
 
             List<ObjectId> acteursId = new List<ObjectId>();
             acteurs
-                .GetRange(0, 3)
+                .GetRange(0, 5)
                 .ForEach(x => acteursId.Add(x.Id));
 
             return acteurs;
@@ -54,13 +54,13 @@ namespace MonCineTests
         }
 
         [Fact]
-        public void InsererPlusieursCategoriesRetourneTrue()
+        public void InsererPlusieursActeursRetourneTrue()
         {
             List<Acteur> acteurs = GenerationActeurs();
             var acteurMock = new Mock<ICRUD<Acteur>>();
             acteurMock.Setup(x => x.InsererPlusieurs(acteurs)).Returns(true);
-            var categoriesMock = acteurMock.Object.InsererPlusieurs(acteurs);
-            Assert.True(categoriesMock);
+            var acteursMock = acteurMock.Object.InsererPlusieurs(acteurs);
+            Assert.True(acteursMock);
         }
     }
 }

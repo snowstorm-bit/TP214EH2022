@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using MonCine.Data.Classes.BD;
+using MonCine.Data.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
