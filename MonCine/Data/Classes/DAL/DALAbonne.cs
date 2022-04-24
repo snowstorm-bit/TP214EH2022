@@ -147,7 +147,6 @@ namespace MonCine.Data.Classes.DAL
                 abonne.NbSeances =
                     _dalReservation.ObtenirNbReservations(x => x.AbonneId, new List<ObjectId> { abonne.Id });
             }
-
             return pAbonnes;
         }
 

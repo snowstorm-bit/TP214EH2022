@@ -48,11 +48,7 @@ namespace MonCine.Data.Classes.DAL
         public DALReservation(DALCategorie pDalCategorie, DALActeur pDalActeur, DALRealisateur pDalRealisateur,
             IMongoClient pClient = null, IMongoDatabase pDb = null) : base(pClient, pDb)
         {
-            DALCategorie dalCategorie = pDalCategorie;
-            DALActeur dalActeur = pDalActeur;
-            DALRealisateur dalRealisateur = pDalRealisateur;
-
-            _dalFilm = new DALFilm(dalCategorie, dalActeur, dalRealisateur, MongoDbClient, Db);
+            _dalFilm = new DALFilm(pDalCategorie, pDalActeur, pDalRealisateur, MongoDbClient, Db);
         }
 
         /// <summary>
@@ -62,8 +58,7 @@ namespace MonCine.Data.Classes.DAL
         /// <param name="pClient">L'interface client vers MongoDB</param>
         /// <param name="pDb">Base de données MongoDB utilisée</param>
         /// <remarks>Remarque : <em>Ce constructeur doit être utilisé lorsqu'il existe déjà une instance pour la couches d'accès aux données des films.</em></remarks>
-        public DALReservation(DALFilm pDalFilm, IMongoClient pClient = null, IMongoDatabase pDb = null) : base(pClient,
-            pDb)
+        public DALReservation(DALFilm pDalFilm, IMongoClient pClient = null, IMongoDatabase pDb = null) : base(pClient,pDb)
         {
             _dalFilm = pDalFilm;
         }
@@ -79,19 +74,6 @@ namespace MonCine.Data.Classes.DAL
         public List<Reservation> ObtenirReservations()
         {
             return ObtenirObjetsDansReservations(MongoDbContext.ObtenirCollectionListe<Reservation>(Db));
-        }
-
-        /// <summary>
-        /// Permet de filtrer les réservations contenues dans la base de données de la cinémathèque selon le champs et les valeurs spécifiés en paramètre.
-        /// </summary>
-        /// <typeparam name="TField">Type du champs sur lequel le filtrage sera effectué</typeparam>
-        /// <param name="pField">Champs sur lequel le filtrage sera effectué</param>
-        /// <param name="pObjects">Liste des valeurs à filtrer</param>
-        /// <returns>La liste des réservations filtrée selon le champs et les valeurs spécifiés en paramètre.</returns>
-        public List<Reservation> ObtenirReservationsFiltrees<TField>(Expression<Func<Reservation, TField>> pField,
-            List<TField> pObjects)
-        {
-            return ObtenirObjetsDansReservations(MongoDbContext.ObtenirDocumentsFiltres(Db, pField, pObjects));
         }
 
         public int ObtenirNbReservations<TField>(Expression<Func<Reservation, TField>> pField, List<TField> pObjects)
@@ -111,7 +93,6 @@ namespace MonCine.Data.Classes.DAL
         private List<Reservation> ObtenirObjetsDansReservations(List<Reservation> pReservations)
         {
             List<ObjectId> filmIds = new List<ObjectId>();
-
             foreach (Reservation reservation in pReservations)
             {
                 if (!filmIds.Contains(reservation.FilmId))
@@ -119,14 +100,11 @@ namespace MonCine.Data.Classes.DAL
                     filmIds.Add(reservation.FilmId);
                 }
             }
-
             List<Film> films = _dalFilm.ObtenirPlusieurs(x => x.Id, filmIds);
-
             foreach (Reservation reservation in pReservations)
             {
                 reservation.Film = films.Find(x => x.Id == reservation.FilmId);
             }
-
             return pReservations;
         }
 
@@ -137,7 +115,6 @@ namespace MonCine.Data.Classes.DAL
         public void InsererUneReservation(Reservation pReservation)
         {
             _dalFilm.MAJProjections(pReservation.Film);
-
             MongoDbContext.InsererUnDocument(Db, pReservation);
         }
 

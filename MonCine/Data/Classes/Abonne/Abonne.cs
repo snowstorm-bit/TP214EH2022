@@ -85,10 +85,6 @@ namespace MonCine.Data.Classes
             return Preference.ToString();
         }
 
-        public string A()
-        {
-            return"b";
-        }
         #endregion
 
         #endregion

@@ -61,7 +61,6 @@ namespace MonCine.Data.Classes
             {
                 return Id == acteur.Id;
             }
-
             return false;
         }
 

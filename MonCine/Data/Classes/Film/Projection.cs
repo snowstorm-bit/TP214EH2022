@@ -52,12 +52,9 @@ namespace MonCine.Data.Classes
             {
                 if (DateDebut >= value)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        nameof(value),
-                        "La date de fin de la projection doit être supérieure à la date de début de la projection."
-                    );
+                    throw new ArgumentOutOfRangeException(nameof(value),
+                        "La date de fin de la projection doit être supérieure à la date de début de la projection.");
                 }
-
                 _dateFin = value;
             }
         }
@@ -80,7 +77,6 @@ namespace MonCine.Data.Classes
                 {
                     throw new ArgumentNullException("Le film de la réservation ne peut être nul.", nameof(value));
                 }
-
                 _salle = value;
                 SalleId = _salle.Id;
             }
@@ -97,12 +93,9 @@ namespace MonCine.Data.Classes
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(
-                        nameof(value),
-                        "Il est impossible d'affectuer une valeur négative au nombre de places restantes de la projection."
-                    );
+                    throw new ArgumentOutOfRangeException(nameof(value),
+                        "Il est impossible d'affectuer une valeur négative au nombre de places restantes de la projection.");
                 }
-
                 _nbPlacesRestantes = value;
             }
         }

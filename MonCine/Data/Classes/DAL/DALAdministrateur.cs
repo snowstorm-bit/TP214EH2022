@@ -51,7 +51,6 @@ namespace MonCine.Data.Classes.DAL
                     "La base de données contient plus d'un administrateur pour la cinémathèque."
                 );
             }
-
             return administrateurs.Count == 1 ? administrateurs[0] : null;
         }
 
