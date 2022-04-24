@@ -148,5 +148,6 @@ namespace MonCineTests
             var filmsMock = filmMock.Object.InsererPlusieurs(films);
             Assert.True(filmsMock);
         }
+
     }
 }
