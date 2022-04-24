@@ -67,7 +67,10 @@ namespace MonCine.Vues
             }
             else
             {
-                _film.Projections.ForEach(x => LstProjections.Items.Add(x));
+                if (_film.Projections.Count > 0)
+                {
+                    _film.Projections.ForEach(x => LstProjections.Items.Add(x));
+                }
             }
         }
 
