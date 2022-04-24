@@ -138,13 +138,16 @@ namespace MonCineTests
             var filmsMock = filmMock.Object.ObtenirPlusieurs(x => x.Nom, new List<string> { "American Sniper" });
             Assert.Equal(filmsMock, new List<Film> { films[5] });
         }
+
         [Fact]
         public void Test()
         {
             List<Film> films = GenererListeFilms();
             var filmMock = new Mock<ICRUD<Film>>();
-            filmMock.Setup(x => x.InsererPlusieurs(films));
-            filmMock.VerifyAll();
+            filmMock.Setup(x => x.InsererPlusieurs(films)).Returns(true);
+            var filmsMock = filmMock.Object.InsererPlusieurs(films);
+            Assert.True(filmsMock);
         }
+
     }
 }
