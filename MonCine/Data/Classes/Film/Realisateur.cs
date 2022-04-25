@@ -47,24 +47,5 @@ namespace MonCine.Data.Classes
         }
 
         #endregion
-
-        #region MÉTHODES
-
-        public override string ToString()
-        {
-            return Nom;
-        }
-
-        public override bool Equals(object? obj)
-        {
-            if (obj != null && obj is Realisateur realisateur)
-            {
-                return Id == realisateur.Id;
-            }
-
-            return false;
-        }
-
-        #endregion
     }
 }
