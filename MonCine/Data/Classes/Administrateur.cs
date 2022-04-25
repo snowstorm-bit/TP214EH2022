@@ -28,8 +28,7 @@ namespace MonCine.Data.Classes
         /// <param name="pNom">Nom de l'administrateur</param>
         /// <param name="pCourriel">Courriel de l'administrateur</param>
         /// <param name="pMdp">Mot de passe de l'administrateur</param>
-        public Administrateur(ObjectId pId, string pNom, string pCourriel, string pMdp) : base(pId, pNom, pCourriel,
-            pMdp)
+        public Administrateur(ObjectId pId, string pNom, string pCourriel, string pMdp) : base(pId, pNom, pCourriel, pMdp)
         {
         }
 
